@@ -192,7 +192,7 @@ def safe_percent(numerator: float, denominator: float) -> float:
 
 def format_number(value: float) -> str:
     try:
-        return f"{float(value):,.0f}"
+        return f"{float(value):,.2f}"
     except Exception:
         return "0"
 
