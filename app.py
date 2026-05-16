@@ -255,7 +255,8 @@ def calculate_productivity(services_df: pd.DataFrame, hours_worked: float) -> di
 
     complete_mask = working["_status_clean"].str.casefold() == "complete"
 
-    completed_services = working.loc[complete_mask].copy()
+    billable_complete_mask = complete_mask & ~working["_procedure_clean"].isin(NON_BILLABLE_PROCEDURES)
+    completed_services = working.loc[billable_complete_mask].copy()
     minutes_billed = completed_services["_service_minutes"].sum()
 
     completed_services["_calculated_units"] = completed_services["_service_minutes"].apply(minutes_to_units)
