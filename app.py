@@ -496,6 +496,15 @@ elif can_run:
             display_cols = ["Client Name", "DOS", "Procedure", "Status", "ServiceUnits", "_calculated_units", "_county_minutes"]
             available_display_cols = [c for c in display_cols if c in results["completed_services"].columns]
             st.dataframe(results["completed_services"][available_display_cols], use_container_width=True)
+                
+            completed_export = results["completed_services"][available_display_cols].copy()
+
+        st.download_button(
+            "Download Completed Rows CSV",
+            data=completed_export.to_csv(index=False).encode("utf-8"),
+            file_name="the_auditor_completed_rows.csv",
+            mime="text/csv",
+        )
 
         with st.expander("Rows used for Non-Billable Total"):
             display_cols = ["Client Name", "DOS", "Procedure", "Status", "ServiceUnits"]
