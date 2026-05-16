@@ -183,17 +183,8 @@ def minutes_to_units(minutes: float) -> int:
 
     return int(math.floor((minutes - 8) / 15) + 1)
 
-def minutes_to_county_minutes(minutes: float) -> int:
-    minutes = extract_number(minutes)
-
-    if minutes <= 7:
-        return 0
-
-    if minutes >= 233:
-        return 240
-
-    units = int(math.floor((minutes - 8) / 15) + 1)
-    return units * 15
+def minutes_to_county_minutes(minutes: float) -> float:
+    return extract_number(minutes)
 
 
 def safe_percent(numerator: float, denominator: float) -> float:
