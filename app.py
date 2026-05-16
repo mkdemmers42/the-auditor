@@ -183,6 +183,18 @@ def minutes_to_units(minutes: float) -> int:
 
     return int(math.floor((minutes - 8) / 15) + 1)
 
+def minutes_to_county_minutes(minutes: float) -> int:
+    minutes = extract_number(minutes)
+
+    if minutes <= 7:
+        return 0
+
+    if minutes >= 233:
+        return 240
+
+    units = int(math.floor((minutes - 8) / 15) + 1)
+    return units * 15
+
 
 def safe_percent(numerator: float, denominator: float) -> float:
     if denominator in (0, 0.0) or pd.isna(denominator):
@@ -261,7 +273,8 @@ def calculate_productivity(services_df: pd.DataFrame, hours_worked: float) -> di
 
     completed_services["_calculated_units"] = completed_services["_service_minutes"].apply(minutes_to_units)
     units_billed = int(completed_services["_calculated_units"].sum())
-    rounded_minutes_from_units = units_billed * 15
+    completed_services["_county_minutes"] = completed_services["_service_minutes"].apply(minutes_to_county_minutes)
+    rounded_minutes_from_units = completed_services["_county_minutes"].sum()
 
     non_billable_mask = working["_procedure_clean"].isin(NON_BILLABLE_PROCEDURES)
     non_billable_total = working.loc[non_billable_mask, "_service_minutes"].sum()
@@ -480,7 +493,7 @@ elif can_run:
         st.subheader("Audit Detail")
 
         with st.expander("Completed rows used for Minutes Billed and Units Billed"):
-            display_cols = ["Client Name", "DOS", "Procedure", "Status", "ServiceUnits", "_calculated_units"]
+            display_cols = ["Client Name", "DOS", "Procedure", "Status", "ServiceUnits", "_calculated_units", "_county_minutes"]
             available_display_cols = [c for c in display_cols if c in results["completed_services"].columns]
             st.dataframe(results["completed_services"][available_display_cols], use_container_width=True)
 
