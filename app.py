@@ -567,9 +567,9 @@ elif can_run:
                 sdr_df.iloc[:, 8].astype(str).str.strip().str.casefold() == "total:"
             ].copy()
 
-            documentation_total = total_rows.iloc[:, 9].apply(extract_number).sum()
+            travel_total = total_rows.iloc[:, 9].apply(extract_number).sum()
 
-            travel_total = total_rows.iloc[:, 11].apply(extract_number).sum()
+            documentation_total = total_rows.iloc[:, 10].apply(extract_number).sum()
 
             documentation_percent = safe_percent(
                 documentation_total,
