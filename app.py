@@ -546,6 +546,15 @@ elif can_run:
         with row3[2]:
             metric_card("Rounded Minutes from Units", format_number(results["rounded_minutes_from_units"]), "Stored for Productivity Units %")
 
+        st.info("**To see Documentation time and Travel Times, please upload Staff Service Detail Report.**")
+        
+        detailed_service_file = st.file_uploader(
+            "Upload: Staff Service Detail Report",
+            type=["xlsx"],
+            help="Upload the Staff Service Detail Report to calculate Documentation and Travel totals.",
+            key="staff_service_detail_report_upload",
+        ) 
+        
         documentation_total = 0.0
         documentation_percent = 0.0
         travel_total = 0.0
@@ -607,15 +616,6 @@ elif can_run:
         # ============================================================
         
         st.markdown("<div style='margin-top: -10px;'></div>", unsafe_allow_html=True)
-
-        st.info("**To see Documentation time and Travel Times, please upload Staff Service Detail Report.**")
-
-        detailed_service_file = st.file_uploader(
-            "Upload: Staff Service Detail Report",
-            type=["xlsx"],
-            help="Upload the Staff Service Detail Report to calculate Documentation and Travel totals.",
-            key="staff_service_detail_report_upload",
-        )
 
         st.markdown("---")
         
