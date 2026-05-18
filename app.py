@@ -475,103 +475,103 @@ elif can_run:
         with row4[3]:
             metric_card("Travel %", "N/A", "Coming soon with SDR upload")
 
-    # ============================================================
-    # THE PUDDING
-    # ============================================================
-    
-    st.subheader("The Pudding")
-    
-    pudding_row1 = st.columns(4)
-    
-    with pudding_row1[0]:
-        metric_card(
-            "Total Caseload",
-            format_number(pudding_results["total_caseload"]),
-            "Total rows from Caseload file",
-        )
-    
-    with pudding_row1[1]:
-        metric_card(
-            "Total Services Rendered",
-            format_number(pudding_results["total_services_rendered"]),
-            "Completed services only",
-        )
-    
-    with pudding_row1[2]:
-        metric_card(
-            "Successful Engagements",
-            format_number(pudding_results["successful_engagements"]),
-            "Completed billable services",
-        )
-    
-    with pudding_row1[3]:
-        metric_card(
-            "Non-Billable Services Rendered",
-            format_number(pudding_results["non_billable_services"]),
-            "Completed non-billable services",
-        )
-    
-    pudding_row2 = st.columns(3)
-    
-    with pudding_row2[0]:
-        metric_card(
-            "Attempts Only / No Engagement",
-            format_number(pudding_results["attempts_only_no_engagement"]),
-            "Non-billable only clients",
-        )
-    
-    with pudding_row2[1]:
-        metric_card(
-            "No Attempts / No Engagement",
-            format_number(pudding_results["no_attempts_no_engagement"]),
-            "Caseload clients missing from Services",
-        )
-    
-    with pudding_row2[2]:
-        metric_card(
-            "No Shows / Cancelled Appointments",
-            format_number(pudding_results["no_show_cancelled"]),
-            "No Shows + Cancel statuses",
-        )
+        # ============================================================
+        # THE PUDDING
+        # ============================================================
         
-    # Audit Detail
+        st.subheader("The Pudding")
+        
+        pudding_row1 = st.columns(4)
+        
+        with pudding_row1[0]:
+            metric_card(
+                "Total Caseload",
+                format_number(pudding_results["total_caseload"]),
+                "Total rows from Caseload file",
+            )
+        
+        with pudding_row1[1]:
+            metric_card(
+                "Total Services Rendered",
+                format_number(pudding_results["total_services_rendered"]),
+                "Completed services only",
+            )
+        
+        with pudding_row1[2]:
+            metric_card(
+                "Successful Engagements",
+                format_number(pudding_results["successful_engagements"]),
+                "Completed billable services",
+            )
+        
+        with pudding_row1[3]:
+            metric_card(
+                "Non-Billable Services Rendered",
+                format_number(pudding_results["non_billable_services"]),
+                "Completed non-billable services",
+            )
+        
+        pudding_row2 = st.columns(3)
+        
+        with pudding_row2[0]:
+            metric_card(
+                "Attempts Only / No Engagement",
+                format_number(pudding_results["attempts_only_no_engagement"]),
+                "Non-billable only clients",
+            )
+        
+        with pudding_row2[1]:
+            metric_card(
+                "No Attempts / No Engagement",
+                format_number(pudding_results["no_attempts_no_engagement"]),
+                "Caseload clients missing from Services",
+            )
+        
+        with pudding_row2[2]:
+            metric_card(
+                "No Shows / Cancelled Appointments",
+                format_number(pudding_results["no_show_cancelled"]),
+                "No Shows + Cancel statuses",
+            )
+
+        # Audit Detail
         st.subheader("Audit Detail")
-
-        with st.expander("Completed rows used for Minutes Billed and Units Billed"):
-            display_cols = ["Client Name", "DOS", "Procedure", "Status", "ServiceUnits", "_calculated_units"]
-            available_display_cols = [c for c in display_cols if c in results["completed_services"].columns]
-            st.dataframe(results["completed_services"][available_display_cols], use_container_width=True)
-
-        with st.expander("Rows used for Non-Billable Total"):
-            display_cols = ["Client Name", "DOS", "Procedure", "Status", "ServiceUnits"]
-            available_display_cols = [c for c in display_cols if c in results["non_billable_rows"].columns]
-            st.dataframe(results["non_billable_rows"][available_display_cols], use_container_width=True)
-
-        # Downloadable summary
-        summary_df = pd.DataFrame(
-            [
-                {"Metric": "Hours Worked", "Value": results["hours_worked"]},
-                {"Metric": "Minutes Worked", "Value": results["minutes_worked"]},
-                {"Metric": "Minutes Billed", "Value": results["minutes_billed"]},
-                {"Metric": "Productivity Minutes %", "Value": results["productivity_minutes_percent"]},
-                {"Metric": "Units Billed", "Value": results["units_billed"]},
-                {"Metric": "Rounded Minutes from Units", "Value": results["rounded_minutes_from_units"]},
-                {"Metric": "Productivity Units %", "Value": results["productivity_units_percent"]},
-                {"Metric": "Non-Billable Total", "Value": results["non_billable_total"]},
-                {"Metric": "Non-Billable %", "Value": results["non_billable_percent"]},
-                {"Metric": "Documentation Total", "Value": "N/A"},
-                {"Metric": "Documentation %", "Value": "N/A"},
-                {"Metric": "Travel Total", "Value": "N/A"},
-                {"Metric": "Travel %", "Value": "N/A"},
-            ]
-        )
-
-        st.download_button(
-            "Download Productivity Summary CSV",
-            data=summary_df.to_csv(index=False).encode("utf-8"),
-            file_name="the_auditor_productivity_summary.csv",
-            mime="text/csv",
-        )
+    
+            with st.expander("Completed rows used for Minutes Billed and Units Billed"):
+                display_cols = ["Client Name", "DOS", "Procedure", "Status", "ServiceUnits", "_calculated_units"]
+                available_display_cols = [c for c in display_cols if c in results["completed_services"].columns]
+                st.dataframe(results["completed_services"][available_display_cols], use_container_width=True)
+    
+            with st.expander("Rows used for Non-Billable Total"):
+                display_cols = ["Client Name", "DOS", "Procedure", "Status", "ServiceUnits"]
+                available_display_cols = [c for c in display_cols if c in results["non_billable_rows"].columns]
+                st.dataframe(results["non_billable_rows"][available_display_cols], use_container_width=True)
+    
+            # Downloadable summary
+            summary_df = pd.DataFrame(
+                [
+                    {"Metric": "Hours Worked", "Value": results["hours_worked"]},
+                    {"Metric": "Minutes Worked", "Value": results["minutes_worked"]},
+                    {"Metric": "Minutes Billed", "Value": results["minutes_billed"]},
+                    {"Metric": "Productivity Minutes %", "Value": results["productivity_minutes_percent"]},
+                    {"Metric": "Units Billed", "Value": results["units_billed"]},
+                    {"Metric": "Rounded Minutes from Units", "Value": results["rounded_minutes_from_units"]},
+                    {"Metric": "Productivity Units %", "Value": results["productivity_units_percent"]},
+                    {"Metric": "Non-Billable Total", "Value": results["non_billable_total"]},
+                    {"Metric": "Non-Billable %", "Value": results["non_billable_percent"]},
+                    {"Metric": "Documentation Total", "Value": "N/A"},
+                    {"Metric": "Documentation %", "Value": "N/A"},
+                    {"Metric": "Travel Total", "Value": "N/A"},
+                    {"Metric": "Travel %", "Value": "N/A"},
+                ]
+            )
+    
+            st.download_button(
+                "Download Productivity Summary CSV",
+                data=summary_df.to_csv(index=False).encode("utf-8"),
+                file_name="the_auditor_productivity_summary.csv",
+                mime="text/csv",
+            )
 
     except Exception as exc:
         st.error("The Auditor hit an issue while reading the file.")
