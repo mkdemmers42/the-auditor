@@ -558,11 +558,9 @@ elif can_run:
         # THE PUDDING
         # ============================================================
         
-        st.markdown("---")
+        st.markdown("<div style='margin-top: -10px;'></div>", unsafe_allow_html=True)
 
-        st.subheader("Documentation & Travel Upload")
-
-        st.info("To see Documentation time and Travel Times, please upload Staff Service Detail Report.")
+        st.info("**To see Documentation time and Travel Times, please upload Staff Service Detail Report.**")
 
         detailed_service_file = st.file_uploader(
             "Upload: Staff Service Detail Report",
@@ -570,11 +568,6 @@ elif can_run:
             help="Upload the Staff Service Detail Report to calculate Documentation and Travel totals.",
             key="staff_service_detail_report_upload",
         )
-
-        if detailed_service_file is None:
-            st.warning("Staff Service Detail Report not uploaded. Documentation and Travel totals will remain unavailable.")
-        else:
-            st.success("Staff Service Detail Report uploaded successfully.")
 
         st.markdown("---")
         
