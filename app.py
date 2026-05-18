@@ -607,6 +607,40 @@ elif can_run:
                 "No Shows + Cancel statuses",
             )
 
+        st.subheader("The Pudding Lists")
+
+        attempts_only_df = pd.DataFrame(
+            sorted(list(attempts_only_clients)),
+            columns=["Client Name"]
+        )
+
+        no_attempts_df = pd.DataFrame(
+            sorted(list(no_attempt_clients)),
+            columns=["Client Name"]
+        )
+
+        with st.expander("Attempts Only / No Engagement - Client List"):
+            st.dataframe(attempts_only_df, use_container_width=True)
+
+            st.download_button(
+                "Download Attempts Only / No Engagement CSV",
+                data=attempts_only_df.to_csv(index=False).encode("utf-8"),
+                file_name="attempts_only_no_engagement.csv",
+                mime="text/csv",
+            )
+
+        with st.expander("No Attempts / No Engagement - Client List"):
+            st.dataframe(no_attempts_df, use_container_width=True)
+
+            st.download_button(
+                "Download No Attempts / No Engagement CSV",
+                data=no_attempts_df.to_csv(index=False).encode("utf-8"),
+                file_name="no_attempts_no_engagement.csv",
+                mime="text/csv",
+            )
+
+        # Audit Detail        
+
         # Audit Detail
         st.subheader("Audit Detail")
     
