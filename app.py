@@ -421,6 +421,8 @@ elif caseload_file is None and not st.session_state.get("productivity_only", Fal
 
 elif can_run:
     try:
+        detailed_service_file = None
+        
         services_df = read_excel(services_file)
 
         columns_ok, missing_columns = find_required_columns(services_df)
