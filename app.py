@@ -544,15 +544,61 @@ elif can_run:
         with row3[2]:
             metric_card("Rounded Minutes from Units", format_number(results["rounded_minutes_from_units"]), "Stored for Productivity Units %")
 
+        documentation_total = 0.0
+        documentation_percent = 0.0
+        travel_total = 0.0
+        travel_percent = 0.0
+
+        if detailed_service_file is not None:
+            sdr_df = read_excel(detailed_service_file)
+
+            total_rows = sdr_df[
+                sdr_df.iloc[:, 8].astype(str).str.strip().str.casefold() == "total:"
+            ].copy()
+
+            documentation_total = total_rows.iloc[:, 9].apply(extract_number).sum()
+
+            travel_total = total_rows.iloc[:, 11].apply(extract_number).sum()
+
+            documentation_percent = safe_percent(
+                documentation_total,
+                results["minutes_worked"]
+            )
+
+            travel_percent = safe_percent(
+                travel_total,
+                results["minutes_worked"]
+            )
+
         row4 = st.columns(4)
+
         with row4[0]:
-            metric_card("Documentation Total", "N/A", "Coming soon with SDR upload")
+            metric_card(
+                "Documentation Total",
+                format_number(documentation_total),
+                "From Staff Service Detail Report"
+            )
+
         with row4[1]:
-            metric_card("Documentation %", "N/A", "Coming soon with SDR upload")
+            metric_card(
+                "Documentation %",
+                format_percent(documentation_percent),
+                "Documentation Total ÷ Minutes Worked"
+            )
+
         with row4[2]:
-            metric_card("Travel Total", "N/A", "Coming soon with SDR upload")
+            metric_card(
+                "Travel Total",
+                format_number(travel_total),
+                "From Staff Service Detail Report"
+            )
+
         with row4[3]:
-            metric_card("Travel %", "N/A", "Coming soon with SDR upload")
+            metric_card(
+                "Travel %",
+                format_percent(travel_percent),
+                "Travel Total ÷ Minutes Worked"
+            )
 
         # ============================================================
         # THE PUDDING
