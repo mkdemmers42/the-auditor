@@ -537,18 +537,18 @@ elif can_run:
         # Audit Detail
         st.subheader("Audit Detail")
     
-            with st.expander("Completed rows used for Minutes Billed and Units Billed"):
-                display_cols = ["Client Name", "DOS", "Procedure", "Status", "ServiceUnits", "_calculated_units"]
-                available_display_cols = [c for c in display_cols if c in results["completed_services"].columns]
-                st.dataframe(results["completed_services"][available_display_cols], use_container_width=True)
+        with st.expander("Completed rows used for Minutes Billed and Units Billed"):
+            display_cols = ["Client Name", "DOS", "Procedure", "Status", "ServiceUnits", "_calculated_units"]
+            available_display_cols = [c for c in display_cols if c in results["completed_services"].columns]
+            st.dataframe(results["completed_services"][available_display_cols], use_container_width=True)
     
-            with st.expander("Rows used for Non-Billable Total"):
-                display_cols = ["Client Name", "DOS", "Procedure", "Status", "ServiceUnits"]
-                available_display_cols = [c for c in display_cols if c in results["non_billable_rows"].columns]
-                st.dataframe(results["non_billable_rows"][available_display_cols], use_container_width=True)
+        with st.expander("Rows used for Non-Billable Total"):
+            display_cols = ["Client Name", "DOS", "Procedure", "Status", "ServiceUnits"]
+            available_display_cols = [c for c in display_cols if c in results["non_billable_rows"].columns]
+            st.dataframe(results["non_billable_rows"][available_display_cols], use_container_width=True)
     
-            # Downloadable summary
-            summary_df = pd.DataFrame(
+        # Downloadable summary
+        summary_df = pd.DataFrame(
                 [
                     {"Metric": "Hours Worked", "Value": results["hours_worked"]},
                     {"Metric": "Minutes Worked", "Value": results["minutes_worked"]},
