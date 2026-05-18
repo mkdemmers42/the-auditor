@@ -475,65 +475,66 @@ elif can_run:
         with row4[3]:
             metric_card("Travel %", "N/A", "Coming soon with SDR upload")
 
-        # ============================================================
-# THE PUDDING
-# ============================================================
-
-st.subheader("The Pudding")
-
-pudding_row1 = st.columns(4)
-
-with pudding_row1[0]:
-    metric_card(
-        "Total Caseload",
-        format_number(pudding_results["total_caseload"]),
-        "Total rows from Caseload file",
-    )
-
-with pudding_row1[1]:
-    metric_card(
-        "Total Services Rendered",
-        format_number(pudding_results["total_services_rendered"]),
-        "Completed services only",
-    )
-
-with pudding_row1[2]:
-    metric_card(
-        "Successful Engagements",
-        format_number(pudding_results["successful_engagements"]),
-        "Completed billable services",
-    )
-
-with pudding_row1[3]:
-    metric_card(
-        "Non-Billable Services Rendered",
-        format_number(pudding_results["non_billable_services"]),
-        "Completed non-billable services",
-    )
-
-pudding_row2 = st.columns(3)
-
-with pudding_row2[0]:
-    metric_card(
-        "Attempts Only / No Engagement",
-        format_number(pudding_results["attempts_only_no_engagement"]),
-        "Non-billable only clients",
-    )
-
-with pudding_row2[1]:
-    metric_card(
-        "No Attempts / No Engagement",
-        format_number(pudding_results["no_attempts_no_engagement"]),
-        "Caseload clients missing from Services",
-    )
-
-with pudding_row2[2]:
-    metric_card(
-        "No Shows / Cancelled Appointments",
-        format_number(pudding_results["no_show_cancelled"]),
-        "No Shows + Cancel statuses",
-    )
-        # Audit Detail
+    # ============================================================
+    # THE PUDDING
+    # ============================================================
+    
+    st.subheader("The Pudding")
+    
+    pudding_row1 = st.columns(4)
+    
+    with pudding_row1[0]:
+        metric_card(
+            "Total Caseload",
+            format_number(pudding_results["total_caseload"]),
+            "Total rows from Caseload file",
+        )
+    
+    with pudding_row1[1]:
+        metric_card(
+            "Total Services Rendered",
+            format_number(pudding_results["total_services_rendered"]),
+            "Completed services only",
+        )
+    
+    with pudding_row1[2]:
+        metric_card(
+            "Successful Engagements",
+            format_number(pudding_results["successful_engagements"]),
+            "Completed billable services",
+        )
+    
+    with pudding_row1[3]:
+        metric_card(
+            "Non-Billable Services Rendered",
+            format_number(pudding_results["non_billable_services"]),
+            "Completed non-billable services",
+        )
+    
+    pudding_row2 = st.columns(3)
+    
+    with pudding_row2[0]:
+        metric_card(
+            "Attempts Only / No Engagement",
+            format_number(pudding_results["attempts_only_no_engagement"]),
+            "Non-billable only clients",
+        )
+    
+    with pudding_row2[1]:
+        metric_card(
+            "No Attempts / No Engagement",
+            format_number(pudding_results["no_attempts_no_engagement"]),
+            "Caseload clients missing from Services",
+        )
+    
+    with pudding_row2[2]:
+        metric_card(
+            "No Shows / Cancelled Appointments",
+            format_number(pudding_results["no_show_cancelled"]),
+            "No Shows + Cancel statuses",
+        )
+        
+    # Audit Detail
         st.subheader("Audit Detail")
 
         with st.expander("Completed rows used for Minutes Billed and Units Billed"):
