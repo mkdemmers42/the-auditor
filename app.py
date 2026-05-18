@@ -566,12 +566,12 @@ elif can_run:
                 ]
             )
     
-            st.download_button(
-                "Download Productivity Summary CSV",
-                data=summary_df.to_csv(index=False).encode("utf-8"),
-                file_name="the_auditor_productivity_summary.csv",
-                mime="text/csv",
-            )
+    st.download_button(
+        "Download Productivity Summary CSV",
+        data=summary_df.to_csv(index=False).encode("utf-8"),
+        file_name="the_auditor_productivity_summary.csv",
+        mime="text/csv",
+        )
 
     except Exception as exc:
         st.error("The Auditor hit an issue while reading the file.")
