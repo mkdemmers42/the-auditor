@@ -209,6 +209,47 @@ def read_excel(uploaded_file) -> pd.DataFrame:
     return pd.read_excel(uploaded_file)
 
 
+def read_county_services_invoiced(uploaded_file) -> pd.DataFrame:
+    county_df = pd.read_excel(uploaded_file, header=None)
+
+    clean = pd.DataFrame()
+
+    clean["County Client"] = county_df.iloc[:, 9].apply(normalize_text)
+
+    clean["County DOS"] = pd.to_datetime(
+        county_df.iloc[:, 25],
+        errors="coerce"
+    ).dt.date
+
+    clean["County Procedure"] = county_df.iloc[:, 15].apply(normalize_text)
+
+    clean["County Units"] = county_df.iloc[:, 18].apply(extract_number)
+
+    clean["County Minutes"] = county_df.iloc[:, 23].apply(extract_number)
+
+    clean["County Rounded Minutes"] = county_df.iloc[:, 27].apply(extract_number)
+
+    clean["Auditor Expected Units"] = clean["County Minutes"].apply(
+        minutes_to_units
+    )
+
+    clean["Auditor Expected Rounded Minutes"] = (
+        clean["Auditor Expected Units"] * 15
+    )
+
+    clean["Rounded Minute Difference"] = (
+        clean["County Rounded Minutes"]
+        - clean["Auditor Expected Rounded Minutes"]
+    )
+
+    clean["Unit Difference"] = (
+        clean["County Units"]
+        - clean["Auditor Expected Units"]
+    )
+
+    return clean
+
+
 def find_required_columns(df: pd.DataFrame) -> tuple[bool, list[str]]:
     missing = []
     for display_name in REQUIRED_SERVICE_COLUMNS.values():
