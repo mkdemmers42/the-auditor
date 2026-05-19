@@ -686,31 +686,33 @@ elif can_run:
             columns=["Client Name"]
         )
 
-        with st.expander("Attempts Only / No Engagement - Client List"):
-            st.dataframe(attempts_only_df, use_container_width=True)
+        list_col1, list_col2 = st.columns(2)
 
-            st.download_button(
-                "Download Attempts Only / No Engagement CSV",
-                data=attempts_only_df.to_csv(index=False).encode("utf-8"),
-                file_name="attempts_only_no_engagement.csv",
-                mime="text/csv",
-            )
+        with list_col1:
+            with st.expander("Attempts Only / No Engagement - Client List"):
+                st.dataframe(attempts_only_df, use_container_width=True)
 
-        with st.expander("No Attempts / No Engagement - Client List"):
-            st.dataframe(no_attempts_df, use_container_width=True)
+                st.download_button(
+                    "Download Attempts Only / No Engagement CSV",
+                    data=attempts_only_df.to_csv(index=False).encode("utf-8"),
+                    file_name="attempts_only_no_engagement.csv",
+                    mime="text/csv",
+                )
 
-            st.download_button(
-                "Download No Attempts / No Engagement CSV",
-                data=no_attempts_df.to_csv(index=False).encode("utf-8"),
-                file_name="no_attempts_no_engagement.csv",
-                mime="text/csv",
-            )
+        with list_col2:
+            with st.expander("No Attempts / No Engagement - Client List"):
+                st.dataframe(no_attempts_df, use_container_width=True)
 
-         
+                st.download_button(
+                    "Download No Attempts / No Engagement CSV",
+                    data=no_attempts_df.to_csv(index=False).encode("utf-8"),
+                    file_name="no_attempts_no_engagement.csv",
+                    mime="text/csv",
+                )
+        
 
         # Audit Detail
-        st.subheader("Audit Detail")
-    
+            
         with st.expander("Completed rows used for Minutes Billed and Units Billed"):
             display_cols = ["Client Name", "DOS", "Procedure", "Status", "ServiceUnits", "_calculated_units"]
             available_display_cols = [c for c in display_cols if c in results["completed_services"].columns]
