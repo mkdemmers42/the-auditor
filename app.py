@@ -905,11 +905,24 @@ elif can_run:
                     "Sum of county Minutes2"
                 )
 
+            auditor_total_rounded_minutes = (
+                auditor_compare_df["_calculated_units"].sum() * 15
+            )
+
+            county_total_rounded_minutes = (
+                county_clean_df["County Rounded Minutes"].sum()
+            )
+
+            rounded_minute_variance = (
+                county_total_rounded_minutes
+                - auditor_total_rounded_minutes
+            )
+
             with county_math_row[2]:
                 metric_card(
-                    "Incorrect Rounded Minutes",
-                    format_number((county_clean_df["Rounded Minute Difference"] != 0).sum()),
-                    "Rows where county rounding differs"
+                    "Rounded Minute Variance",
+                    format_number(rounded_minute_variance),
+                    "County rounded minutes variance"
                 )
 
             with county_math_row[3]:
