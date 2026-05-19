@@ -908,9 +908,9 @@ elif can_run:
 
             with county_math_row[3]:
                 metric_card(
-                    "Incorrect Units",
-                    format_number((county_clean_df["Unit Difference"] != 0).sum()),
-                    "Rows where county units differ"
+                    "Unit Difference",
+                    format_number(county_clean_df["Unit Difference"].sum()),
+                    "Total county unit variance"
                 )
 
             county_missing_row = st.columns(1)
