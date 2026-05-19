@@ -826,6 +826,48 @@ elif can_run:
 
         if county_services_file is not None:
             st.success("County Services Invoiced uploaded successfully.")
+
+            county_clean_df = read_county_services_invoiced(county_services_file)
+
+            st.subheader("County File Math Check")
+
+            county_math_row = st.columns(4)
+
+            with county_math_row[0]:
+                metric_card(
+                    "County Services Found",
+                    format_number(len(county_clean_df)),
+                    "Rows read from County Services Invoiced"
+                )
+
+            with county_math_row[1]:
+                metric_card(
+                    "County Rounded Minutes",
+                    format_number(county_clean_df["County Rounded Minutes"].sum()),
+                    "Sum of county Minutes2"
+                )
+
+            with county_math_row[2]:
+                metric_card(
+                    "Incorrect Rounded Minutes",
+                    format_number((county_clean_df["Rounded Minute Difference"] != 0).sum()),
+                    "Rows where county rounding differs"
+                )
+
+            with county_math_row[3]:
+                metric_card(
+                    "Incorrect Units",
+                    format_number((county_clean_df["Unit Difference"] != 0).sum()),
+                    "Rows where county units differ"
+                )
+
+            with st.expander("County Rounding / Unit Issues"):
+                issue_df = county_clean_df[
+                    (county_clean_df["Rounded Minute Difference"] != 0)
+                    | (county_clean_df["Unit Difference"] != 0)
+                ].copy()
+
+                st.dataframe(issue_df, use_container_width=True)
     
     except Exception as exc:
         st.error("The Auditor hit an issue while reading the file.")
