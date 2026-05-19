@@ -879,7 +879,13 @@ elif can_run:
 
             county_missing_df = auditor_compare_df[
                 ~auditor_compare_df["Match Key"].isin(county_keys)
-            ].copy()            
+            ].copy() 
+
+            auditor_keys = set(auditor_compare_df["Match Key"])
+
+            county_extra_df = county_clean_df[
+                ~county_clean_df["Match Key"].isin(auditor_keys)
+            ].copy()
 
             st.subheader("County File Math Check")
 
@@ -913,20 +919,33 @@ elif can_run:
                     "Total county unit variance"
                 )
 
-            county_missing_row = st.columns(1)
-
-            with county_missing_row[0]:
+            county_recon_row = st.columns(2)
+            
+            with county_recon_row[0]:
                 metric_card(
                     "County Missing Services",
                     format_number(len(county_missing_df)),
                     "Auditor services not found in county file"
                 )
-
+            
+            with county_recon_row[1]:
+                metric_card(
+                    "County Extra Services",
+                    format_number(len(county_extra_df)),
+                    "County services not found in Auditor"
+                )
+            
             with st.expander("County Missing Services - Detail"):
                 st.dataframe(
                     county_missing_df,
                     use_container_width=True
-                )            
+                )
+            
+            with st.expander("County Extra Services - Detail"):
+                st.dataframe(
+                    county_extra_df,
+                    use_container_width=True
+                )           
 
             with st.expander("County Rounding / Unit Issues"):
                 issue_df = county_clean_df[
