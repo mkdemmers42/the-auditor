@@ -865,8 +865,6 @@ elif can_run:
                 + auditor_compare_df["Auditor DOS"].astype(str)
                 + "|"
                 + auditor_compare_df["Auditor Procedure"].astype(str)
-                + "|"
-                + auditor_compare_df["Auditor Rounded Minutes"].astype(str)
             )
 
             county_clean_df["Match Key"] = (
@@ -875,9 +873,7 @@ elif can_run:
                 + county_clean_df["County DOS"].astype(str)
                 + "|"
                 + county_clean_df["County Procedure"].astype(str)
-                + "|"
-                + county_clean_df["County Rounded Minutes"].astype(str)
-            )
+             )
 
             county_keys = set(county_clean_df["Match Key"])
 
