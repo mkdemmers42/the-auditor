@@ -906,7 +906,12 @@ elif can_run:
                 )
 
             with county_math_row[2]:
-                
+                metric_card(
+                    "Incorrect Rounded Minutes",
+                    format_number((county_clean_df["Rounded Minute Difference"] != 0).sum()),
+                    "Rows where county rounding differs"
+                )
+
             with county_math_row[3]:
                 metric_card(
                     "County Billed Unit Variance",
