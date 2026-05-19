@@ -706,7 +706,7 @@ elif can_run:
                 mime="text/csv",
             )
 
-        # Audit Detail        
+         
 
         # Audit Detail
         st.subheader("Audit Detail")
