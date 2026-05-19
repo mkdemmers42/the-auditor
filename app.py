@@ -675,6 +675,48 @@ elif can_run:
             )
 
         st.subheader("The Pudding Lists")
+        proof_col1, proof_col2 = st.columns(2)
+
+        with proof_col1:
+            with st.expander("Productivity Procedures - Client List"):
+                display_cols = [
+                    "Client Name",
+                    "DOS",
+                    "Procedure",
+                    "Status",
+                    "ServiceUnits",
+                    "_calculated_units",
+                ]
+
+                available_display_cols = [
+                    c for c in display_cols
+                    if c in results["completed_services"].columns
+                ]
+
+                st.dataframe(
+                    results["completed_services"][available_display_cols],
+                    use_container_width=True
+                )
+
+        with proof_col2:
+            with st.expander("Non-Billable Total - Client List"):
+                display_cols = [
+                    "Client Name",
+                    "DOS",
+                    "Procedure",
+                    "Status",
+                    "ServiceUnits",
+                ]
+
+                available_display_cols = [
+                    c for c in display_cols
+                    if c in results["non_billable_rows"].columns
+                ]
+
+                st.dataframe(
+                    results["non_billable_rows"][available_display_cols],
+                    use_container_width=True
+                )        
 
         attempts_only_df = pd.DataFrame(
             sorted(list(attempts_only_clients)),
@@ -710,19 +752,7 @@ elif can_run:
                     mime="text/csv",
                 )
         
-
-        # Audit Detail
-            
-        with st.expander("Completed rows used for Minutes Billed and Units Billed"):
-            display_cols = ["Client Name", "DOS", "Procedure", "Status", "ServiceUnits", "_calculated_units"]
-            available_display_cols = [c for c in display_cols if c in results["completed_services"].columns]
-            st.dataframe(results["completed_services"][available_display_cols], use_container_width=True)
-    
-        with st.expander("Rows used for Non-Billable Total"):
-            display_cols = ["Client Name", "DOS", "Procedure", "Status", "ServiceUnits"]
-            available_display_cols = [c for c in display_cols if c in results["non_billable_rows"].columns]
-            st.dataframe(results["non_billable_rows"][available_display_cols], use_container_width=True)
-    
+  
         # Downloadable summary
         summary_df = pd.DataFrame(
                 [
