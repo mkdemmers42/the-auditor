@@ -20,6 +20,12 @@ NON_BILLABLE_PROCEDURES = {
     "Non-billable Attempted Contact",
 }
 
+PROCEDURE_CROSSWALK = {
+    "TCM/ICC": "Targeted Case Management",
+    "Psychosocial Rehab - Individual": "Psychosocial Rehabilitation",
+    "Psychosocial Rehabilitation Group": "Psychosocial Rehabilitation",
+}
+
 REQUIRED_SERVICE_COLUMNS = {
     "procedure": "Procedure",       # Column C
     "status": "Status",            # Column J
@@ -144,6 +150,11 @@ def normalize_text(value) -> str:
     return str(value).strip()
 
 
+def normalize_procedure(value) -> str:
+    text = normalize_text(value)
+    return PROCEDURE_CROSSWALK.get(text, text)
+
+
 def extract_number(value) -> float:
     """
     Extracts numeric minutes from values like:
@@ -221,7 +232,7 @@ def read_county_services_invoiced(uploaded_file) -> pd.DataFrame:
         errors="coerce"
     ).dt.date
 
-    clean["County Procedure"] = county_df.iloc[:, 15].apply(normalize_text)
+    clean["County Procedure"] = county_df.iloc[:, 15].apply(normalize_procedure)
 
     clean["County Units"] = county_df.iloc[:, 18].apply(extract_number)
 
@@ -835,7 +846,7 @@ elif can_run:
                 auditor_compare_df["DOS"],
                 errors="coerce"
             ).dt.date
-            auditor_compare_df["Auditor Procedure"] = auditor_compare_df["Procedure"].apply(normalize_text)
+            auditor_compare_df["Auditor Procedure"] = auditor_compare_df["Procedure"].apply(normalize_procedure)
             auditor_compare_df["Auditor Rounded Minutes"] = auditor_compare_df["_calculated_units"] * 15
 
             auditor_compare_df["Match Key"] = (
