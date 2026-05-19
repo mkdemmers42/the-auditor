@@ -175,6 +175,14 @@ def extract_number(value) -> float:
     return float(match.group(0))
 
 
+def extract_client_id(value) -> str:
+    text = normalize_text(value)
+    match = re.search(r"\((\d+)\)", text)
+    if not match:
+        return ""
+    return match.group(1)
+
+
 def minutes_to_units(minutes: float) -> int:
     """
     Medicare-style 15-minute unit conversion verified for The Auditor:
@@ -227,12 +235,12 @@ def read_county_services_invoiced(uploaded_file) -> pd.DataFrame:
 
     clean = pd.DataFrame()
 
-    clean["County Client"] = county_df.iloc[:, 9].apply(normalize_text)
+    clean["County Client ID"] = county_df.iloc[:, 3].apply(extract_number).astype(int).astype(str)
 
     clean["County DOS"] = pd.to_datetime(
-        county_df.iloc[:, 25],
-        errors="coerce"
-    ).dt.date
+    county_df.iloc[:, 14],
+    errors="coerce"
+).dt.strftime("%Y-%m-%d %H:%M")
 
     clean["County Procedure"] = county_df.iloc[:, 15].apply(normalize_procedure)
 
@@ -843,16 +851,16 @@ elif can_run:
             county_clean_df = read_county_services_invoiced(county_services_file)
             auditor_compare_df = results["completed_services"].copy()
 
-            auditor_compare_df["Auditor Client"] = auditor_compare_df["Client Name"].apply(normalize_text)
+            auditor_compare_df["Auditor Client ID"] = auditor_compare_df["Client Name"].apply(extract_client_id)
             auditor_compare_df["Auditor DOS"] = pd.to_datetime(
                 auditor_compare_df["DOS"],
                 errors="coerce"
-            ).dt.date
+            ).dt.strftime("%Y-%m-%d %H:%M")
             auditor_compare_df["Auditor Procedure"] = auditor_compare_df["Procedure"].apply(normalize_procedure)
             auditor_compare_df["Auditor Rounded Minutes"] = auditor_compare_df["_calculated_units"] * 15
 
             auditor_compare_df["Match Key"] = (
-                auditor_compare_df["Auditor Client"].astype(str)
+                auditor_compare_df["Auditor Client ID"].astype(str)
                 + "|"
                 + auditor_compare_df["Auditor DOS"].astype(str)
                 + "|"
@@ -862,7 +870,7 @@ elif can_run:
             )
 
             county_clean_df["Match Key"] = (
-                county_clean_df["County Client"].astype(str)
+                county_clean_df["County Client ID"].astype(str)
                 + "|"
                 + county_clean_df["County DOS"].astype(str)
                 + "|"
