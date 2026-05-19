@@ -908,7 +908,7 @@ elif can_run:
 
             with county_math_row[3]:
                 metric_card(
-                    "Unit Difference",
+                    "County Unit Billed Variance",
                     format_number(county_clean_df["Unit Difference"].sum()),
                     "Total county unit variance"
                 )
