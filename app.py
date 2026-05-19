@@ -779,6 +779,20 @@ elif can_run:
             mime="text/csv",
         )
 
+        st.markdown("---")
+
+        st.subheader("The County Auditor")
+
+        county_services_file = st.file_uploader(
+            "Upload: County Services Invoiced",
+            type=["xlsx"],
+            help="Upload the County Services Invoiced file to compare county billing against The Auditor.",
+            key="county_services_invoiced_upload",
+        )
+
+        if county_services_file is not None:
+            st.success("County Services Invoiced uploaded successfully.")
+    
     except Exception as exc:
         st.error("The Auditor hit an issue while reading the file.")
         st.exception(exc)
