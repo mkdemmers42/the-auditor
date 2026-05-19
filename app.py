@@ -828,6 +828,41 @@ elif can_run:
             st.success("County Services Invoiced uploaded successfully.")
 
             county_clean_df = read_county_services_invoiced(county_services_file)
+            auditor_compare_df = results["completed_services"].copy()
+
+            auditor_compare_df["Auditor Client"] = auditor_compare_df["Client Name"].apply(normalize_text)
+            auditor_compare_df["Auditor DOS"] = pd.to_datetime(
+                auditor_compare_df["DOS"],
+                errors="coerce"
+            ).dt.date
+            auditor_compare_df["Auditor Procedure"] = auditor_compare_df["Procedure"].apply(normalize_text)
+            auditor_compare_df["Auditor Rounded Minutes"] = auditor_compare_df["_calculated_units"] * 15
+
+            auditor_compare_df["Match Key"] = (
+                auditor_compare_df["Auditor Client"].astype(str)
+                + "|"
+                + auditor_compare_df["Auditor DOS"].astype(str)
+                + "|"
+                + auditor_compare_df["Auditor Procedure"].astype(str)
+                + "|"
+                + auditor_compare_df["Auditor Rounded Minutes"].astype(str)
+            )
+
+            county_clean_df["Match Key"] = (
+                county_clean_df["County Client"].astype(str)
+                + "|"
+                + county_clean_df["County DOS"].astype(str)
+                + "|"
+                + county_clean_df["County Procedure"].astype(str)
+                + "|"
+                + county_clean_df["County Rounded Minutes"].astype(str)
+            )
+
+            county_keys = set(county_clean_df["Match Key"])
+
+            county_missing_df = auditor_compare_df[
+                ~auditor_compare_df["Match Key"].isin(county_keys)
+            ].copy()            
 
             st.subheader("County File Math Check")
 
@@ -860,6 +895,21 @@ elif can_run:
                     format_number((county_clean_df["Unit Difference"] != 0).sum()),
                     "Rows where county units differ"
                 )
+
+            county_missing_row = st.columns(1)
+
+            with county_missing_row[0]:
+                metric_card(
+                    "County Missing Services",
+                    format_number(len(county_missing_df)),
+                    "Auditor services not found in county file"
+                )
+
+            with st.expander("County Missing Services - Detail"):
+                st.dataframe(
+                    county_missing_df,
+                    use_container_width=True
+                )            
 
             with st.expander("County Rounding / Unit Issues"):
                 issue_df = county_clean_df[
