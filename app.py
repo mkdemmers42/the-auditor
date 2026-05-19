@@ -21,9 +21,11 @@ NON_BILLABLE_PROCEDURES = {
 }
 
 PROCEDURE_CROSSWALK = {
-    "TCM/ICC": "Targeted Case Management",
     "Psychosocial Rehab - Individual": "Psychosocial Rehabilitation",
-    "Psychosocial Rehabilitation Group": "Psychosocial Rehabilitation",
+    "TCM/ICC": "Targeted Case Management",
+    "Plan Development, non-physician": "Mental Health Service Plan Developed by Non-Physician",
+    "Psychosocial Rehab - Group": "Psychosocial Rehabilitation Group",
+    "Psychosocial Rehabilitation Group": "Psychosocial Rehabilitation Group",
 }
 
 REQUIRED_SERVICE_COLUMNS = {
