@@ -682,64 +682,69 @@ elif can_run:
         # THE PUDDING LOGIC
         # ============================================================
 
-        caseload_df = read_excel(caseload_file)
+        pudding_results = None
+        attempts_only_clients = set()
+        no_attempt_clients = set()
 
-        total_caseload = len(caseload_df)
-
-        working = services_df.copy()
-
-        working["_status_clean"] = working["Status"].apply(normalize_text)
-        working["_procedure_clean"] = working["Procedure"].apply(normalize_text)
-
-        completed_services_all = working.loc[
-            working["_status_clean"].str.casefold() == "complete"
-        ].copy()
-
-        total_services_rendered = len(completed_services_all)
-
-        successful_engagements_df = completed_services_all.loc[
-            ~completed_services_all["_procedure_clean"].isin(NON_BILLABLE_PROCEDURES)
-        ].copy()
-
-        successful_engagements = len(successful_engagements_df)
-
-        non_billable_services_df = completed_services_all.loc[
-            completed_services_all["_procedure_clean"].isin(NON_BILLABLE_PROCEDURES)
-        ].copy()
-
-        non_billable_services = len(non_billable_services_df)
-
-        successful_clients = set(
-            successful_engagements_df["Client Name"].astype(str).str.strip()
-        )
-
-        non_billable_clients = set(
-            non_billable_services_df["Client Name"].astype(str).str.strip()
-        )
-
-        attempts_only_clients = non_billable_clients - successful_clients
-
-        attempts_only_no_engagement = len(attempts_only_clients)
-
-        caseload_clients = set(
-            caseload_df.iloc[:, 0].astype(str).str.strip()
-        )
-
-        service_clients = set(
-            services_df.iloc[:, 0].astype(str).str.strip()
-        )
-
-        no_attempt_clients = caseload_clients - service_clients
-
-        no_attempts_no_engagement = len(no_attempt_clients)
-
-        no_show_cancel_mask = (
-            working["_status_clean"].str.contains("no show", case=False, na=False)
-            |
-            working["_status_clean"].str.contains("cancel", case=False, na=False)
-        )
-
-        no_show_cancelled = int(no_show_cancel_mask.sum())
+        if caseload_file is not None:
+            caseload_df = read_excel(caseload_file)
+    
+            total_caseload = len(caseload_df)
+    
+            working = services_df.copy()
+    
+            working["_status_clean"] = working["Status"].apply(normalize_text)
+            working["_procedure_clean"] = working["Procedure"].apply(normalize_text)
+    
+            completed_services_all = working.loc[
+                working["_status_clean"].str.casefold() == "complete"
+            ].copy()
+    
+            total_services_rendered = len(completed_services_all)
+    
+            successful_engagements_df = completed_services_all.loc[
+                ~completed_services_all["_procedure_clean"].isin(NON_BILLABLE_PROCEDURES)
+            ].copy()
+    
+            successful_engagements = len(successful_engagements_df)
+    
+            non_billable_services_df = completed_services_all.loc[
+                completed_services_all["_procedure_clean"].isin(NON_BILLABLE_PROCEDURES)
+            ].copy()
+    
+            non_billable_services = len(non_billable_services_df)
+    
+            successful_clients = set(
+                successful_engagements_df["Client Name"].astype(str).str.strip()
+            )
+    
+            non_billable_clients = set(
+                non_billable_services_df["Client Name"].astype(str).str.strip()
+            )
+    
+            attempts_only_clients = non_billable_clients - successful_clients
+    
+            attempts_only_no_engagement = len(attempts_only_clients)
+    
+            caseload_clients = set(
+                caseload_df.iloc[:, 0].astype(str).str.strip()
+            )
+    
+            service_clients = set(
+                services_df.iloc[:, 0].astype(str).str.strip()
+            )
+    
+            no_attempt_clients = caseload_clients - service_clients
+    
+            no_attempts_no_engagement = len(no_attempt_clients)
+    
+            no_show_cancel_mask = (
+                working["_status_clean"].str.contains("no show", case=False, na=False)
+                |
+                working["_status_clean"].str.contains("cancel", case=False, na=False)
+            )
+    
+            no_show_cancelled = int(no_show_cancel_mask.sum())
 
         pudding_results = {
             "total_caseload": total_caseload,
