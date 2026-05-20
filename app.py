@@ -824,6 +824,8 @@ elif can_run:
         with row1[2]:
             metric_card("Minutes Billed", format_number(results["minutes_billed"]), "Sum of ServiceUnits where Status = Complete")
 
+        st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
+
         row2 = st.columns(3)
         with row2[0]:
             metric_card("Productivity Minutes %", format_percent(results["productivity_minutes_percent"]), "Minutes Billed ÷ Minutes Worked")
@@ -832,6 +834,8 @@ elif can_run:
         with row2[2]:
             metric_card("Productivity Units %", format_percent(results["productivity_units_percent"]), "Rounded unit minutes ÷ Minutes Worked")
 
+        st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
+
         row3 = st.columns(3)
         with row3[0]:
             metric_card("Non-Billable Total", format_number(results["non_billable_total"]), "Two verified non-billable procedures")
@@ -839,6 +843,8 @@ elif can_run:
             metric_card("Non-Billable %", format_percent(results["non_billable_percent"]), "Non-Billable Total ÷ Minutes Worked")
         with row3[2]:
             metric_card("Rounded Minutes from Units", format_number(results["rounded_minutes_from_units"]), "Stored for Productivity Units %")
+
+        st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
 
         st.info("**To see Documentation time and Travel Times, please upload Staff Service Detail Report.**")
         
