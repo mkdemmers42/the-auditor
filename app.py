@@ -410,7 +410,7 @@ logo.save(buffered, format="PNG")
 logo_base64 = base64.b64encode(buffered.getvalue()).decode()
 
 st.markdown(
-    """
+    f"""
     <div class="auditor-hero">
         <div class="auditor-badge">OPERATIONAL INTELLIGENCE DASHBOARD</div>
         <div class="auditor-title-row">
