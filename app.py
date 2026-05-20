@@ -273,6 +273,22 @@ st.markdown(
         color: #9dccff !important;
         font-weight: 700 !important;
     }
+
+    button[data-testid="stBaseButton-secondary"] {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #b8c7d9 !important;
+    font-weight: 800 !important;
+    }
+    
+    button[data-testid="stBaseButton-secondary"] * {
+        color: #000000 !important;
+        fill: #000000 !important;
+    }
+
+    div[data-testid="stAlert"] {
+    color: #dcecff !important;
+    }
     
     </style>
     """,
