@@ -204,11 +204,12 @@ st.markdown(
     }
 
     .warning-box {
-        background: rgba(245, 171, 53, 0.16);
-        border: 1px solid rgba(245, 171, 53, 0.45);
+        background: rgba(255, 70, 70, 0.14);
+        border: 1px solid rgba(255, 90, 90, 0.42);
         border-radius: 14px;
         padding: 0.85rem;
-        color: #fff5df;
+        color: #ffe5e5;
+        box-shadow: 0 0 18px rgba(255, 70, 70, 0.14);
     }
 
     .small-muted {
@@ -596,15 +597,17 @@ if services_file is not None and caseload_file is None:
         unsafe_allow_html=True,
     )
 
+    st.markdown("<div style='margin-top: 12px;'></div>", unsafe_allow_html=True)
+    
     gate_col1, gate_col2 = st.columns(2)
 
     with gate_col1:
-        if st.button("Yes, unleash The Auditor"):
-            st.info("Upload the Caseload file above and The Auditor will be ready to stretch its legs.")
-
-    with gate_col2:
         if st.button("No, just productivity"):
             st.session_state["productivity_only"] = True
+        
+    with gate_col2:
+        if st.button("Yes, unleash The Auditor"):
+            st.info("Upload the Caseload file above and The Auditor will be ready to stretch its legs.")
 
     run_productivity_only = st.session_state.get("productivity_only", False)
 
