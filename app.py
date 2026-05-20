@@ -450,6 +450,13 @@ def format_percent(value: float) -> str:
     except Exception:
         return "0.00%"
 
+def get_productivity_card_style(value: float) -> tuple[str, str]:
+    if value >= 50:
+        return "green", "✅"
+    elif value >= 45:
+        return "orange", "⏸️"
+    return "red", "❗"
+
 
 def read_excel(uploaded_file) -> pd.DataFrame:
     """Read the first sheet from an uploaded Excel file."""
@@ -886,13 +893,35 @@ elif can_run:
         st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
 
         row2 = st.columns(3)
-        with row2[0]:
-            metric_card("Productivity Minutes %", format_percent(results["productivity_minutes_percent"]), "Minutes Billed ÷ Minutes Worked")
+
         with row2[1]:
             metric_card("Units Billed", format_number(results["units_billed"]), "Each completed row converted using 15-minute chart")
         with row2[2]:
-            metric_card("Productivity Units %", format_percent(results["productivity_units_percent"]), "Rounded unit minutes ÷ Minutes Worked")
+            prod_units_variant, prod_units_icon = get_productivity_card_style(
+                results["productivity_units_percent"]
+            )
+            
+            with row2[2]:
+                metric_card(
+                    "Productivity Units %",
+                    format_percent(results["productivity_units_percent"]),
+                    "Rounded unit minutes ÷ Minutes Worked",
+                    variant=prod_units_variant,
+                    icon=prod_units_icon
+                )
 
+        prod_minutes_variant, prod_minutes_icon = get_productivity_card_style(
+            results["productivity_minutes_percent"]
+        )
+        
+        with row2[0]:
+            metric_card(
+                "Productivity Minutes %",
+                format_percent(results["productivity_minutes_percent"]),
+                "Minutes Billed ÷ Minutes Worked",
+                variant=prod_minutes_variant,
+                icon=prod_minutes_icon
+            )
         st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
 
         row3 = st.columns(3)
