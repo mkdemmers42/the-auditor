@@ -167,33 +167,73 @@ st.markdown(
         box-shadow: 0 8px 26px rgba(0, 0, 0, 0.25);
     }
 
-    .metric-card {
-        background: rgba(255, 255, 255, 0.10);
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        border-radius: 18px;
-        padding: 1.15rem;
-        min-height: 122px;
-        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
-    }
+.metric-card {
+    position: relative;
+    background: rgba(15, 24, 45, 0.86);
+    border-radius: 22px;
+    padding: 1.35rem;
+    min-height: 135px;
+    text-align: center;
+    box-shadow:
+        0 0 18px rgba(0, 140, 255, 0.12),
+        inset 0 0 18px rgba(255,255,255,0.03);
+}
 
-    .metric-label {
-        font-size: 0.92rem;
-        color: #c7d6e8;
-        margin-bottom: 0.45rem;
-    }
+.metric-card-blue {
+    border: 1px solid rgba(95, 140, 255, 0.75);
+    box-shadow: 0 0 20px rgba(95, 140, 255, 0.28);
+}
 
-    .metric-value {
-        font-size: 2rem;
-        font-weight: 850;
-        color: #ffffff;
-        line-height: 1.1;
-    }
+.metric-card-purple {
+    border: 1px solid rgba(150, 110, 255, 0.75);
+    box-shadow: 0 0 20px rgba(150, 110, 255, 0.28);
+}
 
-    .metric-note {
-        font-size: 0.78rem;
-        color: #aebed3;
-        margin-top: 0.35rem;
-    }
+.metric-card-green {
+    border: 1px solid rgba(85, 220, 150, 0.75);
+    box-shadow: 0 0 20px rgba(85, 220, 150, 0.28);
+}
+
+.metric-card-orange {
+    border: 1px solid rgba(255, 160, 70, 0.75);
+    box-shadow: 0 0 20px rgba(255, 160, 70, 0.28);
+}
+
+.metric-card-red {
+    border: 1px solid rgba(255, 90, 110, 0.75);
+    box-shadow: 0 0 20px rgba(255, 90, 110, 0.30);
+}
+
+.metric-icon {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-size: 1.35rem;
+    opacity: 0.85;
+}
+
+.metric-label {
+    font-size: 0.90rem;
+    color: #e7f2ff;
+    margin-top: 0.5rem;
+    font-weight: 850;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+}
+
+.metric-value {
+    font-size: 2.65rem;
+    font-weight: 950;
+    color: #ffffff;
+    line-height: 1.05;
+    margin-top: 0.7rem;
+}
+
+.metric-note {
+    font-size: 0.75rem;
+    color: #aebed3;
+    margin-top: 0.45rem;
+}
 
     .success-box {
         background: rgba(70, 180, 120, 0.16);
@@ -536,12 +576,13 @@ def calculate_productivity(services_df: pd.DataFrame, hours_worked: float) -> di
     }
 
 
-def metric_card(label: str, value: str, note: str = ""):
+def metric_card(label: str, value: str, note: str = "", variant: str = "blue", icon: str = ""):
     st.markdown(
         f"""
-        <div class="metric-card">
-            <div class="metric-label">{label}</div>
+        <div class="metric-card metric-card-{variant}">
+            <div class="metric-icon">{icon}</div>
             <div class="metric-value">{value}</div>
+            <div class="metric-label">{label}</div>
             <div class="metric-note">{note}</div>
         </div>
         """,
