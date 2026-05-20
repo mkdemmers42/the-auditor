@@ -224,7 +224,6 @@ st.markdown(
     }
     
     label,
-    .stMarkdown,
     .stText,
     .stNumberInput label,
     .stFileUploader label,
