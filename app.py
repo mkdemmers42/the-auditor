@@ -59,7 +59,7 @@ st.markdown(
         font-family: 'Montserrat', sans-serif;
     }
     
-    html, body, [class*="css"], [class*="st-"], div, span, p, label, input, textarea, button {
+    html, body, .stApp, .stApp p, .stApp span, .stApp label, .stApp button {
         font-family: 'Montserrat', sans-serif !important;
     }
     
