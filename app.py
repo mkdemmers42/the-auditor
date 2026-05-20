@@ -907,14 +907,14 @@ elif can_run:
                 results["productivity_units_percent"]
             )
             
-            with row2[2]:
-                metric_card(
-                    "Productivity Units %",
-                    format_percent(results["productivity_units_percent"]),
-                    "Rounded unit minutes ÷ Minutes Worked",
-                    variant=prod_units_variant,
-                    icon=prod_units_icon
-                )
+        with row2[2]:
+            metric_card(
+                "Productivity Units %",
+                format_percent(results["productivity_units_percent"]),
+                "Rounded unit minutes ÷ Minutes Worked",
+                variant=prod_units_variant,
+                icon=prod_units_icon
+            )
 
         prod_minutes_variant, prod_minutes_icon = get_productivity_card_style(
             results["productivity_minutes_percent"]
