@@ -875,7 +875,13 @@ elif can_run:
                 icon="⏱️"
             )
         with row1[2]:
-            metric_card("Minutes Billed", format_number(results["minutes_billed"]), "Sum of ServiceUnits where Status = Complete")
+            metric_card(
+                "Minutes Billed", 
+                format_number(results["minutes_billed"]), 
+                "Sum of ServiceUnits where Status = Complete",
+                variant="green",
+                icon="⏱️"
+            )
 
         st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
 
