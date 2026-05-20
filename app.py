@@ -901,6 +901,7 @@ elif can_run:
                 "Each completed row converted using 15-minute chart",
                 variant="orange",
                 icon="⏱️"
+      
         with row2[2]:
             prod_units_variant, prod_units_icon = get_productivity_card_style(
                 results["productivity_units_percent"]
