@@ -54,9 +54,9 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
     .stApp {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Montserrat', sans-serif;
     
         background:
             linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
