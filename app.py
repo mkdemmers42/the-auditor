@@ -713,6 +713,23 @@ elif can_run:
         
         services_df = read_excel(services_file)
 
+        employee_name = normalize_text(services_df.iloc[0, 3])
+
+        st.markdown(
+            f"""
+            <div class="audit-banner">
+                <div class="audit-banner-item">
+                    Employee: {employee_name}
+                </div>
+
+                <div class="audit-banner-item">
+                    Audit Period: Pending
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
         columns_ok, missing_columns = find_required_columns(services_df)
         if not columns_ok:
             st.error(
