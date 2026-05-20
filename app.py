@@ -894,32 +894,10 @@ elif can_run:
 
         row2 = st.columns(3)
 
-        with row2[1]:
-            metric_card(
-                "Units Billed",
-                format_number(results["units_billed"]),
-                "Each completed row converted using 15-minute chart",
-                variant="orange",
-                icon="⏱️"
-      
-        with row2[2]:
-            prod_units_variant, prod_units_icon = get_productivity_card_style(
-                results["productivity_units_percent"]
-            )
-            
-        with row2[2]:
-            metric_card(
-                "Productivity Units %",
-                format_percent(results["productivity_units_percent"]),
-                "Rounded unit minutes ÷ Minutes Worked",
-                variant=prod_units_variant,
-                icon=prod_units_icon
-            )
-
         prod_minutes_variant, prod_minutes_icon = get_productivity_card_style(
             results["productivity_minutes_percent"]
         )
-        
+
         with row2[0]:
             metric_card(
                 "Productivity Minutes %",
@@ -928,7 +906,28 @@ elif can_run:
                 variant=prod_minutes_variant,
                 icon=prod_minutes_icon
             )
-        st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
+
+        with row2[1]:
+            metric_card(
+                "Units Billed",
+                format_number(results["units_billed"]),
+                "Each completed row converted using 15-minute chart",
+                variant="orange",
+                icon="⏱️"
+            )
+
+        prod_units_variant, prod_units_icon = get_productivity_card_style(
+            results["productivity_units_percent"]
+        )
+
+        with row2[2]:
+            metric_card(
+                "Productivity Units %",
+                format_percent(results["productivity_units_percent"]),
+                "Rounded unit minutes ÷ Minutes Worked",
+                variant=prod_units_variant,
+                icon=prod_units_icon
+            )
 
         row3 = st.columns(3)
         with row3[0]:
