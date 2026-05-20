@@ -244,6 +244,10 @@ st.markdown(
         border-radius: 16px;
     }
     
+    div[data-testid="stFileUploaderDropzone"] * {
+    color: #ffffff !important;
+    }
+    
     div[data-testid="stFileUploaderDropzone"]:hover {
         border: 1px solid rgba(120, 220, 255, 0.65);
         background: rgba(0, 140, 255, 0.16);
