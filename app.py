@@ -710,8 +710,6 @@ elif can_run:
         st.markdown(
             f"""
 
-        st.markdown(
-            f"""
             <div class="audit-banner">
                 <div class="audit-banner-item">
                     Employee: {employee_name}
