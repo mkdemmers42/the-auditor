@@ -59,17 +59,42 @@ st.markdown(
         color: #f8fbff;
     }
 
-    .auditor-title {
-        font-size: 3rem;
-        font-weight: 900;
-        letter-spacing: 1px;
-        margin-bottom: 0.1rem;
+.auditor-hero {
+    background:
+        linear-gradient(135deg, rgba(0, 255, 255, 0.10), rgba(255,255,255,0.04)),
+        radial-gradient(circle at top left, rgba(64, 224, 255, 0.22), transparent 40%);
+    border: 1px solid rgba(115, 230, 255, 0.35);
+    border-radius: 24px;
+    padding: 1.7rem 2rem;
+    margin-bottom: 1.4rem;
+    box-shadow:
+        0 0 28px rgba(0, 217, 255, 0.18),
+        inset 0 0 24px rgba(255, 255, 255, 0.04);
     }
-
+    
+    .auditor-badge {
+        font-size: 0.78rem;
+        letter-spacing: 2.5px;
+        color: #7ee7ff;
+        font-weight: 800;
+        margin-bottom: 0.4rem;
+    }
+    
+    .auditor-title {
+        font-size: 4rem;
+        font-weight: 950;
+        letter-spacing: 3px;
+        color: #ffffff;
+        text-shadow:
+            0 0 12px rgba(126, 231, 255, 0.85),
+            0 0 28px rgba(0, 174, 255, 0.45);
+        margin-bottom: 0.2rem;
+    }
+    
     .auditor-subtitle {
         font-size: 1.05rem;
-        color: #c9d8ea;
-        margin-bottom: 1.5rem;
+        color: #c9eaff;
+        letter-spacing: 0.5px;
     }
 
     .section-box {
@@ -365,8 +390,18 @@ def metric_card(label: str, value: str, note: str = ""):
 # -----------------------------
 # Header
 # -----------------------------
-st.markdown(f"<div class='auditor-title'>🕵️ {APP_TITLE}</div>", unsafe_allow_html=True)
-st.markdown(f"<div class='auditor-subtitle'>{APP_SUBTITLE}</div>", unsafe_allow_html=True)
+st.markdown(
+    """
+    <div class="auditor-hero">
+        <div class="auditor-badge">OPERATIONAL INTELLIGENCE DASHBOARD</div>
+        <div class="auditor-title">🕵️ THE AUDITOR</div>
+        <div class="auditor-subtitle">
+            Productivity • Engagement • Billing Reconciliation • County Audit Review
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 
 # -----------------------------
