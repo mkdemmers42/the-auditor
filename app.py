@@ -870,7 +870,7 @@ elif can_run:
             metric_card(
                 "Minutes Worked", 
                 format_number(results["minutes_worked"]),
-                "Hours Worked × 60"
+                "Hours Worked × 60",
                 variant="green",
                 icon="⏱️"
             )
