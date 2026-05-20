@@ -699,6 +699,8 @@ elif can_run:
 
         employee_name = normalize_text(services_df.iloc[0, 3])
 
+        
+
         st.markdown(
             f"""
             <div class="audit-banner">
@@ -707,7 +709,7 @@ elif can_run:
                 </div>
 
                 <div class="audit-banner-item">
-                    Audit Period: Pending
+                    Audit Period: {audit_start} to {audit_end}
                 </div>
             </div>
             """,
