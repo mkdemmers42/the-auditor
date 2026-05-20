@@ -578,22 +578,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.markdown(
-    """
-    <div class="audit-banner">
-        <div class="audit-banner-item">
-            Employee: Valenzuela, Delores
-        </div>
-
-        <div class="audit-banner-item">
-            Audit Period: 04/01/2026 - 04/30/2026
-        </div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-
-
 # -----------------------------
 # Input Section
 # -----------------------------
