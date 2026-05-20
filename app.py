@@ -707,17 +707,10 @@ elif can_run:
         audit_end = services_dates.max().strftime("%m/%d/%Y")
         
         st.markdown(
-            f"""
-            <div class="audit-banner">
-                <div class="audit-banner-item">
-                    Employee: {employee_name}
-                </div>
-
-                <div class="audit-banner-item">
-                    Audit Period: {audit_start} to {audit_end}
-                </div>
-            </div>
-            """,
+            f"<div class='audit-banner'>"
+            f"<div class='audit-banner-item'>Employee: {employee_name}</div>"
+            f"<div class='audit-banner-item'>Audit Period: {audit_start} to {audit_end}</div>"
+            f"</div>",
             unsafe_allow_html=True,
         )
 
