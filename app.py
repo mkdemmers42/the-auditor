@@ -956,6 +956,54 @@ elif can_run:
                     format_number(rounded_minute_variance),
                     "County rounded minutes minus Auditor rounded minutes"
                 )
+
+                        st.subheader("Procedure Breakdown Comparison")
+
+            auditor_proc_summary = (
+                auditor_compare_df
+                .groupby("Auditor Procedure")
+                .size()
+                .reset_index(name="Auditor Count")
+                .rename(columns={"Auditor Procedure": "Procedure"})
+            )
+
+            county_proc_summary = (
+                county_clean_df
+                .groupby("County Procedure")
+                .size()
+                .reset_index(name="County Count")
+                .rename(columns={"County Procedure": "Procedure"})
+            )
+
+            procedure_breakdown = pd.merge(
+                auditor_proc_summary,
+                county_proc_summary,
+                on="Procedure",
+                how="outer"
+            ).fillna(0)
+
+            procedure_breakdown["Auditor Count"] = procedure_breakdown["Auditor Count"].astype(int)
+            procedure_breakdown["County Count"] = procedure_breakdown["County Count"].astype(int)
+            procedure_breakdown["Difference"] = (
+                procedure_breakdown["County Count"] - procedure_breakdown["Auditor Count"]
+            )
+
+            st.dataframe(procedure_breakdown, use_container_width=True)
+
+            st.subheader("County Findings Summary")
+
+            st.markdown(
+                f"""
+                <div class="section-box">
+                    <p><strong>County Missing Services:</strong> {len(county_missing_df)}</p>
+                    <p><strong>County Extra Services:</strong> {len(county_extra_df)}</p>
+                    <p><strong>Incorrect Rounded Minutes:</strong> {(county_clean_df["Rounded Minute Difference"] != 0).sum()}</p>
+                    <p><strong>County Billed Unit Variance:</strong> {county_clean_df["Unit Difference"].sum():,.2f}</p>
+                    <p><strong>Rounded Minute Variance:</strong> {rounded_minute_variance:,.2f}</p>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
             
             with st.expander("County Missing Services - Detail"):
                 st.dataframe(
