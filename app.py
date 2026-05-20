@@ -239,9 +239,10 @@ st.markdown(
     }
     
     div[data-testid="stFileUploaderDropzone"] {
-        background: rgba(0, 120, 255, 0.10);
-        border: 1px solid rgba(120, 200, 255, 0.28);
+        background: rgba(5, 20, 40, 0.92) !important;
+        border: 1px solid rgba(120, 220, 255, 0.55) !important;
         border-radius: 16px;
+        box-shadow: 0 0 18px rgba(0, 180, 255, 0.18);
     }
     
     div[data-testid="stFileUploaderDropzone"] * {
