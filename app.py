@@ -245,7 +245,8 @@ st.markdown(
     }
     
     div[data-testid="stFileUploaderDropzone"] * {
-    color: #ffffff !important;
+        color: #000000 !important;
+        font-weight: 600;
     }
     
     div[data-testid="stFileUploaderDropzone"]:hover {
