@@ -221,6 +221,33 @@ st.markdown(
         border-radius: 16px;
         padding: 1rem;
     }
+    
+    label,
+    .stMarkdown,
+    .stText,
+    .stNumberInput label,
+    .stFileUploader label,
+    .stSelectbox label,
+    .stMultiSelect label,
+    .stExpander,
+    .streamlit-expanderHeader {
+        color: #dcecff !important;
+    }
+    
+    section[data-testid="stFileUploader"] small {
+        color: #9fc7ea !important;
+    }
+    
+    div[data-testid="stFileUploaderDropzone"] {
+        background: rgba(0, 120, 255, 0.10);
+        border: 1px solid rgba(120, 200, 255, 0.28);
+        border-radius: 16px;
+    }
+    
+    div[data-testid="stFileUploaderDropzone"]:hover {
+        border: 1px solid rgba(120, 220, 255, 0.65);
+        background: rgba(0, 140, 255, 0.16);
+    }
     </style>
     """,
     unsafe_allow_html=True,
