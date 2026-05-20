@@ -83,6 +83,21 @@ st.markdown(
         font-weight: 800;
         margin-bottom: 0.4rem;
     }
+
+    .auditor-title-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .auditor-logo {
+        width: 58px;
+        height: 58px;
+        object-fit: contain;
+        filter:
+            drop-shadow(0 0 12px rgba(0,255,255,0.55))
+            drop-shadow(0 0 28px rgba(0,170,255,0.35));
+    }
     
     .auditor-title {
         font-size: 4rem;
