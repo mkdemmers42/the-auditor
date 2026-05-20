@@ -97,6 +97,16 @@ st.markdown(
         letter-spacing: 0.5px;
     }
 
+    .auditor-tagline {
+    margin-top: 0.7rem;
+    font-size: 1rem;
+    font-style: italic;
+    letter-spacing: 1px;
+    color: #7ee7ff;
+    text-shadow:
+        0 0 10px rgba(126, 231, 255, 0.45);
+    }
+
     .section-box {
         background: rgba(255, 255, 255, 0.08);
         border: 1px solid rgba(255, 255, 255, 0.15);
@@ -395,10 +405,14 @@ st.markdown(
     <div class="auditor-hero">
         <div class="auditor-badge">OPERATIONAL INTELLIGENCE DASHBOARD</div>
         <div class="auditor-title">🕵️ THE AUDITOR</div>
-        <div class="auditor-subtitle">
-            Productivity • Engagement • Billing Reconciliation • County Audit Review
-        </div>
+    <div class="auditor-subtitle">
+        Productivity • Engagement • Billing Reconciliation • County Audit Review
     </div>
+
+    <div class="auditor-tagline">
+        The Proof is in the Pudding.
+    </div>
+        </div>
     """,
     unsafe_allow_html=True,
 )
