@@ -957,7 +957,7 @@ elif can_run:
                     "County rounded minutes minus Auditor rounded minutes"
                 )
 
-                        st.subheader("Procedure Breakdown Comparison")
+            st.subheader("Procedure Breakdown Comparison")
 
             auditor_proc_summary = (
                 auditor_compare_df
