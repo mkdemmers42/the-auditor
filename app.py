@@ -237,36 +237,42 @@ st.markdown(
     section[data-testid="stFileUploader"] small {
         color: #9fc7ea !important;
     }
-    
-    div[data-testid="stFileUploaderDropzone"] {
-        background: rgba(5, 20, 40, 0.92) !important;
-        border: 1px solid rgba(120, 220, 255, 0.55) !important;
-        border-radius: 16px;
-        box-shadow: 0 0 18px rgba(0, 180, 255, 0.18);
-    }
-    
+      
     div[data-testid="stFileUploaderDropzone"] * {
         color: #000000 !important;
         font-weight: 600;
     }
-    
-    div[data-testid="stFileUploaderDropzone"]:hover {
-        border: 1px solid rgba(120, 220, 255, 0.65);
-        background: rgba(0, 140, 255, 0.16);
+       
+    section[data-testid="stFileUploader"] {
+    background: rgba(7, 20, 38, 0.65);
+    border: 1px solid rgba(65, 135, 255, 0.55);
+    border-radius: 18px;
+    padding: 0.85rem;
     }
-
-   section[data-testid="stFileUploader"] button {
-        background: rgba(0, 140, 255, 0.85) !important;
-        color: #ffffff !important;
-        border: 1px solid rgba(120, 220, 255, 0.65) !important;
-        border-radius: 10px !important;
+    
+    div[data-testid="stFileUploaderDropzone"] {
+        background: rgba(255, 255, 255, 0.04) !important;
+        border: 1px dashed rgba(120, 200, 255, 0.38) !important;
+        border-radius: 14px !important;
+    }
+    
+    section[data-testid="stFileUploader"] button {
+        background: #f3f6fb !important;
+        color: #000000 !important;
+        border: 1px solid rgba(255, 255, 255, 0.75) !important;
+        border-radius: 8px !important;
+        font-weight: 800 !important;
+    }
+    
+    section[data-testid="stFileUploader"] button * {
+        color: #000000 !important;
+        font-weight: 800 !important;
+    }
+    
+    section[data-testid="stFileUploader"] small {
+        color: #9dccff !important;
         font-weight: 700 !important;
     }
-    
-    section[data-testid="stFileUploader"] button:hover {
-        background: rgba(0, 170, 255, 1) !important;
-        color: #ffffff !important;
-    } 
     
     </style>
     """,
