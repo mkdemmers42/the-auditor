@@ -254,6 +254,19 @@ st.markdown(
         border: 1px solid rgba(120, 220, 255, 0.65);
         background: rgba(0, 140, 255, 0.16);
     }
+
+   section[data-testid="stFileUploader"] button {
+        background: rgba(0, 140, 255, 0.85) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(120, 220, 255, 0.65) !important;
+        border-radius: 10px !important;
+        font-weight: 700 !important;
+    }
+    
+    section[data-testid="stFileUploader"] button:hover {
+        background: rgba(0, 170, 255, 1) !important;
+        color: #ffffff !important;
+    } 
     </style>
     """,
     unsafe_allow_html=True,
