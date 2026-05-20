@@ -766,7 +766,7 @@ elif can_run:
         )
 
         # KPI Cards
-        st.subheader("Productivity Cards")
+        st.subheader("The Proof")
 
         row1 = st.columns(3)
         with row1[0]:
