@@ -898,7 +898,7 @@ elif can_run:
             metric_card(
                 "Units Billed",
                 format_number(results["units_billed"]),
-                "Each completed row converted using 15-minute chart"),
+                "Each completed row converted using 15-minute chart",
                 variant="orange",
                 icon="⏱️"
         with row2[2]:
