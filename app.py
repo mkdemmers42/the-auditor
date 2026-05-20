@@ -1,7 +1,6 @@
 
 import re
 import math
-from io import BytesIO
 
 import pandas as pd
 import streamlit as st
@@ -814,26 +813,7 @@ elif can_run:
                     mime="text/csv",
                 )
         
-  
-        # Downloadable summary
-        summary_df = pd.DataFrame(
-                [
-                    {"Metric": "Hours Worked", "Value": results["hours_worked"]},
-                    {"Metric": "Minutes Worked", "Value": results["minutes_worked"]},
-                    {"Metric": "Minutes Billed", "Value": results["minutes_billed"]},
-                    {"Metric": "Productivity Minutes %", "Value": results["productivity_minutes_percent"]},
-                    {"Metric": "Units Billed", "Value": results["units_billed"]},
-                    {"Metric": "Rounded Minutes from Units", "Value": results["rounded_minutes_from_units"]},
-                    {"Metric": "Productivity Units %", "Value": results["productivity_units_percent"]},
-                    {"Metric": "Non-Billable Total", "Value": results["non_billable_total"]},
-                    {"Metric": "Non-Billable %", "Value": results["non_billable_percent"]},
-                    {"Metric": "Documentation Total", "Value": "N/A"},
-                    {"Metric": "Documentation %", "Value": "N/A"},
-                    {"Metric": "Travel Total", "Value": "N/A"},
-                    {"Metric": "Travel %", "Value": "N/A"},
-                ]
-            )
-    
+     
         st.markdown("---")
 
         st.subheader("The County Auditor")
@@ -1014,8 +994,6 @@ elif can_run:
                 file_name="county_audit_findings.csv",
                 mime="text/csv",
             )
-
-            st.subheader("County Findings Summary")
            
             with st.expander("County Missing Services - Detail"):
                 st.dataframe(
