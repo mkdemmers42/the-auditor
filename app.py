@@ -117,7 +117,7 @@ st.markdown(
     }
 
     .auditor-tagline {
-    margin-top: 0.15rem;
+    margin-top: 0rem;
     font-size: 1rem;
     font-style: italic;
     letter-spacing: 1px;
