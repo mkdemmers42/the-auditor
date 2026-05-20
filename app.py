@@ -1097,7 +1097,12 @@ elif can_run:
                     "Total county unit variance"
                 )
 
-            county_recon_row = st.columns(2)
+            county_productivity = safe_percent(
+                county_clean_df["County Rounded Minutes"].sum(),
+                results["minutes_worked"]
+            )
+
+            county_recon_row = st.columns(3)
             
             with county_recon_row[0]:
                 metric_card(
@@ -1111,6 +1116,13 @@ elif can_run:
                     "County Extra Services",
                     format_number(len(county_extra_df)),
                     "County services not found in Auditor"
+                )
+
+            with county_recon_row[2]:
+                metric_card(
+                    "County Productivity %",
+                    format_percent(county_productivity),
+                    "County rounded minutes ÷ Minutes Worked"
                 )
 
             county_variance_row = st.columns(1)
