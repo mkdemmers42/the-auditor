@@ -990,6 +990,31 @@ elif can_run:
 
             st.dataframe(procedure_breakdown, use_container_width=True)
 
+            county_audit_report = pd.concat(
+                [
+                    pd.DataFrame([
+                        {"Finding Type": "Summary", "Detail": "County Missing Services", "Value": len(county_missing_df)},
+                        {"Finding Type": "Summary", "Detail": "County Extra Services", "Value": len(county_extra_df)},
+                        {"Finding Type": "Summary", "Detail": "Incorrect Rounded Minutes", "Value": (county_clean_df["Rounded Minute Difference"] != 0).sum()},
+                        {"Finding Type": "Summary", "Detail": "County Billed Unit Variance", "Value": county_clean_df["Unit Difference"].sum()},
+                        {"Finding Type": "Summary", "Detail": "Rounded Minute Variance", "Value": rounded_minute_variance},
+                    ]),
+                    county_missing_df.assign(**{"Finding Type": "County Missing Services"}),
+                    county_extra_df.assign(**{"Finding Type": "County Extra Services"}),
+                    county_clean_df[county_clean_df["Rounded Minute Difference"] != 0].assign(**{"Finding Type": "Incorrect Rounded Minutes"}),
+                    county_clean_df[county_clean_df["Unit Difference"] != 0].assign(**{"Finding Type": "County Billed Unit Variance"}),
+                ],
+                ignore_index=True,
+                sort=False,
+            )
+
+            st.download_button(
+                "Download County Audit Findings CSV",
+                data=county_audit_report.to_csv(index=False).encode("utf-8"),
+                file_name="county_audit_findings.csv",
+                mime="text/csv",
+            )
+
             st.subheader("County Findings Summary")
            
             with st.expander("County Missing Services - Detail"):
