@@ -55,8 +55,11 @@ st.markdown(
     """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
-    .stApp {
+    html, body, [class*="css"]  {
         font-family: 'Montserrat', sans-serif;
+    }
+    
+    .stApp {
     
         background:
             linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
