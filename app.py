@@ -599,7 +599,7 @@ if services_file is not None and caseload_file is None:
 
     st.markdown("<div style='margin-top: 12px;'></div>", unsafe_allow_html=True)
     
-    gate_col1, gate_col2 = st.columns(2)
+    gate_col1, gate_col2, gate_spacer = st.columns([1, 1, 4])
 
     with gate_col1:
         if st.button("No, just productivity"):
