@@ -746,15 +746,15 @@ elif can_run:
     
             no_show_cancelled = int(no_show_cancel_mask.sum())
 
-        pudding_results = {
-            "total_caseload": total_caseload,
-            "total_services_rendered": total_services_rendered,
-            "successful_engagements": successful_engagements,
-            "non_billable_services": non_billable_services,
-            "attempts_only_no_engagement": attempts_only_no_engagement,
-            "no_attempts_no_engagement": no_attempts_no_engagement,
-            "no_show_cancelled": no_show_cancelled,
-        }        
+            pudding_results = {
+                "total_caseload": total_caseload,
+                "total_services_rendered": total_services_rendered,
+                "successful_engagements": successful_engagements,
+                "non_billable_services": non_billable_services,
+                "attempts_only_no_engagement": attempts_only_no_engagement,
+                "no_attempts_no_engagement": no_attempts_no_engagement,
+                "no_show_cancelled": no_show_cancelled,
+            }        
 
         st.markdown(
             """
