@@ -699,7 +699,16 @@ elif can_run:
 
         employee_name = normalize_text(services_df.iloc[0, 3])
 
+        services_dates = pd.to_datetime(
+            services_df.iloc[:, 1],
+            errors="coerce"
+        )
         
+        audit_start = services_dates.min().strftime("%m/%d/%Y")
+        audit_end = services_dates.max().strftime("%m/%d/%Y")
+        
+        st.markdown(
+            f"""
 
         st.markdown(
             f"""
