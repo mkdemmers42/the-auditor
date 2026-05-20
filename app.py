@@ -887,6 +887,19 @@ elif can_run:
                 ~county_clean_df["Match Key"].isin(auditor_keys)
             ].copy()
 
+            auditor_total_rounded_minutes = (
+                auditor_compare_df["_calculated_units"].sum() * 15
+            )
+                
+            county_total_rounded_minutes = (
+                county_clean_df["County Rounded Minutes"].sum()
+            )
+                
+            rounded_minute_variance = (
+                county_total_rounded_minutes
+                - auditor_total_rounded_minutes
+            )
+
             st.subheader("County File Math Check")
 
             county_math_row = st.columns(4)
@@ -933,6 +946,15 @@ elif can_run:
                     "County Extra Services",
                     format_number(len(county_extra_df)),
                     "County services not found in Auditor"
+                )
+
+            county_variance_row = st.columns(1)
+
+            with county_variance_row[0]:
+                metric_card(
+                    "Rounded Minute Variance",
+                    format_number(rounded_minute_variance),
+                    "County rounded minutes minus Auditor rounded minutes"
                 )
             
             with st.expander("County Missing Services - Detail"):
