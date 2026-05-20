@@ -969,6 +969,8 @@ elif can_run:
                 "Total Caseload",
                 format_number(pudding_results["total_caseload"]),
                 "Total rows from Caseload file",
+                variant="green",
+                icon="✅"
             )
         
         with pudding_row1[1]:
