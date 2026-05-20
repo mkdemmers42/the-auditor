@@ -55,7 +55,16 @@ st.markdown(
     """
     <style>
     .stApp {
-        background: linear-gradient(135deg, #07111f 0%, #10233d 45%, #183a5a 100%);
+        background:
+            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(135deg, #06101c 0%, #0d1f36 45%, #14324d 100%);
+    
+        background-size:
+            40px 40px,
+            40px 40px,
+            cover;
+    
         color: #f5f7fb;
     }
 
