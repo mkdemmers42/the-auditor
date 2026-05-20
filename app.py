@@ -290,6 +290,38 @@ st.markdown(
     div[data-testid="stAlert"] {
     color: #dcecff !important;
     }
+
+    .audit-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(10, 20, 40, 0.92),
+            rgba(18, 38, 70, 0.88)
+        );
+
+    border: 1px solid rgba(120, 220, 255, 0.22);
+    border-radius: 26px;
+
+    padding: 1.5rem 2.5rem;
+    margin-bottom: 1.5rem;
+
+    box-shadow:
+        0 0 24px rgba(0, 140, 255, 0.10),
+        inset 0 0 18px rgba(255,255,255,0.03);
+}
+
+.audit-banner-item {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffffff;
+
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.12);
+}
     
     </style>
     """,
@@ -542,6 +574,21 @@ st.markdown(
         The Proof is in the Pudding.
     </div>
         </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+st.markdown(
+    """
+    <div class="audit-banner">
+        <div class="audit-banner-item">
+            Employee: Valenzuela, Delores
+        </div>
+
+        <div class="audit-banner-item">
+            Audit Period: 04/01/2026 - 04/30/2026
+        </div>
+    </div>
     """,
     unsafe_allow_html=True,
 )
