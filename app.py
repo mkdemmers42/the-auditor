@@ -459,7 +459,7 @@ st.markdown(
 # -----------------------------
 with st.container():
     st.markdown("<div class='section-box'>", unsafe_allow_html=True)
-    st.subheader("Setup")
+    st.subheader("The Ingredients")
 
     col1, col2, col3 = st.columns([1, 1.2, 1.2])
 
