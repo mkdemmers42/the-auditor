@@ -91,8 +91,8 @@ st.markdown(
     }
     
     .auditor-logo {
-        width: 58px;
-        height: 58px;
+        width: 116px;
+        height: 116px;
         object-fit: contain;
         filter:
             drop-shadow(0 0 12px rgba(0,255,255,0.55))
