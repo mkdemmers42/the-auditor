@@ -4,6 +4,7 @@ import math
 
 import pandas as pd
 import streamlit as st
+from PIL import Image
 
 
 # ============================================================
@@ -400,11 +401,19 @@ def metric_card(label: str, value: str, note: str = ""):
 # -----------------------------
 # Header
 # -----------------------------
+logo = Image.open("auditor_logo.png")
+buffered = BytesIO()
+logo.save(buffered, format="PNG")
+logo_base64 = base64.b64encode(buffered.getvalue()).decode()
+
 st.markdown(
     """
     <div class="auditor-hero">
         <div class="auditor-badge">OPERATIONAL INTELLIGENCE DASHBOARD</div>
-        <div class="auditor-title">🕵️ THE AUDITOR</div>
+        <div class="auditor-title-row">
+            <img src="data:image/png;base64,{logo_base64}" class="auditor-logo">
+            <div class="auditor-title">THE AUDITOR</div>
+        </div>
     <div class="auditor-subtitle">
         Productivity • Engagement • Billing Reconciliation • County Audit Review
     </div>
