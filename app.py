@@ -718,10 +718,10 @@ elif can_run:
                 <div class="audit-banner-item">
                     Audit Period: {audit_start} to {audit_end}
                 </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
         columns_ok, missing_columns = find_required_columns(services_df)
         if not columns_ok:
