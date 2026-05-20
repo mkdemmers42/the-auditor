@@ -859,9 +859,21 @@ elif can_run:
 
         row1 = st.columns(3)
         with row1[0]:
-            metric_card("Hours Worked", format_number(results["hours_worked"]), "Manual user input")
+            metric_card(
+                "Hours Worked",
+                format_number(results["hours_worked"]),
+                "Manual user input",
+                variant="green",
+                icon="⏱️"
+            )
         with row1[1]:
-            metric_card("Minutes Worked", format_number(results["minutes_worked"]), "Hours Worked × 60")
+            metric_card(
+                "Minutes Worked", 
+                format_number(results["minutes_worked"]),
+                "Hours Worked × 60"
+                variant="green",
+                icon="⏱️"
+            )
         with row1[2]:
             metric_card("Minutes Billed", format_number(results["minutes_billed"]), "Sum of ServiceUnits where Status = Complete")
 
