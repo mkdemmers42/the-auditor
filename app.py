@@ -59,11 +59,25 @@ st.markdown(
         font-family: 'Montserrat', sans-serif;
     }
     
-    html, body, .stApp, .stApp p, .stApp span, .stApp label, .stApp button {
-        font-family: 'Montserrat', sans-serif !important;
+    .stApp {
+        font-family: 'Montserrat', sans-serif;
+        background:
+            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(135deg, #06101c 0%, #0d1f36 45%, #14324d 100%);
+    
+        background-size:
+            40px 40px,
+            40px 40px,
+            cover;
+    
+        color: #f5f7fb;
     }
     
-    h1, h2, h3, h4, h5, h6 {
+    .auditor-hero,
+    .auditor-hero *,
+    .metric-card,
+    .metric-card * {
         font-family: 'Montserrat', sans-serif !important;
     }
 
