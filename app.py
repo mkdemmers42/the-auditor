@@ -267,6 +267,7 @@ st.markdown(
         background: rgba(0, 170, 255, 1) !important;
         color: #ffffff !important;
     } 
+    
     </style>
     """,
     unsafe_allow_html=True,
