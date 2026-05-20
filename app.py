@@ -991,20 +991,7 @@ elif can_run:
             st.dataframe(procedure_breakdown, use_container_width=True)
 
             st.subheader("County Findings Summary")
-
-            st.markdown(
-                f"""
-                <div class="section-box">
-                    <p><strong>County Missing Services:</strong> {len(county_missing_df)}</p>
-                    <p><strong>County Extra Services:</strong> {len(county_extra_df)}</p>
-                    <p><strong>Incorrect Rounded Minutes:</strong> {(county_clean_df["Rounded Minute Difference"] != 0).sum()}</p>
-                    <p><strong>County Billed Unit Variance:</strong> {county_clean_df["Unit Difference"].sum():,.2f}</p>
-                    <p><strong>Rounded Minute Variance:</strong> {rounded_minute_variance:,.2f}</p>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-            
+           
             with st.expander("County Missing Services - Detail"):
                 st.dataframe(
                     county_missing_df,
