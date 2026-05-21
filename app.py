@@ -1064,6 +1064,8 @@ elif can_run:
                 icon="✅"
             )
         
+        st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+        
         pudding_row2 = st.columns(3)
         
         with pudding_row2[0]:
