@@ -886,7 +886,7 @@ elif can_run:
                 "Minutes Billed", 
                 format_number(results["minutes_billed"]), 
                 "Sum of ServiceUnits where Status = Complete",
-                variant="orange",
+                variant="purple",
                 icon="⏱️"
             )
 
@@ -912,7 +912,7 @@ elif can_run:
                 "Units Billed",
                 format_number(results["units_billed"]),
                 "Each completed row converted using 15-minute chart",
-                variant="orange",
+                variant="purple",
                 icon="⏱️"
             )
 
@@ -933,11 +933,30 @@ elif can_run:
 
         row3 = st.columns(3)
         with row3[0]:
-            metric_card("Non-Billable Total", format_number(results["non_billable_total"]), "Two verified non-billable procedures")
+            metric_card(
+                "Non-Billable Total", 
+                format_number(results["non_billable_total"]), 
+                "Two verified non-billable procedures",
+                variant="blue",
+                icon="🧠"
+            )
+            
         with row3[1]:
-            metric_card("Non-Billable %", format_percent(results["non_billable_percent"]), "Non-Billable Total ÷ Minutes Worked")
+            metric_card(
+                "Non-Billable %", 
+                format_percent(results["non_billable_percent"]), 
+                "Non-Billable Total ÷ Minutes Worked",
+                variant="blue",
+                icon="🧠"
+            )
         with row3[2]:
-            metric_card("Rounded Minutes", format_number(results["rounded_minutes_from_units"]), "Stored for Productivity Units %")
+            metric_card(
+                "Rounded Minutes", 
+                format_number(results["rounded_minutes_from_units"]), 
+                "Stored for Productivity Units %",
+                variant="blue",
+                icon="🧠"
+            )
 
         st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
 
