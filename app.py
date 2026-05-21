@@ -702,29 +702,6 @@ if services_file is not None and caseload_file is None:
 
 
 # -----------------------------
-# Future Options
-# -----------------------------
-with st.expander("Future Audit Options"):
-    county_audit = st.checkbox("Would you like to audit the county?")
-    if county_audit:
-        county_file = st.file_uploader(
-            "Upload: County Productivity",
-            type=["xlsx"],
-            help="Coming soon. County audit logic is not operational in Phase 1.",
-        )
-        st.warning("County Audit is under development and will not run in this version.")
-
-    doc_travel = st.checkbox("Would you like to calculate Documentation & Travel totals?")
-    if doc_travel:
-        sdr_file = st.file_uploader(
-            "Upload: SDR",
-            type=["xlsx"],
-            help="Coming soon. Documentation and Travel logic is not operational in Phase 1.",
-        )
-        st.warning("Documentation and Travel totals are under development and will not run in this version.")
-
-
-# -----------------------------
 # Validation and Calculation
 # -----------------------------
 can_run = services_file is not None and hours_worked > 0 and (caseload_file is not None or st.session_state.get("productivity_only", False))
