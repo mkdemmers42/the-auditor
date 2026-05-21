@@ -1286,6 +1286,8 @@ elif can_run:
                     "Total county unit variance"
                 )
 
+            st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+
             county_productivity = safe_percent(
                 county_clean_df["County Rounded Minutes"].sum(),
                 results["minutes_worked"]
@@ -1322,8 +1324,6 @@ elif can_run:
                     format_number(rounded_minute_variance),
                     "County rounded minutes minus Auditor rounded minutes"
                 )
-
-            st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
 
             st.subheader("Procedure Breakdown Comparison")
 
