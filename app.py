@@ -373,7 +373,8 @@ st.markdown(
 }
 
 .audit-table {
-    width: 100%;
+    width: 80%;
+    margin: auto;
     border-collapse: collapse;
     background: rgba(15, 24, 45, 0.78);
     border: 1px solid rgba(120, 220, 255, 0.28);
