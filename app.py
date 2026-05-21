@@ -1143,7 +1143,7 @@ elif can_run:
         proof_col1, proof_col2 = st.columns(2)
 
         with proof_col1:
-            with st.expander("Successful Engagement List"):
+            with st.expander("Successful Engagement - Client List"):
                 display_cols = [
                     "Client Name",
                     "DOS",
@@ -1164,7 +1164,7 @@ elif can_run:
                 )
 
         with proof_col2:
-            with st.expander("Non-Billable Services Rendered List"):
+            with st.expander("Non-Billable Services Rendered - Client List"):
                 display_cols = [
                     "Client Name",
                     "DOS",
