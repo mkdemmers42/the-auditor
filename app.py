@@ -1524,14 +1524,7 @@ elif can_run:
                 )
 
                 st.markdown("<div style='margin-top: 24px;'></div>", unsafe_allow_html=True)
-
-                st.download_button(
-                    "Download County Audit Findings CSV",
-                    data=county_audit_report.to_csv(index=False).encode("utf-8"),
-                    file_name="county_audit_findings.csv",
-                    mime="text/csv",
-                )
-    
+   
     except Exception as exc:
         st.error("The Auditor hit an issue while reading the file.")
         st.exception(exc)
