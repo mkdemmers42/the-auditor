@@ -1101,7 +1101,7 @@ elif can_run:
         )
 
         st.markdown(
-            "<div class='small-muted' style='margin-top: -6px;'>Use drop downs to view the lists of clients found for each report.</div>"
+            "<div class='small-muted' style='margin-top: -6px;'>Use drop downs to view the lists of clients found for each report.</div>",
             unsafe_allow_html=True,
         )
         
