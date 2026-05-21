@@ -936,11 +936,9 @@ elif can_run:
             )
 
         st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
-
-        st.info("**To see Documentation time and Travel Times, please upload Staff Service Detail Report.**")
-        
+   
         detailed_service_file = st.file_uploader(
-            "Upload: Staff Service Detail Report",
+            "To see Documentation Time and Travel Time totals, upload: Staff Service Detail Report",
             type=["xlsx"],
             help="Upload the Staff Service Detail Report to calculate Documentation and Travel totals.",
             key="staff_service_detail_report_upload",
