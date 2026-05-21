@@ -1316,6 +1316,8 @@ elif can_run:
                     "County rounded minutes ÷ Minutes Worked"
                 )
 
+            st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+
             county_variance_row = st.columns(1)
 
             with county_variance_row[0]:
