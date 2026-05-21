@@ -1303,6 +1303,10 @@ elif can_run:
                     results["productivity_units_percent"]
                 )
             )
+
+            rounded_variance_variant, rounded_variance_icon = get_match_card_style(
+                values_match(rounded_minute_variance, 0)
+            )
             
             st.subheader("County File Math Check")
 
@@ -1321,21 +1325,27 @@ elif can_run:
                 metric_card(
                     "County Rounded Minutes",
                     format_number(county_clean_df["County Rounded Minutes"].sum()),
-                    "Sum of county Minutes2"
+                    "Sum of county Minutes2",
+                    variant=county_minutes_variant,
+                    icon=county_minutes_icon
                 )
 
             with county_math_row[2]:
                 metric_card(
                     "Incorrect Rounded Minutes",
-                    format_number((county_clean_df["Rounded Minute Difference"] != 0).sum()),
-                    "Rows where county rounding differs"
+                    format_number(incorrect_rounded_count),
+                    "Rows where county rounding differs",
+                    variant=incorrect_rounded_variant,
+                    icon=incorrect_rounded_icon
                 )
 
             with county_math_row[3]:
                 metric_card(
                     "County Billed Unit Variance",
-                    format_number(county_clean_df["Unit Difference"].sum()),
-                    "Total county unit variance"
+                    format_number(unit_variance_total),
+                    "Total county unit variance",
+                    variant=unit_variance_variant,
+                    icon=unit_variance_icon
                 )
 
             st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
@@ -1346,21 +1356,27 @@ elif can_run:
                 metric_card(
                     "County Missing Services",
                     format_number(len(county_missing_df)),
-                    "Auditor services not found in county file"
+                    "Auditor services not found in county file",
+                    variant=missing_services_variant,
+                    icon=missing_services_icon
                 )
             
             with county_recon_row[1]:
                 metric_card(
                     "County Extra Services",
                     format_number(len(county_extra_df)),
-                    "County services not found in Auditor"
+                    "County services not found in Auditor",
+                    variant=extra_services_variant,
+                    icon=extra_services_icon
                 )
 
             with county_recon_row[2]:
                 metric_card(
                     "County Productivity %",
                     format_percent(county_productivity),
-                    "County rounded minutes ÷ Minutes Worked"
+                    "County rounded minutes ÷ Minutes Worked",
+                    variant=county_productivity_variant,
+                    icon=county_productivity_icon
                 )
 
             st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
@@ -1371,7 +1387,9 @@ elif can_run:
                 metric_card(
                     "Rounded Minute Variance",
                     format_number(rounded_minute_variance),
-                    "County rounded minutes minus Auditor rounded minutes"
+                    "County rounded minutes minus Auditor rounded minutes",
+                    variant=rounded_variance_variant,
+                    icon=rounded_variance_icon
                 )
 
             st.subheader("Procedure Breakdown Comparison")
