@@ -371,6 +371,29 @@ st.markdown(
     text-shadow:
         0 0 10px rgba(255,255,255,0.12);
 }
+
+.audit-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(15, 24, 45, 0.78);
+    border: 1px solid rgba(120, 220, 255, 0.28);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 0 24px rgba(0, 140, 255, 0.16);
+}
+
+.audit-table th {
+    background: rgba(255, 255, 255, 0.10);
+    color: #eaf6ff;
+    padding: 12px;
+    text-align: left;
+}
+
+.audit-table td {
+    color: #ffffff;
+    padding: 12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
     
     </style>
     """,
@@ -1459,10 +1482,9 @@ elif can_run:
                 unsafe_allow_html=True,
             )
             
-            st.dataframe(
-                styled_procedure_breakdown,
-                use_container_width=True,
-                height=220
+            st.markdown(
+                procedure_breakdown.to_html(index=False, classes="audit-table"),
+                unsafe_allow_html=True,
             )
             
             st.markdown("</div>", unsafe_allow_html=True)
