@@ -1323,6 +1323,8 @@ elif can_run:
                     "County rounded minutes minus Auditor rounded minutes"
                 )
 
+            st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+
             st.subheader("Procedure Breakdown Comparison")
 
             auditor_proc_summary = (
