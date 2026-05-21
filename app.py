@@ -1096,6 +1096,12 @@ elif can_run:
         st.markdown("<div style='margin-top: 22px;'></div>", unsafe_allow_html=True)
         
         st.subheader("The Pudding Lists Details")
+
+        st.markdown(
+            "<div class='small-muted'>Use drop downs to view the lists of clients found for each report.</div>",
+            unsafe_allow_html=True,
+        )
+        
         proof_col1, proof_col2 = st.columns(2)
 
         with proof_col1:
