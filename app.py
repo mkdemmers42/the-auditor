@@ -1143,7 +1143,7 @@ elif can_run:
         proof_col1, proof_col2 = st.columns(2)
 
         with proof_col1:
-            with st.expander("Productivity Procedures - Client List"):
+            with st.expander("Successful Engagement List"):
                 display_cols = [
                     "Client Name",
                     "DOS",
