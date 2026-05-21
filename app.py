@@ -1095,10 +1095,13 @@ elif can_run:
 
         st.markdown("<div style='margin-top: 22px;'></div>", unsafe_allow_html=True)
         
-        st.subheader("The Pudding Lists Details")
+        st.markdown(
+            "<h3 style='margin-bottom: 0.15rem;'>The Pudding Lists Details</h3>",
+            unsafe_allow_html=True,
+        )
 
         st.markdown(
-            "<div class='small-muted'>Use drop downs to view the lists of clients found for each report.</div>",
+            "<div class='small-muted' style='margin-top: -6px;'>Use drop downs to view the lists of clients found for each report.</div>"
             unsafe_allow_html=True,
         )
         
