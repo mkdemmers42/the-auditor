@@ -1486,13 +1486,17 @@ elif can_run:
                 sort=False,
             )
           
-            with st.expander("County Missing Services - Detail"):
+            dropdown_row1 = st.columns(2)
+            
+            with dropdown_row1[0]:
+                with st.expander("County Missing Services - Detail"):
                 st.dataframe(
                     county_missing_df,
                     use_container_width=True
                 )
             
-            with st.expander("County Extra Services - Detail"):
+            with dropdown_row1[1]:
+                with st.expander("County Extra Services - Detail"):
                 st.dataframe(
                     county_extra_df,
                     use_container_width=True
