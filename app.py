@@ -1485,14 +1485,7 @@ elif can_run:
                 ignore_index=True,
                 sort=False,
             )
-
-            st.download_button(
-                "Download County Audit Findings CSV",
-                data=county_audit_report.to_csv(index=False).encode("utf-8"),
-                file_name="county_audit_findings.csv",
-                mime="text/csv",
-            )
-           
+          
             with st.expander("County Missing Services - Detail"):
                 st.dataframe(
                     county_missing_df,
