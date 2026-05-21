@@ -1316,7 +1316,7 @@ elif can_run:
                 metric_card(
                     "County Services Found",
                     format_number(len(county_clean_df)),
-                    "Rows read from County Services Invoiced",
+                    "Should match Successful Engagements from The Pudding section",
                     variant=county_services_variant,
                     icon=county_services_icon
                 )
@@ -1325,7 +1325,7 @@ elif can_run:
                 metric_card(
                     "County Rounded Minutes",
                     format_number(county_clean_df["County Rounded Minutes"].sum()),
-                    "Sum of county Minutes2",
+                    "Should match Rounded Minutes from The Proof section",
                     variant=county_minutes_variant,
                     icon=county_minutes_icon
                 )
@@ -1334,7 +1334,7 @@ elif can_run:
                 metric_card(
                     "Incorrect Rounded Minutes",
                     format_number(incorrect_rounded_count),
-                    "Rows where county rounding differs",
+                    "Procedures identified as incorrect math/rounding by the County",
                     variant=incorrect_rounded_variant,
                     icon=incorrect_rounded_icon
                 )
@@ -1343,7 +1343,7 @@ elif can_run:
                 metric_card(
                     "County Billed Unit Variance",
                     format_number(unit_variance_total),
-                    "Total county unit variance",
+                    "Total unit variance found",
                     variant=unit_variance_variant,
                     icon=unit_variance_icon
                 )
@@ -1356,7 +1356,7 @@ elif can_run:
                 metric_card(
                     "County Missing Services",
                     format_number(len(county_missing_df)),
-                    "Auditor services not found in county file",
+                    "Total services not counted/billed for by the County",
                     variant=missing_services_variant,
                     icon=missing_services_icon
                 )
@@ -1365,7 +1365,7 @@ elif can_run:
                 metric_card(
                     "County Extra Services",
                     format_number(len(county_extra_df)),
-                    "County services not found in Auditor",
+                    "Extra services found in the County file",
                     variant=extra_services_variant,
                     icon=extra_services_icon
                 )
@@ -1387,7 +1387,7 @@ elif can_run:
                 metric_card(
                     "Rounded Minute Variance",
                     format_number(rounded_minute_variance),
-                    "County rounded minutes minus Auditor rounded minutes",
+                    "Total missing minutes identified by The Auditor and the County",
                     variant=rounded_variance_variant,
                     icon=rounded_variance_icon
                 )
