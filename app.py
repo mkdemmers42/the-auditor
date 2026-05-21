@@ -1502,11 +1502,14 @@ elif can_run:
                         use_container_width=True
                     )           
 
-            with st.expander("County Rounding / Unit Issues"):
-                issue_df = county_clean_df[
-                    (county_clean_df["Rounded Minute Difference"] != 0)
-                    | (county_clean_df["Unit Difference"] != 0)
-                ].copy()
+            dropdown_row2 = st.columns(2)
+
+            with dropdown_row2[0]:
+                with st.expander("County Rounding / Unit Issues"):
+                    issue_df = county_clean_df[
+                        (county_clean_df["Rounded Minute Difference"] != 0)
+                        | (county_clean_df["Unit Difference"] != 0)
+                    ].copy()
 
                 st.dataframe(issue_df, use_container_width=True)
 
@@ -1537,24 +1540,25 @@ elif can_run:
 # -----------------------------
 # Verified Logic Reference
 # -----------------------------
-with st.expander("Verified Phase 1 Logic"):
-    st.markdown(
-        """
-        **Hours Worked** = manual user input  
-        **Minutes Worked** = Hours Worked × 60  
-
-        **Minutes Billed** = Sum of `ServiceUnits` where `Status = Complete`  
-
-        **Productivity Minutes %** = Minutes Billed ÷ Minutes Worked × 100  
-
-        **Units Billed** = Each completed row converted individually using the 15-minute Medicare-style unit chart, then summed  
-
-        **Productivity Units %** = Rounded Minutes from Units Billed ÷ Minutes Worked × 100  
-
-        **Non-Billable Total** = Sum of `ServiceUnits` where `Procedure` is:
-        - Client Non Billable Srvc Must Document
-        - Non-billable Attempted Contact
-
-        **Non-Billable %** = Non-Billable Total ÷ Minutes Worked × 100
-        """
-    )
+with dropdown_row2[1]:
+    with st.expander("Verified Phase 1 Logic"):
+        st.markdown(
+            """
+            **Hours Worked** = manual user input  
+            **Minutes Worked** = Hours Worked × 60  
+    
+            **Minutes Billed** = Sum of `ServiceUnits` where `Status = Complete`  
+    
+            **Productivity Minutes %** = Minutes Billed ÷ Minutes Worked × 100  
+    
+            **Units Billed** = Each completed row converted individually using the 15-minute Medicare-style unit chart, then summed  
+    
+            **Productivity Units %** = Rounded Minutes from Units Billed ÷ Minutes Worked × 100  
+    
+            **Non-Billable Total** = Sum of `ServiceUnits` where `Procedure` is:
+            - Client Non Billable Srvc Must Document
+            - Non-billable Attempted Contact
+    
+            **Non-Billable %** = Non-Billable Total ÷ Minutes Worked × 100
+            """
+        )
