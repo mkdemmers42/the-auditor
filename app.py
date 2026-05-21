@@ -204,6 +204,16 @@ st.markdown(
     box-shadow: 0 0 20px rgba(255, 90, 110, 0.30);
 }
 
+.metric-card-white {
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.20);
+}
+
+.metric-card-pink {
+    border: 1px solid rgba(255, 105, 180, 0.80);
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.30);
+}
+
 .metric-icon {
     position: absolute;
     top: 18px;
@@ -976,28 +986,36 @@ elif can_run:
             metric_card(
                 "Documentation Total",
                 format_number(documentation_total),
-                "From Staff Service Detail Report"
+                "From Staff Service Detail Report",
+                variant="white",
+                icon="📋"
             )
 
         with row4[1]:
             metric_card(
                 "Documentation %",
                 format_percent(documentation_percent),
-                "Documentation Total ÷ Minutes Worked"
+                "Documentation Total ÷ Minutes Worked",
+                variant="white",
+                icon="📋"
             )
 
         with row4[2]:
             metric_card(
                 "Travel Total",
                 format_number(travel_total),
-                "From Staff Service Detail Report"
+                "From Staff Service Detail Report",
+                variant="white",
+                icon="🚗"
             )
 
         with row4[3]:
             metric_card(
                 "Travel %",
                 format_percent(travel_percent),
-                "Travel Total ÷ Minutes Worked"
+                "Travel Total ÷ Minutes Worked",
+                variant="white",
+                icon="🚗"
             )
 
         # ============================================================
