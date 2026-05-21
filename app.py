@@ -1392,9 +1392,9 @@ elif can_run:
                     icon=rounded_variance_icon
                 )
 
-            st.markdown("<div style='margin-top: 24px;'></div>", unsafe_allow_html=True)
+            st.markdown("<div style='margin-top: 48px;'></div>", unsafe_allow_html=True)
             
-            st.subheader("Procedure Breakdown Comparison")
+            st.subheader("Procedure Comparison; Services vs County Invoiced")
 
             auditor_proc_summary = (
                 auditor_compare_df
