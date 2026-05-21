@@ -1443,11 +1443,29 @@ elif can_run:
                 )
             )
             
+            st.markdown(
+                """
+                <div style="
+                    background: rgba(15, 24, 45, 0.78);
+                    border: 1px solid rgba(120, 220, 255, 0.22);
+                    border-radius: 20px;
+                    padding: 1rem;
+                    box-shadow:
+                        0 0 24px rgba(0, 140, 255, 0.12),
+                        inset 0 0 18px rgba(255,255,255,0.03);
+                    margin-top: 10px;
+                ">
+                """,
+                unsafe_allow_html=True,
+            )
+            
             st.dataframe(
                 styled_procedure_breakdown,
                 use_container_width=True,
                 height=220
             )
+            
+            st.markdown("</div>", unsafe_allow_html=True)
 
             county_audit_report = pd.concat(
                 [
