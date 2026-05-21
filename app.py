@@ -1186,12 +1186,10 @@ elif can_run:
         st.markdown("---")
 
         st.markdown(
-            "<h3 style='color: #ff5c6c; font-weight: 900; margin-bottom: -10px;'>The County Auditor</h3>",
+            "<h3 style='color: #ff5c6c; font-weight: 900; margin-bottom: -28px;'>The County Auditor</h3>",
             unsafe_allow_html=True,
         )
-
-        st.markdown("<div style='margin-top: -8px;'></div>", unsafe_allow_html=True)
-        
+      
         county_services_file = st.file_uploader(
             "Upload an Excel version of COUNTY SERVICES INVOICED to compare The Auditor against the man and locate those mistakes.",
             type=["xlsx"],
