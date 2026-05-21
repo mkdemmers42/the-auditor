@@ -1308,7 +1308,7 @@ elif can_run:
                 values_match(rounded_minute_variance, 0)
             )
             
-            st.subheader("County File Math Check")
+            st.subheader("County File Audited")
 
             county_math_row = st.columns(4)
 
@@ -1392,6 +1392,8 @@ elif can_run:
                     icon=rounded_variance_icon
                 )
 
+            st.markdown("<div style='margin-top: 24px;'></div>", unsafe_allow_html=True)
+            
             st.subheader("Procedure Breakdown Comparison")
 
             auditor_proc_summary = (
