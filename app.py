@@ -467,6 +467,15 @@ def get_productivity_card_style(value: float) -> tuple[str, str]:
         return "orange", "⏸️"
     return "red", "❗"
 
+def get_match_card_style(is_match: bool) -> tuple[str, str]:
+    if is_match:
+        return "green", "✅"
+    return "red", "❗"
+
+
+def values_match(value_1: float, value_2: float, tolerance: float = 0.01) -> bool:
+    return abs(float(value_1) - float(value_2)) <= tolerance
+
 
 def read_excel(uploaded_file) -> pd.DataFrame:
     """Read the first sheet from an uploaded Excel file."""
@@ -1254,6 +1263,47 @@ elif can_run:
                 - auditor_total_rounded_minutes
             )
 
+            county_services_variant, county_services_icon = get_match_card_style(
+                len(county_clean_df) == pudding_results["successful_engagements"]
+            )
+            
+            county_minutes_variant, county_minutes_icon = get_match_card_style(
+                values_match(
+                    county_clean_df["County Rounded Minutes"].sum(),
+                    results["rounded_minutes_from_units"]
+                )
+            )
+            
+            incorrect_rounded_count = (county_clean_df["Rounded Minute Difference"] != 0).sum()
+            incorrect_rounded_variant, incorrect_rounded_icon = get_match_card_style(
+                incorrect_rounded_count == 0
+            )
+            
+            unit_variance_total = county_clean_df["Unit Difference"].sum()
+            unit_variance_variant, unit_variance_icon = get_match_card_style(
+                values_match(unit_variance_total, 0)
+            )
+            
+            missing_services_variant, missing_services_icon = get_match_card_style(
+                len(county_missing_df) == 0
+            )
+            
+            extra_services_variant, extra_services_icon = get_match_card_style(
+                len(county_extra_df) == 0
+            )
+            
+            county_productivity = safe_percent(
+                county_clean_df["County Rounded Minutes"].sum(),
+                results["minutes_worked"]
+            )
+            
+            county_productivity_variant, county_productivity_icon = get_match_card_style(
+                values_match(
+                    county_productivity,
+                    results["productivity_units_percent"]
+                )
+            )
+            
             st.subheader("County File Math Check")
 
             county_math_row = st.columns(4)
@@ -1262,7 +1312,9 @@ elif can_run:
                 metric_card(
                     "County Services Found",
                     format_number(len(county_clean_df)),
-                    "Rows read from County Services Invoiced"
+                    "Rows read from County Services Invoiced",
+                    variant=county_services_variant,
+                    icon=county_services_icon
                 )
 
             with county_math_row[1]:
@@ -1287,11 +1339,6 @@ elif can_run:
                 )
 
             st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
-
-            county_productivity = safe_percent(
-                county_clean_df["County Rounded Minutes"].sum(),
-                results["minutes_worked"]
-            )
 
             county_recon_row = st.columns(3)
             
