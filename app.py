@@ -1490,17 +1490,17 @@ elif can_run:
             
             with dropdown_row1[0]:
                 with st.expander("County Missing Services - Detail"):
-                st.dataframe(
-                    county_missing_df,
-                    use_container_width=True
-                )
+                    st.dataframe(
+                        county_missing_df,
+                        use_container_width=True
+                    )
             
             with dropdown_row1[1]:
                 with st.expander("County Extra Services - Detail"):
-                st.dataframe(
-                    county_extra_df,
-                    use_container_width=True
-                )           
+                    st.dataframe(
+                        county_extra_df,
+                        use_container_width=True
+                    )           
 
             with st.expander("County Rounding / Unit Issues"):
                 issue_df = county_clean_df[
