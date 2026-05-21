@@ -1191,7 +1191,7 @@ elif can_run:
         )
 
         county_services_file = st.file_uploader(
-            "Upload: County Services Invoiced",
+            "Upload an Excel version of the County Services Invoiced to view comparison between us and the man",
             type=["xlsx"],
             help="Upload the County Services Invoiced file to compare county billing against The Auditor.",
             key="county_services_invoiced_upload",
