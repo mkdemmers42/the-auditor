@@ -899,7 +899,7 @@ elif can_run:
                 "Units Billed",
                 format_number(results["units_billed"]),
                 "Each completed row converted using 15-minute chart",
-                variant="purple",
+                variant="pink",
                 icon="⏱️"
             )
 
@@ -941,7 +941,7 @@ elif can_run:
                 "Rounded Minutes", 
                 format_number(results["rounded_minutes_from_units"]), 
                 "Stored for Productivity Units %",
-                variant="blue",
+                variant="pink",
                 icon="🧠"
             )
 
