@@ -1101,8 +1101,7 @@ elif can_run:
 )
 
         st.markdown(
-            "<div class='small-muted' style='margin-top: -10px;'>Use drop downs to view the lists of clients found for each report details.</div>",
-            unsafe_allow_html=True,
+            "<div class='small-muted' style='margin-top: -10px; margin-bottom: 18px;'>Use drop downs to view the lists of clients found for each report details.</div>",
         )
         
         proof_col1, proof_col2 = st.columns(2)
