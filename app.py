@@ -1164,7 +1164,7 @@ elif can_run:
                 )
 
         with proof_col2:
-            with st.expander("Non-Billable Total - Client List"):
+            with st.expander("Non-Billable Services Rendered List"):
                 display_cols = [
                     "Client Name",
                     "DOS",
