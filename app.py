@@ -1425,7 +1425,29 @@ elif can_run:
                 procedure_breakdown["County Count"] - procedure_breakdown["Auditor Count"]
             )
 
-            st.dataframe(procedure_breakdown, use_container_width=True)
+            styled_procedure_breakdown = (
+                procedure_breakdown
+                .style
+                .format({
+                    "Auditor Count": "{:,.0f}",
+                    "County Count": "{:,.0f}",
+                    "Difference": "{:+,.0f}",
+                })
+                .applymap(
+                    lambda value: (
+                        "background-color: rgba(85, 220, 150, 0.22); color: #eafff3; font-weight: 800;"
+                        if value == 0
+                        else "background-color: rgba(255, 90, 110, 0.22); color: #ffe8ec; font-weight: 900;"
+                    ),
+                    subset=["Difference"]
+                )
+            )
+            
+            st.dataframe(
+                styled_procedure_breakdown,
+                use_container_width=True,
+                height=220
+            )
 
             county_audit_report = pd.concat(
                 [
