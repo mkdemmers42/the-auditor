@@ -1418,7 +1418,10 @@ elif can_run:
 
             st.markdown("<div style='margin-top: 48px;'></div>", unsafe_allow_html=True)
             
-            st.subheader("Procedure Comparison:  Services vs County Invoiced")
+            st.markdown(
+                "<h3 style='text-align: center;'>Procedure Comparison: Services vs County Invoiced</h3>",
+                unsafe_allow_html=True,
+            )
 
             auditor_proc_summary = (
                 auditor_compare_df
@@ -1466,29 +1469,11 @@ elif can_run:
                     subset=["Difference"]
                 )
             )
-            
-            st.markdown(
-                """
-                <div style="
-                    background: rgba(15, 24, 45, 0.78);
-                    border: 1px solid rgba(120, 220, 255, 0.22);
-                    border-radius: 20px;
-                    padding: 1rem;
-                    box-shadow:
-                        0 0 24px rgba(0, 140, 255, 0.12),
-                        inset 0 0 18px rgba(255,255,255,0.03);
-                    margin-top: 10px;
-                ">
-                """,
-                unsafe_allow_html=True,
-            )
-            
+                       
             st.markdown(
                 procedure_breakdown.to_html(index=False, classes="audit-table"),
                 unsafe_allow_html=True,
             )
-            
-            st.markdown("</div>", unsafe_allow_html=True)
 
             county_audit_report = pd.concat(
                 [
