@@ -1186,7 +1186,7 @@ elif can_run:
         st.markdown("---")
 
         st.markdown(
-            "<h3 style='color: #ff5c6c; font-weight: 900; margin-bottom: -28px;'>The County Auditor</h3>",
+            "<h3 style='color: #ff5c6c; font-weight: 900; margin-bottom: -18px;'>The County Auditor</h3>",
             unsafe_allow_html=True,
         )
       
