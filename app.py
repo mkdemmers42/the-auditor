@@ -1185,7 +1185,10 @@ elif can_run:
      
         st.markdown("---")
 
-        st.subheader("The County Auditor")
+        st.markdown(
+            "<h3 style='color: #ff5c6c;'>The County Auditor</h3>",
+            unsafe_allow_html=True,
+        )
 
         county_services_file = st.file_uploader(
             "Upload: County Services Invoiced",
