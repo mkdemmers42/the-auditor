@@ -1394,7 +1394,7 @@ elif can_run:
 
             st.markdown("<div style='margin-top: 48px;'></div>", unsafe_allow_html=True)
             
-            st.subheader("Procedure Comparison; Services vs County Invoiced")
+            st.subheader("Procedure Comparison:  Services vs County Invoiced")
 
             auditor_proc_summary = (
                 auditor_compare_df
