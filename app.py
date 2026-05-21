@@ -1093,6 +1093,8 @@ elif can_run:
                 icon="❌"
             )
 
+        st.markdown("<div style='margin-top: 22px;'></div>", unsafe_allow_html=True)
+        
         st.subheader("The Pudding Lists Details")
         proof_col1, proof_col2 = st.columns(2)
 
