@@ -935,7 +935,7 @@ elif can_run:
         with row3[1]:
             metric_card("Non-Billable %", format_percent(results["non_billable_percent"]), "Non-Billable Total ÷ Minutes Worked")
         with row3[2]:
-            metric_card("Rounded Minutes from Units", format_number(results["rounded_minutes_from_units"]), "Stored for Productivity Units %")
+            metric_card("Rounded Minutes", format_number(results["rounded_minutes_from_units"]), "Stored for Productivity Units %")
 
         st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
 
