@@ -1096,7 +1096,7 @@ elif can_run:
         st.markdown("<div style='margin-top: 22px;'></div>", unsafe_allow_html=True)
         
         st.markdown(
-            "<h3 style='margin-bottom: 0.15rem;'>The Pudding Lists Details</h3>",
+            "<h3 style='margin-bottom: 0rem;'>The Pudding Lists Details</h3>",
             unsafe_allow_html=True,
         )
 
