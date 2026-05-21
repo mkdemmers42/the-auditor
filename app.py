@@ -1051,6 +1051,8 @@ elif can_run:
                 "Successful Engagements",
                 format_number(pudding_results["successful_engagements"]),
                 "Completed billable services",
+                variant="green",
+                icon="✅"
             )
         
         with pudding_row1[3]:
@@ -1058,6 +1060,8 @@ elif can_run:
                 "Non-Billable Services Rendered",
                 format_number(pudding_results["non_billable_services"]),
                 "Completed non-billable services",
+                variant="orange",
+                icon="✅"
             )
         
         pudding_row2 = st.columns(3)
@@ -1067,6 +1071,8 @@ elif can_run:
                 "Attempts Only / No Engagement",
                 format_number(pudding_results["attempts_only_no_engagement"]),
                 "Non-billable only clients",
+                variant="pink",
+                icon="❌"
             )
         
         with pudding_row2[1]:
@@ -1074,6 +1080,8 @@ elif can_run:
                 "No Attempts / No Engagement",
                 format_number(pudding_results["no_attempts_no_engagement"]),
                 "Caseload clients missing from Services",
+                variant="red",
+                icon="❌"
             )
         
         with pudding_row2[2]:
@@ -1081,9 +1089,11 @@ elif can_run:
                 "No Shows / Cancelled Appointments",
                 format_number(pudding_results["no_show_cancelled"]),
                 "No Shows + Cancel statuses",
+                variant="red",
+                icon="❌"
             )
 
-        st.subheader("The Pudding Lists")
+        st.subheader("The Pudding Lists Details")
         proof_col1, proof_col2 = st.columns(2)
 
         with proof_col1:
