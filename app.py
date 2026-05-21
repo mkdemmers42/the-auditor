@@ -1199,13 +1199,6 @@ elif can_run:
             with st.expander("Attempts Only / No Engagement - Client List"):
                 st.dataframe(attempts_only_df, use_container_width=True)
 
-                st.download_button(
-                    "Download Attempts Only / No Engagement CSV",
-                    data=attempts_only_df.to_csv(index=False).encode("utf-8"),
-                    file_name="attempts_only_no_engagement.csv",
-                    mime="text/csv",
-                )
-
         with list_col2:
             with st.expander("No Attempts / No Engagement - Client List"):
                 st.dataframe(no_attempts_df, use_container_width=True)
@@ -1519,6 +1512,15 @@ elif can_run:
                 ].copy()
 
                 st.dataframe(issue_df, use_container_width=True)
+
+                st.markdown("<div style='margin-top: 24px;'></div>", unsafe_allow_html=True)
+
+                st.download_button(
+                    "Download County Audit Findings CSV",
+                    data=county_audit_report.to_csv(index=False).encode("utf-8"),
+                    file_name="county_audit_findings.csv",
+                    mime="text/csv",
+                )
     
     except Exception as exc:
         st.error("The Auditor hit an issue while reading the file.")
