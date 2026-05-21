@@ -1433,7 +1433,7 @@ elif can_run:
                     "County Count": "{:,.0f}",
                     "Difference": "{:+,.0f}",
                 })
-                .applymap(
+                .map(
                     lambda value: (
                         "background-color: rgba(85, 220, 150, 0.22); color: #eafff3; font-weight: 800;"
                         if value == 0
