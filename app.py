@@ -929,6 +929,8 @@ elif can_run:
                 icon=prod_units_icon
             )
 
+        st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
+
         row3 = st.columns(3)
         with row3[0]:
             metric_card("Non-Billable Total", format_number(results["non_billable_total"]), "Two verified non-billable procedures")
