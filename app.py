@@ -1527,9 +1527,9 @@ elif can_run:
     
                     st.markdown("<div style='margin-top: 24px;'></div>", unsafe_allow_html=True)
        
-            except Exception as exc:
-                st.error("The Auditor hit an issue while reading the file.")
-                st.exception(exc)
+                except Exception as exc:
+                    st.error("The Auditor hit an issue while reading the file.")
+                    st.exception(exc)
 
 
 # -----------------------------
