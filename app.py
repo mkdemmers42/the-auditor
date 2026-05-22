@@ -1533,7 +1533,6 @@ elif can_run:
 # -----------------------------
 # Verified Logic Reference
 # -----------------------------
-with dropdown_row2[1]:
     with st.expander("Verified Phase 1 Logic"):
         st.markdown(
             """
