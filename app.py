@@ -739,6 +739,8 @@ if services_file is not None and caseload_file is None:
             unsafe_allow_html=True,
         )
 
+        st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+
 
 # -----------------------------
 # Validation and Calculation
