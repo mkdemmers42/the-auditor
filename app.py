@@ -1055,479 +1055,481 @@ elif can_run:
         # THE PUDDING
         # ============================================================
         
-        st.markdown("<div style='margin-top: -10px;'></div>", unsafe_allow_html=True)
-
-        st.markdown("---")
+        if pudding_results is not None:
         
-        st.subheader("The Pudding")
-        
-        pudding_row1 = st.columns(4)
-        
-        with pudding_row1[0]:
-            metric_card(
-                "Total Caseload",
-                format_number(pudding_results["total_caseload"]),
-                "Total rows from Caseload file",
-                variant="green",
-                icon="✅"
-            )
-        
-        with pudding_row1[1]:
-            metric_card(
-                "Total Services Rendered",
-                format_number(pudding_results["total_services_rendered"]),
-                "Completed services only",
-            )
-        
-        with pudding_row1[2]:
-            metric_card(
-                "Successful Engagements",
-                format_number(pudding_results["successful_engagements"]),
-                "Completed billable services",
-                variant="green",
-                icon="✅"
-            )
-        
-        with pudding_row1[3]:
-            metric_card(
-                "Non-Billable Services Rendered",
-                format_number(pudding_results["non_billable_services"]),
-                "Completed non-billable services",
-                variant="orange",
-                icon="✅"
-            )
-        
-        st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
-        
-        pudding_row2 = st.columns(3)
-        
-        with pudding_row2[0]:
-            metric_card(
-                "Attempts Only / No Engagement",
-                format_number(pudding_results["attempts_only_no_engagement"]),
-                "Non-billable only clients",
-                variant="pink",
-                icon="❌"
-            )
-        
-        with pudding_row2[1]:
-            metric_card(
-                "No Attempts / No Engagement",
-                format_number(pudding_results["no_attempts_no_engagement"]),
-                "Caseload clients missing from Services",
-                variant="red",
-                icon="❌"
-            )
-        
-        with pudding_row2[2]:
-            metric_card(
-                "No Shows / Cancelled Appointments",
-                format_number(pudding_results["no_show_cancelled"]),
-                "No Shows + Cancel statuses",
-                variant="red",
-                icon="❌"
-            )
-
-        st.markdown("<div style='margin-top: 22px;'></div>", unsafe_allow_html=True)
-        
-        st.markdown(
-    "<h3 style='margin-bottom: -8px;'>The Pudding Lists Details</h3>",
-    unsafe_allow_html=True,
-)
-
-        st.markdown(
-            "<div class='small-muted' style='margin-top: -10px; margin-bottom: 18px;'>Use drop downs to view the lists of clients found for each report details.</div>",
-            unsafe_allow_html=True,
-        )
-        
-        proof_col1, proof_col2 = st.columns(2)
-
-        with proof_col1:
-            with st.expander("Successful Engagement - Client List"):
-                display_cols = [
-                    "Client Name",
-                    "DOS",
-                    "Procedure",
-                    "Status",
-                    "ServiceUnits",
-                    "_calculated_units",
-                ]
-
-                available_display_cols = [
-                    c for c in display_cols
-                    if c in results["completed_services"].columns
-                ]
-
-                st.dataframe(
-                    results["completed_services"][available_display_cols],
-                    use_container_width=True
-                )
-
-        with proof_col2:
-            with st.expander("Non-Billable Services Rendered - Client List"):
-                display_cols = [
-                    "Client Name",
-                    "DOS",
-                    "Procedure",
-                    "Status",
-                    "ServiceUnits",
-                ]
-
-                available_display_cols = [
-                    c for c in display_cols
-                    if c in results["non_billable_rows"].columns
-                ]
-
-                st.dataframe(
-                    results["non_billable_rows"][available_display_cols],
-                    use_container_width=True
-                )        
-
-        attempts_only_df = pd.DataFrame(
-            sorted(list(attempts_only_clients)),
-            columns=["Client Name"]
-        )
-
-        no_attempts_df = pd.DataFrame(
-            sorted(list(no_attempt_clients)),
-            columns=["Client Name"]
-        )
-
-        list_col1, list_col2 = st.columns(2)
-
-        with list_col1:
-            with st.expander("Attempts Only / No Engagement - Client List"):
-                st.dataframe(attempts_only_df, use_container_width=True)
-
-        with list_col2:
-            with st.expander("No Attempts / No Engagement - Client List"):
-                st.dataframe(no_attempts_df, use_container_width=True)
-
-                st.download_button(
-                    "Download No Attempts / No Engagement CSV",
-                    data=no_attempts_df.to_csv(index=False).encode("utf-8"),
-                    file_name="no_attempts_no_engagement.csv",
-                    mime="text/csv",
-                )
-        
-     
-        st.markdown("---")
-
-        st.markdown(
-            "<h3 style='color: #ff5c6c; font-weight: 900; margin-bottom: -18px;'>The County Auditor</h3>",
-            unsafe_allow_html=True,
-        )
-      
-        county_services_file = st.file_uploader(
-            "Upload an Excel version of COUNTY SERVICES INVOICED to compare The Auditor against the man and locate those mistakes.",
-            type=["xlsx"],
-            help="Upload the County Services Invoiced file to compare county billing against The Auditor.",
-            key="county_services_invoiced_upload",
-        )
-
-        if county_services_file is not None:
-            st.success("County Services Invoiced uploaded successfully.")
-
-            county_clean_df = read_county_services_invoiced(county_services_file)
-            auditor_compare_df = results["completed_services"].copy()
-
-            auditor_compare_df["Auditor Client ID"] = auditor_compare_df["Client Name"].apply(extract_client_id)
-            auditor_compare_df["Auditor DOS"] = pd.to_datetime(
-                auditor_compare_df["DOS"],
-                errors="coerce"
-            ).dt.strftime("%Y-%m-%d %H:%M")
-            auditor_compare_df["Auditor Procedure"] = auditor_compare_df["Procedure"].apply(normalize_procedure)
-            auditor_compare_df["Auditor Rounded Minutes"] = auditor_compare_df["_calculated_units"] * 15
-
-            auditor_compare_df["Match Key"] = (
-                auditor_compare_df["Auditor Client ID"].astype(str)
-                + "|"
-                + auditor_compare_df["Auditor DOS"].astype(str)
-                + "|"
-                + auditor_compare_df["Auditor Procedure"].astype(str)
-            )
-
-            county_clean_df["Match Key"] = (
-                county_clean_df["County Client ID"].astype(str)
-                + "|"
-                + county_clean_df["County DOS"].astype(str)
-                + "|"
-                + county_clean_df["County Procedure"].astype(str)
-             )
-
-            county_keys = set(county_clean_df["Match Key"])
-
-            county_missing_df = auditor_compare_df[
-                ~auditor_compare_df["Match Key"].isin(county_keys)
-            ].copy() 
-
-            auditor_keys = set(auditor_compare_df["Match Key"])
-
-            county_extra_df = county_clean_df[
-                ~county_clean_df["Match Key"].isin(auditor_keys)
-            ].copy()
-
-            auditor_total_rounded_minutes = (
-                auditor_compare_df["_calculated_units"].sum() * 15
-            )
-                
-            county_total_rounded_minutes = (
-                county_clean_df["County Rounded Minutes"].sum()
-            )
-                
-            rounded_minute_variance = (
-                county_total_rounded_minutes
-                - auditor_total_rounded_minutes
-            )
-
-            county_services_variant, county_services_icon = get_match_card_style(
-                len(county_clean_df) == pudding_results["successful_engagements"]
-            )
+            st.markdown("<div style='margin-top: -10px;'></div>", unsafe_allow_html=True)
+    
+            st.markdown("---")
             
-            county_minutes_variant, county_minutes_icon = get_match_card_style(
-                values_match(
-                    county_clean_df["County Rounded Minutes"].sum(),
-                    results["rounded_minutes_from_units"]
-                )
-            )
+            st.subheader("The Pudding")
             
-            incorrect_rounded_count = (county_clean_df["Rounded Minute Difference"] != 0).sum()
-            incorrect_rounded_variant, incorrect_rounded_icon = get_match_card_style(
-                incorrect_rounded_count == 0
-            )
+            pudding_row1 = st.columns(4)
             
-            unit_variance_total = county_clean_df["Unit Difference"].sum()
-            unit_variance_variant, unit_variance_icon = get_match_card_style(
-                values_match(unit_variance_total, 0)
-            )
-            
-            missing_services_variant, missing_services_icon = get_match_card_style(
-                len(county_missing_df) == 0
-            )
-            
-            extra_services_variant, extra_services_icon = get_match_card_style(
-                len(county_extra_df) == 0
-            )
-            
-            county_productivity = safe_percent(
-                county_clean_df["County Rounded Minutes"].sum(),
-                results["minutes_worked"]
-            )
-            
-            county_productivity_variant, county_productivity_icon = get_match_card_style(
-                values_match(
-                    county_productivity,
-                    results["productivity_units_percent"]
-                )
-            )
-
-            rounded_variance_variant, rounded_variance_icon = get_match_card_style(
-                values_match(rounded_minute_variance, 0)
-            )
-            
-            st.subheader("County File Audited")
-
-            county_math_row = st.columns(4)
-
-            with county_math_row[0]:
+            with pudding_row1[0]:
                 metric_card(
-                    "County Services Found",
-                    format_number(len(county_clean_df)),
-                    "Should match Successful Engagements from The Pudding section",
-                    variant=county_services_variant,
-                    icon=county_services_icon
+                    "Total Caseload",
+                    format_number(pudding_results["total_caseload"]),
+                    "Total rows from Caseload file",
+                    variant="green",
+                    icon="✅"
                 )
-
-            with county_math_row[1]:
+            
+            with pudding_row1[1]:
                 metric_card(
-                    "County Rounded Minutes",
-                    format_number(county_clean_df["County Rounded Minutes"].sum()),
-                    "Should match Rounded Minutes from The Proof section",
-                    variant=county_minutes_variant,
-                    icon=county_minutes_icon
+                    "Total Services Rendered",
+                    format_number(pudding_results["total_services_rendered"]),
+                    "Completed services only",
                 )
-
-            with county_math_row[2]:
+            
+            with pudding_row1[2]:
                 metric_card(
-                    "Incorrect Rounded Minutes",
-                    format_number(incorrect_rounded_count),
-                    "Procedures identified as incorrect math/rounding by the County",
-                    variant=incorrect_rounded_variant,
-                    icon=incorrect_rounded_icon
+                    "Successful Engagements",
+                    format_number(pudding_results["successful_engagements"]),
+                    "Completed billable services",
+                    variant="green",
+                    icon="✅"
                 )
-
-            with county_math_row[3]:
+            
+            with pudding_row1[3]:
                 metric_card(
-                    "County Billed Unit Variance",
-                    format_number(unit_variance_total),
-                    "Total unit variance found",
-                    variant=unit_variance_variant,
-                    icon=unit_variance_icon
+                    "Non-Billable Services Rendered",
+                    format_number(pudding_results["non_billable_services"]),
+                    "Completed non-billable services",
+                    variant="orange",
+                    icon="✅"
                 )
-
+            
             st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
-
-            county_recon_row = st.columns(3)
             
-            with county_recon_row[0]:
+            pudding_row2 = st.columns(3)
+            
+            with pudding_row2[0]:
                 metric_card(
-                    "County Missing Services",
-                    format_number(len(county_missing_df)),
-                    "Total services not counted/billed for by the County",
-                    variant=missing_services_variant,
-                    icon=missing_services_icon
+                    "Attempts Only / No Engagement",
+                    format_number(pudding_results["attempts_only_no_engagement"]),
+                    "Non-billable only clients",
+                    variant="pink",
+                    icon="❌"
                 )
             
-            with county_recon_row[1]:
+            with pudding_row2[1]:
                 metric_card(
-                    "County Extra Services",
-                    format_number(len(county_extra_df)),
-                    "Extra services found in the County file",
-                    variant=extra_services_variant,
-                    icon=extra_services_icon
+                    "No Attempts / No Engagement",
+                    format_number(pudding_results["no_attempts_no_engagement"]),
+                    "Caseload clients missing from Services",
+                    variant="red",
+                    icon="❌"
                 )
-
-            with county_recon_row[2]:
+            
+            with pudding_row2[2]:
                 metric_card(
-                    "County Productivity %",
-                    format_percent(county_productivity),
-                    "County rounded minutes ÷ Minutes Worked",
-                    variant=county_productivity_variant,
-                    icon=county_productivity_icon
+                    "No Shows / Cancelled Appointments",
+                    format_number(pudding_results["no_show_cancelled"]),
+                    "No Shows + Cancel statuses",
+                    variant="red",
+                    icon="❌"
                 )
-
-            st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
-
-            county_variance_row = st.columns(1)
-
-            with county_variance_row[0]:
-                metric_card(
-                    "Rounded Minute Variance",
-                    format_number(rounded_minute_variance),
-                    "Total missing minutes identified by The Auditor and the County",
-                    variant=rounded_variance_variant,
-                    icon=rounded_variance_icon
-                )
-
-            st.markdown("<div style='margin-top: 48px;'></div>", unsafe_allow_html=True)
+    
+            st.markdown("<div style='margin-top: 22px;'></div>", unsafe_allow_html=True)
             
             st.markdown(
-                "<h3 style='text-align: center;'>Procedure Comparison: Services vs County Invoiced</h3>",
-                unsafe_allow_html=True,
-            )
-
-            auditor_proc_summary = (
-                auditor_compare_df
-                .groupby("Auditor Procedure")
-                .size()
-                .reset_index(name="Auditor Count")
-                .rename(columns={"Auditor Procedure": "Procedure"})
-            )
-
-            county_proc_summary = (
-                county_clean_df
-                .groupby("County Procedure")
-                .size()
-                .reset_index(name="County Count")
-                .rename(columns={"County Procedure": "Procedure"})
-            )
-
-            procedure_breakdown = pd.merge(
-                auditor_proc_summary,
-                county_proc_summary,
-                on="Procedure",
-                how="outer"
-            ).fillna(0)
-
-            procedure_breakdown["Auditor Count"] = procedure_breakdown["Auditor Count"].astype(int)
-            procedure_breakdown["County Count"] = procedure_breakdown["County Count"].astype(int)
-            procedure_breakdown["Difference"] = (
-                procedure_breakdown["County Count"] - procedure_breakdown["Auditor Count"]
-            )
-
-            styled_procedure_breakdown = (
-                procedure_breakdown
-                .style
-                .format({
-                    "Auditor Count": "{:,.0f}",
-                    "County Count": "{:,.0f}",
-                    "Difference": "{:+,.0f}",
-                })
-                .map(
-                    lambda value: (
-                        "background-color: rgba(85, 220, 150, 0.22); color: #eafff3; font-weight: 800;"
-                        if value == 0
-                        else "background-color: rgba(255, 90, 110, 0.22); color: #ffe8ec; font-weight: 900;"
-                    ),
-                    subset=["Difference"]
-                )
-            )
-                       
+        "<h3 style='margin-bottom: -8px;'>The Pudding Lists Details</h3>",
+        unsafe_allow_html=True,
+    )
+    
             st.markdown(
-                procedure_breakdown.to_html(index=False, classes="audit-table"),
+                "<div class='small-muted' style='margin-top: -10px; margin-bottom: 18px;'>Use drop downs to view the lists of clients found for each report details.</div>",
                 unsafe_allow_html=True,
             )
-
-            county_audit_report = pd.concat(
-                [
-                    pd.DataFrame([
-                        {"Finding Type": "Summary", "Detail": "County Missing Services", "Value": len(county_missing_df)},
-                        {"Finding Type": "Summary", "Detail": "County Extra Services", "Value": len(county_extra_df)},
-                        {"Finding Type": "Summary", "Detail": "Incorrect Rounded Minutes", "Value": (county_clean_df["Rounded Minute Difference"] != 0).sum()},
-                        {"Finding Type": "Summary", "Detail": "County Billed Unit Variance", "Value": county_clean_df["Unit Difference"].sum()},
-                        {"Finding Type": "Summary", "Detail": "Rounded Minute Variance", "Value": rounded_minute_variance},
-                    ]),
-                    county_missing_df.assign(**{"Finding Type": "County Missing Services"}),
-                    county_extra_df.assign(**{"Finding Type": "County Extra Services"}),
-                    county_clean_df[county_clean_df["Rounded Minute Difference"] != 0].assign(**{"Finding Type": "Incorrect Rounded Minutes"}),
-                    county_clean_df[county_clean_df["Unit Difference"] != 0].assign(**{"Finding Type": "County Billed Unit Variance"}),
-                ],
-                ignore_index=True,
-                sort=False,
-            )
-          
-            dropdown_row1 = st.columns(2)
             
-            with dropdown_row1[0]:
-                with st.expander("County Missing Services - Detail"):
+            proof_col1, proof_col2 = st.columns(2)
+    
+            with proof_col1:
+                with st.expander("Successful Engagement - Client List"):
+                    display_cols = [
+                        "Client Name",
+                        "DOS",
+                        "Procedure",
+                        "Status",
+                        "ServiceUnits",
+                        "_calculated_units",
+                    ]
+    
+                    available_display_cols = [
+                        c for c in display_cols
+                        if c in results["completed_services"].columns
+                    ]
+    
                     st.dataframe(
-                        county_missing_df,
+                        results["completed_services"][available_display_cols],
                         use_container_width=True
                     )
-            
-            with dropdown_row1[1]:
-                with st.expander("County Extra Services - Detail"):
+    
+            with proof_col2:
+                with st.expander("Non-Billable Services Rendered - Client List"):
+                    display_cols = [
+                        "Client Name",
+                        "DOS",
+                        "Procedure",
+                        "Status",
+                        "ServiceUnits",
+                    ]
+    
+                    available_display_cols = [
+                        c for c in display_cols
+                        if c in results["non_billable_rows"].columns
+                    ]
+    
                     st.dataframe(
-                        county_extra_df,
+                        results["non_billable_rows"][available_display_cols],
                         use_container_width=True
-                    )           
-
-            dropdown_row2 = st.columns(2)
-
-            with dropdown_row2[0]:
-                with st.expander("County Rounding / Unit Issues"):
-                    issue_df = county_clean_df[
-                        (county_clean_df["Rounded Minute Difference"] != 0)
-                        | (county_clean_df["Unit Difference"] != 0)
-                    ].copy()
-
-                st.dataframe(issue_df, use_container_width=True)
-
-                st.markdown("<div style='margin-top: 24px;'></div>", unsafe_allow_html=True)
-
-                st.download_button(
-                    "Download County Audit Findings CSV",
-                    data=county_audit_report.to_csv(index=False).encode("utf-8"),
-                    file_name="county_audit_findings.csv",
-                    mime="text/csv",
-                    key="county_audit_download_bottom",
+                    )        
+    
+            attempts_only_df = pd.DataFrame(
+                sorted(list(attempts_only_clients)),
+                columns=["Client Name"]
+            )
+    
+            no_attempts_df = pd.DataFrame(
+                sorted(list(no_attempt_clients)),
+                columns=["Client Name"]
+            )
+    
+            list_col1, list_col2 = st.columns(2)
+    
+            with list_col1:
+                with st.expander("Attempts Only / No Engagement - Client List"):
+                    st.dataframe(attempts_only_df, use_container_width=True)
+    
+            with list_col2:
+                with st.expander("No Attempts / No Engagement - Client List"):
+                    st.dataframe(no_attempts_df, use_container_width=True)
+    
+                    st.download_button(
+                        "Download No Attempts / No Engagement CSV",
+                        data=no_attempts_df.to_csv(index=False).encode("utf-8"),
+                        file_name="no_attempts_no_engagement.csv",
+                        mime="text/csv",
+                    )
+            
+         
+            st.markdown("---")
+    
+            st.markdown(
+                "<h3 style='color: #ff5c6c; font-weight: 900; margin-bottom: -18px;'>The County Auditor</h3>",
+                unsafe_allow_html=True,
+            )
+          
+            county_services_file = st.file_uploader(
+                "Upload an Excel version of COUNTY SERVICES INVOICED to compare The Auditor against the man and locate those mistakes.",
+                type=["xlsx"],
+                help="Upload the County Services Invoiced file to compare county billing against The Auditor.",
+                key="county_services_invoiced_upload",
+            )
+    
+            if county_services_file is not None:
+                st.success("County Services Invoiced uploaded successfully.")
+    
+                county_clean_df = read_county_services_invoiced(county_services_file)
+                auditor_compare_df = results["completed_services"].copy()
+    
+                auditor_compare_df["Auditor Client ID"] = auditor_compare_df["Client Name"].apply(extract_client_id)
+                auditor_compare_df["Auditor DOS"] = pd.to_datetime(
+                    auditor_compare_df["DOS"],
+                    errors="coerce"
+                ).dt.strftime("%Y-%m-%d %H:%M")
+                auditor_compare_df["Auditor Procedure"] = auditor_compare_df["Procedure"].apply(normalize_procedure)
+                auditor_compare_df["Auditor Rounded Minutes"] = auditor_compare_df["_calculated_units"] * 15
+    
+                auditor_compare_df["Match Key"] = (
+                    auditor_compare_df["Auditor Client ID"].astype(str)
+                    + "|"
+                    + auditor_compare_df["Auditor DOS"].astype(str)
+                    + "|"
+                    + auditor_compare_df["Auditor Procedure"].astype(str)
                 )
-
-                st.markdown("<div style='margin-top: 24px;'></div>", unsafe_allow_html=True)
-   
-    except Exception as exc:
-        st.error("The Auditor hit an issue while reading the file.")
-        st.exception(exc)
+    
+                county_clean_df["Match Key"] = (
+                    county_clean_df["County Client ID"].astype(str)
+                    + "|"
+                    + county_clean_df["County DOS"].astype(str)
+                    + "|"
+                    + county_clean_df["County Procedure"].astype(str)
+                 )
+    
+                county_keys = set(county_clean_df["Match Key"])
+    
+                county_missing_df = auditor_compare_df[
+                    ~auditor_compare_df["Match Key"].isin(county_keys)
+                ].copy() 
+    
+                auditor_keys = set(auditor_compare_df["Match Key"])
+    
+                county_extra_df = county_clean_df[
+                    ~county_clean_df["Match Key"].isin(auditor_keys)
+                ].copy()
+    
+                auditor_total_rounded_minutes = (
+                    auditor_compare_df["_calculated_units"].sum() * 15
+                )
+                    
+                county_total_rounded_minutes = (
+                    county_clean_df["County Rounded Minutes"].sum()
+                )
+                    
+                rounded_minute_variance = (
+                    county_total_rounded_minutes
+                    - auditor_total_rounded_minutes
+                )
+    
+                county_services_variant, county_services_icon = get_match_card_style(
+                    len(county_clean_df) == pudding_results["successful_engagements"]
+                )
+                
+                county_minutes_variant, county_minutes_icon = get_match_card_style(
+                    values_match(
+                        county_clean_df["County Rounded Minutes"].sum(),
+                        results["rounded_minutes_from_units"]
+                    )
+                )
+                
+                incorrect_rounded_count = (county_clean_df["Rounded Minute Difference"] != 0).sum()
+                incorrect_rounded_variant, incorrect_rounded_icon = get_match_card_style(
+                    incorrect_rounded_count == 0
+                )
+                
+                unit_variance_total = county_clean_df["Unit Difference"].sum()
+                unit_variance_variant, unit_variance_icon = get_match_card_style(
+                    values_match(unit_variance_total, 0)
+                )
+                
+                missing_services_variant, missing_services_icon = get_match_card_style(
+                    len(county_missing_df) == 0
+                )
+                
+                extra_services_variant, extra_services_icon = get_match_card_style(
+                    len(county_extra_df) == 0
+                )
+                
+                county_productivity = safe_percent(
+                    county_clean_df["County Rounded Minutes"].sum(),
+                    results["minutes_worked"]
+                )
+                
+                county_productivity_variant, county_productivity_icon = get_match_card_style(
+                    values_match(
+                        county_productivity,
+                        results["productivity_units_percent"]
+                    )
+                )
+    
+                rounded_variance_variant, rounded_variance_icon = get_match_card_style(
+                    values_match(rounded_minute_variance, 0)
+                )
+                
+                st.subheader("County File Audited")
+    
+                county_math_row = st.columns(4)
+    
+                with county_math_row[0]:
+                    metric_card(
+                        "County Services Found",
+                        format_number(len(county_clean_df)),
+                        "Should match Successful Engagements from The Pudding section",
+                        variant=county_services_variant,
+                        icon=county_services_icon
+                    )
+    
+                with county_math_row[1]:
+                    metric_card(
+                        "County Rounded Minutes",
+                        format_number(county_clean_df["County Rounded Minutes"].sum()),
+                        "Should match Rounded Minutes from The Proof section",
+                        variant=county_minutes_variant,
+                        icon=county_minutes_icon
+                    )
+    
+                with county_math_row[2]:
+                    metric_card(
+                        "Incorrect Rounded Minutes",
+                        format_number(incorrect_rounded_count),
+                        "Procedures identified as incorrect math/rounding by the County",
+                        variant=incorrect_rounded_variant,
+                        icon=incorrect_rounded_icon
+                    )
+    
+                with county_math_row[3]:
+                    metric_card(
+                        "County Billed Unit Variance",
+                        format_number(unit_variance_total),
+                        "Total unit variance found",
+                        variant=unit_variance_variant,
+                        icon=unit_variance_icon
+                    )
+    
+                st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+    
+                county_recon_row = st.columns(3)
+                
+                with county_recon_row[0]:
+                    metric_card(
+                        "County Missing Services",
+                        format_number(len(county_missing_df)),
+                        "Total services not counted/billed for by the County",
+                        variant=missing_services_variant,
+                        icon=missing_services_icon
+                    )
+                
+                with county_recon_row[1]:
+                    metric_card(
+                        "County Extra Services",
+                        format_number(len(county_extra_df)),
+                        "Extra services found in the County file",
+                        variant=extra_services_variant,
+                        icon=extra_services_icon
+                    )
+    
+                with county_recon_row[2]:
+                    metric_card(
+                        "County Productivity %",
+                        format_percent(county_productivity),
+                        "County rounded minutes ÷ Minutes Worked",
+                        variant=county_productivity_variant,
+                        icon=county_productivity_icon
+                    )
+    
+                st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+    
+                county_variance_row = st.columns(1)
+    
+                with county_variance_row[0]:
+                    metric_card(
+                        "Rounded Minute Variance",
+                        format_number(rounded_minute_variance),
+                        "Total missing minutes identified by The Auditor and the County",
+                        variant=rounded_variance_variant,
+                        icon=rounded_variance_icon
+                    )
+    
+                st.markdown("<div style='margin-top: 48px;'></div>", unsafe_allow_html=True)
+                
+                st.markdown(
+                    "<h3 style='text-align: center;'>Procedure Comparison: Services vs County Invoiced</h3>",
+                    unsafe_allow_html=True,
+                )
+    
+                auditor_proc_summary = (
+                    auditor_compare_df
+                    .groupby("Auditor Procedure")
+                    .size()
+                    .reset_index(name="Auditor Count")
+                    .rename(columns={"Auditor Procedure": "Procedure"})
+                )
+    
+                county_proc_summary = (
+                    county_clean_df
+                    .groupby("County Procedure")
+                    .size()
+                    .reset_index(name="County Count")
+                    .rename(columns={"County Procedure": "Procedure"})
+                )
+    
+                procedure_breakdown = pd.merge(
+                    auditor_proc_summary,
+                    county_proc_summary,
+                    on="Procedure",
+                    how="outer"
+                ).fillna(0)
+    
+                procedure_breakdown["Auditor Count"] = procedure_breakdown["Auditor Count"].astype(int)
+                procedure_breakdown["County Count"] = procedure_breakdown["County Count"].astype(int)
+                procedure_breakdown["Difference"] = (
+                    procedure_breakdown["County Count"] - procedure_breakdown["Auditor Count"]
+                )
+    
+                styled_procedure_breakdown = (
+                    procedure_breakdown
+                    .style
+                    .format({
+                        "Auditor Count": "{:,.0f}",
+                        "County Count": "{:,.0f}",
+                        "Difference": "{:+,.0f}",
+                    })
+                    .map(
+                        lambda value: (
+                            "background-color: rgba(85, 220, 150, 0.22); color: #eafff3; font-weight: 800;"
+                            if value == 0
+                            else "background-color: rgba(255, 90, 110, 0.22); color: #ffe8ec; font-weight: 900;"
+                        ),
+                        subset=["Difference"]
+                    )
+                )
+                           
+                st.markdown(
+                    procedure_breakdown.to_html(index=False, classes="audit-table"),
+                    unsafe_allow_html=True,
+                )
+    
+                county_audit_report = pd.concat(
+                    [
+                        pd.DataFrame([
+                            {"Finding Type": "Summary", "Detail": "County Missing Services", "Value": len(county_missing_df)},
+                            {"Finding Type": "Summary", "Detail": "County Extra Services", "Value": len(county_extra_df)},
+                            {"Finding Type": "Summary", "Detail": "Incorrect Rounded Minutes", "Value": (county_clean_df["Rounded Minute Difference"] != 0).sum()},
+                            {"Finding Type": "Summary", "Detail": "County Billed Unit Variance", "Value": county_clean_df["Unit Difference"].sum()},
+                            {"Finding Type": "Summary", "Detail": "Rounded Minute Variance", "Value": rounded_minute_variance},
+                        ]),
+                        county_missing_df.assign(**{"Finding Type": "County Missing Services"}),
+                        county_extra_df.assign(**{"Finding Type": "County Extra Services"}),
+                        county_clean_df[county_clean_df["Rounded Minute Difference"] != 0].assign(**{"Finding Type": "Incorrect Rounded Minutes"}),
+                        county_clean_df[county_clean_df["Unit Difference"] != 0].assign(**{"Finding Type": "County Billed Unit Variance"}),
+                    ],
+                    ignore_index=True,
+                    sort=False,
+                )
+              
+                dropdown_row1 = st.columns(2)
+                
+                with dropdown_row1[0]:
+                    with st.expander("County Missing Services - Detail"):
+                        st.dataframe(
+                            county_missing_df,
+                            use_container_width=True
+                        )
+                
+                with dropdown_row1[1]:
+                    with st.expander("County Extra Services - Detail"):
+                        st.dataframe(
+                            county_extra_df,
+                            use_container_width=True
+                        )           
+    
+                dropdown_row2 = st.columns(2)
+    
+                with dropdown_row2[0]:
+                    with st.expander("County Rounding / Unit Issues"):
+                        issue_df = county_clean_df[
+                            (county_clean_df["Rounded Minute Difference"] != 0)
+                            | (county_clean_df["Unit Difference"] != 0)
+                        ].copy()
+    
+                    st.dataframe(issue_df, use_container_width=True)
+    
+                    st.markdown("<div style='margin-top: 24px;'></div>", unsafe_allow_html=True)
+    
+                    st.download_button(
+                        "Download County Audit Findings CSV",
+                        data=county_audit_report.to_csv(index=False).encode("utf-8"),
+                        file_name="county_audit_findings.csv",
+                        mime="text/csv",
+                        key="county_audit_download_bottom",
+                    )
+    
+                    st.markdown("<div style='margin-top: 24px;'></div>", unsafe_allow_html=True)
+       
+        except Exception as exc:
+            st.error("The Auditor hit an issue while reading the file.")
+            st.exception(exc)
 
 
 # -----------------------------
