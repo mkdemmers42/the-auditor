@@ -720,16 +720,12 @@ if services_file is not None and caseload_file is None:
 
     st.markdown("<div style='margin-top: 28px;'></div>", unsafe_allow_html=True)
     
-    gate_col1, gate_col2, gate_spacer = st.columns([1.25, 1.25, 4.5])
+    gate_col1, gate_spacer = st.columns([1.4, 5.6])
 
     with gate_col1:
         if st.button("No, just productivity"):
             st.session_state["productivity_only"] = True
         
-    with gate_col2:
-        if st.button("Yes, unleash The Auditor"):
-            st.info("Upload the Caseload file above and The Auditor will be ready to stretch its legs.")
-
     run_productivity_only = st.session_state.get("productivity_only", False)
 
     if run_productivity_only:
