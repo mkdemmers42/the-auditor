@@ -994,12 +994,12 @@ elif can_run:
             sdr_df = read_excel(detailed_service_file)
 
             total_rows = sdr_df[
-                sdr_df.iloc[:, 8].astype(str).str.strip().str.casefold() == "total:"
+                sdr_df.iloc[:, 9].astype(str).str.strip().str.casefold() == "total:"
             ].copy()
-
-            travel_total = total_rows.iloc[:, 9].apply(extract_number).sum()
-
-            documentation_total = total_rows.iloc[:, 10].apply(extract_number).sum()
+            
+            travel_total = float(total_rows.iloc[:, 10].apply(extract_number).sum())
+            
+            documentation_total = float(total_rows.iloc[:, 12].apply(extract_number).sum())
 
             documentation_percent = safe_percent(
                 documentation_total,
