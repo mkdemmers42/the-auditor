@@ -1389,9 +1389,7 @@ elif can_run:
                     st.plotly_chart(fig_active, use_container_width=True)
             
                 st.markdown("</div>", unsafe_allow_html=True)
-            
-                st.markdown("</div>", unsafe_allow_html=True)
-            
+                       
             st.markdown(
                 "<h3 style='margin-bottom: -8px;'>The Pudding Lists Details</h3>",
                 unsafe_allow_html=True,
