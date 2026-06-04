@@ -1250,32 +1250,8 @@ elif can_run:
             
             # -----------------------------
             # Pie Chart 2:
-            # Monthly Minutes Breakdown
+            # Active vs Non-Active / Unknown Time
             # -----------------------------
-            minutes_worked = results["minutes_worked"]
-            minutes_billed = results["minutes_billed"]
-            non_billable_total = results["non_billable_total"]
-            
-            unproductive_minutes = max(
-                minutes_worked - minutes_billed - non_billable_total,
-                0
-            )
-            
-            monthly_minutes_breakdown = pd.DataFrame(
-                {
-                    "Category": [
-                        "Minutes Billed",
-                        "Non-Billable Minutes",
-                        "UnProductive Minutes",
-                    ],
-                    "Minutes": [
-                        minutes_billed,
-                        non_billable_total,
-                        unproductive_minutes,
-                    ],
-                }
-            )
-            
             with chart_col2:
                 st.markdown(
                     """
@@ -1299,71 +1275,120 @@ elif can_run:
                                 0 0 10px rgba(126, 231, 255, 0.65),
                                 0 0 22px rgba(0, 174, 255, 0.35);
                         ">
-                            Monthly Minutes Breakdown
+                            Active vs Non-Active / Unknown Time
                         </div>
                     """,
                     unsafe_allow_html=True,
                 )
             
-                minutes_color_map = {
-                    "Minutes Billed": "#55dc96",
-                    "Non-Billable Minutes": "#ffa046",
-                    "Unproductive Minutes": "#ff5a6e",
-                }
-                
-                fig_minutes = px.pie(
-                    monthly_minutes_breakdown,
-                    names="Category",
-                    values="Minutes",
-                    hole=0.38,
-                    color="Category",
-                    color_discrete_map=minutes_color_map,
-                )
+                if detailed_service_file is None:
+                    st.markdown(
+                        """
+                        <div style="
+                            height: 500px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            text-align: center;
+                            color: #c9eaff;
+                            font-size: 1.15rem;
+                            font-weight: 800;
+                            letter-spacing: 0.5px;
+                            text-shadow:
+                                0 0 10px rgba(126, 231, 255, 0.45);
+                        ">
+                            To see please upload SSDR
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
             
-                fig_minutes.update_traces(
-                    textposition="inside",
-                    textinfo="percent+label",
-                    textfont=dict(
-                        color="white",
-                        size=13,
-                        family="Montserrat"
-                    ),
-                    marker=dict(
-                        line=dict(
-                            color="rgba(255,255,255,0.90)",
-                            width=2
-                        )
-                    ),
-                    pull=[0.035] * len(monthly_minutes_breakdown),
-                    hovertemplate="<b>%{label}</b><br>Minutes: %{value:.2f}<br>Percent: %{percent}<extra></extra>",
-                )
+                else:
+                    active_minutes = (
+                        results["minutes_billed"]
+                        + results["non_billable_total"]
+                        + documentation_total
+                        + travel_total
+                    )
             
-                fig_minutes.update_layout(
-                    paper_bgcolor="rgba(0,0,0,0)",
-                    plot_bgcolor="rgba(0,0,0,0)",
-                    font=dict(
-                        color="white",
-                        size=13,
-                        family="Montserrat"
-                    ),
-                    showlegend=True,
-                    legend=dict(
-                        orientation="h",
-                        yanchor="bottom",
-                        y=-0.22,
-                        xanchor="center",
-                        x=0.5,
-                        font=dict(
+                    non_active_unknown_minutes = max(
+                        results["minutes_worked"] - active_minutes,
+                        0
+                    )
+            
+                    active_breakdown = pd.DataFrame(
+                        {
+                            "Category": [
+                                "Active",
+                                "Non-Active / Unknown",
+                            ],
+                            "Minutes": [
+                                active_minutes,
+                                non_active_unknown_minutes,
+                            ],
+                        }
+                    )
+            
+                    active_color_map = {
+                        "Active": "#55dc96",
+                        "Non-Active / Unknown": "#ff5a6e",
+                    }
+            
+                    fig_active = px.pie(
+                        active_breakdown,
+                        names="Category",
+                        values="Minutes",
+                        hole=0.38,
+                        color="Category",
+                        color_discrete_map=active_color_map,
+                    )
+            
+                    fig_active.update_traces(
+                        textposition="inside",
+                        textinfo="percent+label",
+                        textfont=dict(
                             color="white",
-                            size=11,
+                            size=13,
                             family="Montserrat"
                         ),
-                    ),
-                    margin=dict(t=20, b=100, l=10, r=10),
-                    height=500,
-                )
+                        marker=dict(
+                            line=dict(
+                                color="rgba(255,255,255,0.90)",
+                                width=2
+                            )
+                        ),
+                        pull=[0.035] * len(active_breakdown),
+                        hovertemplate="<b>%{label}</b><br>Minutes: %{value:.2f}<br>Percent: %{percent}<extra></extra>",
+                    )
             
-                st.plotly_chart(fig_minutes, use_container_width=True)
+                    fig_active.update_layout(
+                        paper_bgcolor="rgba(0,0,0,0)",
+                        plot_bgcolor="rgba(0,0,0,0)",
+                        font=dict(
+                            color="white",
+                            size=13,
+                            family="Montserrat"
+                        ),
+                        showlegend=True,
+                        legend=dict(
+                            orientation="h",
+                            yanchor="bottom",
+                            y=-0.22,
+                            xanchor="center",
+                            x=0.5,
+                            font=dict(
+                                color="white",
+                                size=11,
+                                family="Montserrat"
+                            ),
+                        ),
+                        margin=dict(t=20, b=100, l=10, r=10),
+                        height=500,
+                    )
+            
+                    st.plotly_chart(fig_active, use_container_width=True)
+            
+                st.markdown("</div>", unsafe_allow_html=True)
             
                 st.markdown("</div>", unsafe_allow_html=True)
             
