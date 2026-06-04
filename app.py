@@ -1146,9 +1146,18 @@ elif can_run:
             # Pie Chart 1:
             # Successful Engagements by Service Type
             # -----------------------------
+            chart_df = completed_services_all.copy()
+
+            chart_df["_chart_procedure"] = chart_df["_procedure_clean"].replace(
+                {
+                    "Client Non Billable Srvc Must Document": "Non-Billable Services",
+                    "Non-billable Attempted Contact": "Non-Billable Services",
+                }
+            )
+            
             service_type_breakdown = (
-                completed_services_all
-                .groupby("_procedure_clean")
+                chart_df
+                .groupby("_chart_procedure")
                 .size()
                 .reset_index(name="Count")
                 .sort_values("Count", ascending=False)
