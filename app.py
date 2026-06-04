@@ -1296,11 +1296,19 @@ elif can_run:
                     unsafe_allow_html=True,
                 )
             
+                minutes_color_map = {
+                    "Minutes Billed": "#55dc96",
+                    "Non-Billable Minutes": "#ffa046",
+                    "Unproductive Minutes": "#ff5a6e",
+                }
+                
                 fig_minutes = px.pie(
                     monthly_minutes_breakdown,
                     names="Category",
                     values="Minutes",
                     hole=0.38,
+                    color="Category",
+                    color_discrete_map=minutes_color_map,
                 )
             
                 fig_minutes.update_traces(
