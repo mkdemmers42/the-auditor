@@ -1536,24 +1536,24 @@ elif can_run:
 # -----------------------------
 # Verified Logic Reference
 # -----------------------------
-    with st.expander("Verified Phase 1 Logic"):
-        st.markdown(
-            """
-            **Hours Worked** = manual user input  
-            **Minutes Worked** = Hours Worked × 60  
+with st.expander("Verified Phase 1 Logic"):
+    st.markdown(
+        """
+        **Hours Worked** = manual user input  
+        **Minutes Worked** = Hours Worked × 60  
     
-            **Minutes Billed** = Sum of `ServiceUnits` where `Status = Complete`  
+        **Minutes Billed** = Sum of `ServiceUnits` where `Status = Complete`  
     
-            **Productivity Minutes %** = Minutes Billed ÷ Minutes Worked × 100  
+        **Productivity Minutes %** = Minutes Billed ÷ Minutes Worked × 100  
     
-            **Units Billed** = Each completed row converted individually using the 15-minute Medicare-style unit chart, then summed  
+        **Units Billed** = Each completed row converted individually using the 15-minute Medicare-style unit chart, then summed  
     
-            **Productivity Units %** = Rounded Minutes from Units Billed ÷ Minutes Worked × 100  
+        **Productivity Units %** = Rounded Minutes from Units Billed ÷ Minutes Worked × 100  
     
-            **Non-Billable Total** = Sum of `ServiceUnits` where `Procedure` is:
-            - Client Non Billable Srvc Must Document
-            - Non-billable Attempted Contact
+        **Non-Billable Total** = Sum of `ServiceUnits` where `Procedure` is:
+        - Client Non Billable Srvc Must Document
+        - Non-billable Attempted Contact
     
-            **Non-Billable %** = Non-Billable Total ÷ Minutes Worked × 100
-            """
-        )
+        **Non-Billable %** = Non-Billable Total ÷ Minutes Worked × 100
+        """
+    )
