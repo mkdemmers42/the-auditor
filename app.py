@@ -1137,21 +1137,99 @@ elif can_run:
 
             # PIE CHART GOES HERE
             
+            # -----------------------------
+            # Pie Chart: Successful Engagements by Service Type
+            # -----------------------------
             service_type_breakdown = (
                 successful_engagements_df
                 .groupby("_procedure_clean")
                 .size()
                 .reset_index(name="Count")
+                .sort_values("Count", ascending=False)
             )
             
-            fig_services = px.pie(
-                service_type_breakdown,
-                names="_procedure_clean",
-                values="Count",
-                hole=0.35,
-            )
+            if not service_type_breakdown.empty:
+                st.markdown(
+                    """
+                    <div style="
+                        background: rgba(15, 24, 45, 0.58);
+                        border: 1px solid rgba(120, 220, 255, 0.32);
+                        border-radius: 24px;
+                        padding: 1.25rem;
+                        margin-top: 1.5rem;
+                        box-shadow:
+                            0 0 24px rgba(0, 217, 255, 0.20),
+                            inset 0 0 22px rgba(255,255,255,0.04);
+                    ">
+                        <div style="
+                            color: #ffffff;
+                            font-size: 1.35rem;
+                            font-weight: 900;
+                            text-align: center;
+                            margin-bottom: 0.5rem;
+                            text-shadow:
+                                0 0 10px rgba(126, 231, 255, 0.65),
+                                0 0 22px rgba(0, 174, 255, 0.35);
+                        ">
+                            Successful Engagements by Service Type
+                        </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
             
-            st.plotly_chart(fig_services, use_container_width=True)
+                fig_services = px.pie(
+                    service_type_breakdown,
+                    names="_procedure_clean",
+                    values="Count",
+                    hole=0.38,
+                )
+            
+                fig_services.update_traces(
+                    textposition="inside",
+                    textinfo="percent+label",
+                    textfont=dict(
+                        color="white",
+                        size=15,
+                        family="Montserrat"
+                    ),
+                    marker=dict(
+                        line=dict(
+                            color="rgba(255,255,255,0.90)",
+                            width=2
+                        )
+                    ),
+                    pull=[0.035] * len(service_type_breakdown),
+                    hovertemplate="<b>%{label}</b><br>Count: %{value}<br>Percent: %{percent}<extra></extra>",
+                )
+            
+                fig_services.update_layout(
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    font=dict(
+                        color="white",
+                        size=14,
+                        family="Montserrat"
+                    ),
+                    showlegend=True,
+                    legend=dict(
+                        orientation="h",
+                        yanchor="bottom",
+                        y=-0.18,
+                        xanchor="center",
+                        x=0.5,
+                        font=dict(
+                            color="white",
+                            size=13,
+                            family="Montserrat"
+                        ),
+                    ),
+                    margin=dict(t=20, b=90, l=20, r=20),
+                    height=540,
+                )
+            
+                st.plotly_chart(fig_services, use_container_width=True)
+            
+                st.markdown("</div>", unsafe_allow_html=True)
             
             st.markdown(
                 "<h3 style='margin-bottom: -8px;'>The Pudding Lists Details</h3>",
