@@ -1147,7 +1147,7 @@ elif can_run:
             # Successful Engagements by Service Type
             # -----------------------------
             service_type_breakdown = (
-                successful_engagements_df
+                completed_services_all
                 .groupby("_procedure_clean")
                 .size()
                 .reset_index(name="Count")
