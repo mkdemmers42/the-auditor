@@ -1098,9 +1098,7 @@ elif can_run:
                 )
             
             st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
-
-            st.write("DEBUG:", pudding_results["no_attempts_no_engagement"])
-            
+        
             no_attempt_variant, no_attempt_icon = get_match_card_style(
                 pudding_results["no_attempts_no_engagement"] == 0
             )
@@ -1121,8 +1119,8 @@ elif can_run:
                     "No Attempts / No Engagement",
                     format_number(pudding_results["no_attempts_no_engagement"]),
                     "Caseload clients missing from Services",
-                    variant="red",
-                    icon="❌"
+                    variant=no_attempt_variant,
+                    icon=no_attempt_icon
                 )
             
             with pudding_row2[2]:
