@@ -1195,7 +1195,7 @@ elif can_run:
             
                     fig_services = px.pie(
                         service_type_breakdown,
-                        names="_procedure_clean",
+                        names="_chart_procedure",
                         values="Count",
                         hole=0.38,
                     )
