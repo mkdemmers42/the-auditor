@@ -8,6 +8,7 @@ from io import BytesIO
 import pandas as pd
 import streamlit as st
 from PIL import Image
+import plotly.express as px
 
 
 # ============================================================
@@ -1133,6 +1134,29 @@ elif can_run:
                 )
     
             st.markdown("<div style='margin-top: 22px;'></div>", unsafe_allow_html=True)
+
+            # PIE CHART GOES HERE
+            
+            service_type_breakdown = (
+                successful_engagements_df
+                .groupby("_procedure_clean")
+                .size()
+                .reset_index(name="Count")
+            )
+            
+            fig_services = px.pie(
+                service_type_breakdown,
+                names="_procedure_clean",
+                values="Count",
+                hole=0.35,
+            )
+            
+            st.plotly_chart(fig_services, use_container_width=True)
+            
+            st.markdown(
+                "<h3 style='margin-bottom: -8px;'>The Pudding Lists Details</h3>",
+                unsafe_allow_html=True,
+            )
             
             st.markdown(
         "<h3 style='margin-bottom: -8px;'>The Pudding Lists Details</h3>",
