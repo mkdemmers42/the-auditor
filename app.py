@@ -1397,10 +1397,6 @@ elif can_run:
                 unsafe_allow_html=True,
             )
             
-            st.markdown(
-        "<h3 style='margin-bottom: -8px;'>The Pudding Lists Details</h3>",
-        unsafe_allow_html=True,
-    )
     
             st.markdown(
                 "<div class='small-muted' style='margin-top: -10px; margin-bottom: 18px;'>Use drop downs to view the lists of clients found for each report details.</div>",
