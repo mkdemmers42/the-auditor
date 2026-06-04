@@ -1098,6 +1098,10 @@ elif can_run:
                 )
             
             st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+
+            no_attempt_variant, no_attempt_icon = get_match_card_style(
+                pudding_results["no_attempts_no_engagement"] == 0
+            )
             
             pudding_row2 = st.columns(3)
             
