@@ -677,17 +677,11 @@ st.markdown(
 # -----------------------------
 reset_col1, reset_col2 = st.columns([6, 1])
 
-with reset_col2:
-    if st.button("🔄 Reset Audit"):
-        st.session_state["reset_counter"] += 1
-        st.session_state["productivity_only"] = False
-        st.rerun()
-
 with st.container():
     st.markdown("<div class='section-box'>", unsafe_allow_html=True)
     st.subheader("The Ingredients")
 
-    col1, col2, col3 = st.columns([1, 1.2, 1.2])
+    col1, col2, col3, col4 = st.columns([1, 1.2, 1.2, 0.7])
 
     with col1:
         hours_worked = st.number_input(
@@ -714,6 +708,17 @@ with st.container():
             help="Recommended for the full wrath of The Auditor.",
             key=f"caseload_file_{st.session_state['reset_counter']}",
         )
+
+    with col4:
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    if st.button(
+        "🔄 Reset Audit",
+        use_container_width=True
+    ):
+        st.session_state["reset_counter"] += 1
+        st.session_state["productivity_only"] = False
+        st.rerun()
 
     st.markdown("</div>", unsafe_allow_html=True)
 
