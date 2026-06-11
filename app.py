@@ -675,8 +675,6 @@ st.markdown(
 # -----------------------------
 # Input Section
 # -----------------------------
-reset_col1, reset_col2 = st.columns([6, 1])
-
 with st.container():
     st.markdown("<div class='section-box'>", unsafe_allow_html=True)
     st.subheader("The Ingredients")
