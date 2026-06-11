@@ -907,7 +907,7 @@ elif can_run:
             metric_card(
                 "Hours Worked",
                 format_number(results["hours_worked"]),
-                "Manual user input",
+                "Hours exclude PTO/CSL/LWOP",
                 variant="green",
                 icon="⏱️"
             )
