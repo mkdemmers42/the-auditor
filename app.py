@@ -1168,7 +1168,6 @@ elif can_run:
             else:
                 no_attempt_variant = "red"
                 no_attempt_icon = "❗"
-            )
             
             pudding_row2 = st.columns(3)
             
