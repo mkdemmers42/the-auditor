@@ -48,6 +48,9 @@ st.set_page_config(
     layout="wide",
 )
 
+if "reset_counter" not in st.session_state:
+    st.session_state["reset_counter"] = 0
+
 
 # -----------------------------
 # Styling
@@ -672,6 +675,14 @@ st.markdown(
 # -----------------------------
 # Input Section
 # -----------------------------
+reset_col1, reset_col2 = st.columns([6, 1])
+
+with reset_col2:
+    if st.button("🔄 Reset Audit"):
+        st.session_state["reset_counter"] += 1
+        st.session_state["productivity_only"] = False
+        st.rerun()
+
 with st.container():
     st.markdown("<div class='section-box'>", unsafe_allow_html=True)
     st.subheader("The Ingredients")
@@ -685,6 +696,7 @@ with st.container():
             value=0.0,
             step=0.25,
             help="Manually enter the employee's hours worked for the audit period.",
+            key=f"hours_worked_{st.session_state['reset_counter']}",
         )
 
     with col2:
@@ -692,6 +704,7 @@ with st.container():
             "Upload: Services (My Office)",
             type=["xlsx"],
             help="Required. This file drives the productivity engine.",
+            key=f"services_file_{st.session_state['reset_counter']}",
         )
 
     with col3:
@@ -699,6 +712,7 @@ with st.container():
             "Upload: Caseload",
             type=["xlsx"],
             help="Recommended for the full wrath of The Auditor.",
+            key=f"caseload_file_{st.session_state['reset_counter']}",
         )
 
     st.markdown("</div>", unsafe_allow_html=True)
@@ -983,7 +997,7 @@ elif can_run:
             "To see Documentation Time and Travel Time totals, upload: Staff Service Detail Report - Optional",
             type=["xlsx"],
             help="Upload the Staff Service Detail Report to calculate Documentation and Travel totals.",
-            key="staff_service_detail_report_upload",
+            key=f"staff_service_detail_report_upload_{st.session_state['reset_counter']}",
         ) 
         
         documentation_total = 0.0
@@ -1483,7 +1497,7 @@ elif can_run:
                 "Upload an Excel version of COUNTY SERVICES INVOICED to compare The Auditor against the man and locate those mistakes.",
                 type=["xlsx"],
                 help="Upload the County Services Invoiced file to compare county billing against The Auditor.",
-                key="county_services_invoiced_upload",
+                key=f"county_services_invoiced_upload_{st.session_state['reset_counter']}",
             )
     
             if county_services_file is not None:
