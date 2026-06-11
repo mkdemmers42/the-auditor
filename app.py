@@ -1099,6 +1099,8 @@ elif can_run:
                 icon="🚗"
             )
 
+        st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+        
         summary_df = pd.DataFrame(summary_rows)
         excel_report = build_excel_download(summary_df, excel_sheets)
         
