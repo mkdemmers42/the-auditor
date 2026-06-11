@@ -1037,7 +1037,6 @@ elif can_run:
             metric_card(
                 "Documentation Total",
                 format_number(documentation_total),
-                "From Staff Service Detail Report",
                 variant="white",
                 icon="📋"
             )
