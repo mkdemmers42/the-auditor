@@ -1514,6 +1514,10 @@ elif can_run:
                 columns=["Client Name"]
             )
 
+            excel_sheets["Successful Engagement List"] = results["completed_services"]
+            excel_sheets["Non-Billable List"] = results["non_billable_rows"]
+            excel_sheets["Attempts Only List"] = attempts_only_df
+            excel_sheets["No Attempts List"] = no_attempts_df
                        
             list_col1, list_col2 = st.columns(2)
     
@@ -1525,6 +1529,9 @@ elif can_run:
                 with st.expander("No Attempts / No Engagement - Client List"):
                     st.dataframe(no_attempts_df, use_container_width=True)
     
+                    summary_df = pd.DataFrame(summary_rows)
+                    excel_report = build_excel_download(summary_df, excel_sheets)
+                    
                     st.download_button(
                         "Download No Attempts / No Engagement CSV",
                         data=no_attempts_df.to_csv(index=False).encode("utf-8"),
