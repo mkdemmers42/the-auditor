@@ -1514,6 +1514,24 @@ elif can_run:
                 columns=["Client Name"]
             )
 
+                       
+            list_col1, list_col2 = st.columns(2)
+    
+            with list_col1:
+                with st.expander("Attempts Only / No Engagement - Client List"):
+                    st.dataframe(attempts_only_df, use_container_width=True)
+    
+            with list_col2:
+                with st.expander("No Attempts / No Engagement - Client List"):
+                    st.dataframe(no_attempts_df, use_container_width=True)
+    
+                    st.download_button(
+                        "Download No Attempts / No Engagement CSV",
+                        data=no_attempts_df.to_csv(index=False).encode("utf-8"),
+                        file_name="no_attempts_no_engagement.csv",
+                        mime="text/csv",
+                    )
+
             summary_rows.extend([
                 {"Section": "The Pudding", "Card": "Total Caseload", "Value": pudding_results["total_caseload"]},
                 {"Section": "The Pudding", "Card": "Total Services Rendered", "Value": pudding_results["total_services_rendered"]},
@@ -1537,24 +1555,6 @@ elif can_run:
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 key=f"download_pudding_{st.session_state['reset_counter']}",
             )
-            
-            list_col1, list_col2 = st.columns(2)
-    
-            with list_col1:
-                with st.expander("Attempts Only / No Engagement - Client List"):
-                    st.dataframe(attempts_only_df, use_container_width=True)
-    
-            with list_col2:
-                with st.expander("No Attempts / No Engagement - Client List"):
-                    st.dataframe(no_attempts_df, use_container_width=True)
-    
-                    st.download_button(
-                        "Download No Attempts / No Engagement CSV",
-                        data=no_attempts_df.to_csv(index=False).encode("utf-8"),
-                        file_name="no_attempts_no_engagement.csv",
-                        mime="text/csv",
-                    )
-            
          
             st.markdown("---")
     
