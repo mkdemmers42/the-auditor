@@ -693,7 +693,7 @@ with st.container():
     st.markdown("<div class='section-box'>", unsafe_allow_html=True)
     st.subheader("The Ingredients")
 
-    col1, col2, col3, col4 = st.columns([1, 1.2, 1.2, 0.7])
+    col1, col2, col3, col4 = st.columns([1, 1.2, 1.2, 0.45])
 
     with col1:
         hours_worked = st.number_input(
