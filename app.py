@@ -643,6 +643,20 @@ def metric_card(label: str, value: str, note: str = "", variant: str = "blue", i
         unsafe_allow_html=True,
     )
 
+def build_excel_download(summary_df: pd.DataFrame, sheets: dict) -> bytes:
+    output = BytesIO()
+
+    with pd.ExcelWriter(output, engine="openpyxl") as writer:
+        summary_df.to_excel(writer, sheet_name="Summary Cards", index=False)
+
+        for sheet_name, df in sheets.items():
+            if df is not None and not df.empty:
+                safe_sheet_name = sheet_name[:31]
+                df.to_excel(writer, sheet_name=safe_sheet_name, index=False)
+
+    output.seek(0)
+    return output.getvalue()
+
 
 # -----------------------------
 # Header
@@ -808,6 +822,9 @@ elif can_run:
             st.stop()
 
         results = calculate_productivity(services_df, hours_worked)
+
+        summary_rows = []
+        excel_sheets = {}
 
         
         # ============================================================
@@ -1029,6 +1046,25 @@ elif can_run:
                 results["minutes_worked"]
             )
 
+        summary_rows.extend([
+            {"Section": "The Proof", "Card": "Hours Worked", "Value": results["hours_worked"]},
+            {"Section": "The Proof", "Card": "Minutes Worked", "Value": results["minutes_worked"]},
+            {"Section": "The Proof", "Card": "Minutes Billed", "Value": results["minutes_billed"]},
+            {"Section": "The Proof", "Card": "Productivity Minutes %", "Value": results["productivity_minutes_percent"]},
+            {"Section": "The Proof", "Card": "Units Billed", "Value": results["units_billed"]},
+            {"Section": "The Proof", "Card": "Productivity Units %", "Value": results["productivity_units_percent"]},
+            {"Section": "The Proof", "Card": "Non-Billable Total", "Value": results["non_billable_total"]},
+            {"Section": "The Proof", "Card": "Non-Billable %", "Value": results["non_billable_percent"]},
+            {"Section": "The Proof", "Card": "Rounded Minutes", "Value": results["rounded_minutes_from_units"]},
+            {"Section": "The Proof", "Card": "Documentation Total", "Value": documentation_total},
+            {"Section": "The Proof", "Card": "Documentation %", "Value": documentation_percent},
+            {"Section": "The Proof", "Card": "Travel Total", "Value": travel_total},
+            {"Section": "The Proof", "Card": "Travel %", "Value": travel_percent},
+        ])
+        
+        excel_sheets["Successful Engagements"] = results["completed_services"]
+        excel_sheets["Non-Billable Services"] = results["non_billable_rows"]
+        
         row4 = st.columns(4)
 
         with row4[0]:
@@ -1062,6 +1098,17 @@ elif can_run:
                 variant="white",
                 icon="🚗"
             )
+
+        summary_df = pd.DataFrame(summary_rows)
+        excel_report = build_excel_download(summary_df, excel_sheets)
+        
+        st.download_button(
+            "Download Audit Excel",
+            data=excel_report,
+            file_name="the_auditor_audit.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            key=f"download_proof_{st.session_state['reset_counter']}",
+        )
 
         # ============================================================
         # THE PUDDING
@@ -1466,7 +1513,31 @@ elif can_run:
                 sorted(list(no_attempt_clients)),
                 columns=["Client Name"]
             )
-    
+
+            summary_rows.extend([
+                {"Section": "The Pudding", "Card": "Total Caseload", "Value": pudding_results["total_caseload"]},
+                {"Section": "The Pudding", "Card": "Total Services Rendered", "Value": pudding_results["total_services_rendered"]},
+                {"Section": "The Pudding", "Card": "Successful Engagements", "Value": pudding_results["successful_engagements"]},
+                {"Section": "The Pudding", "Card": "Non-Billable Services Rendered", "Value": pudding_results["non_billable_services"]},
+                {"Section": "The Pudding", "Card": "Attempts Only / No Engagement", "Value": pudding_results["attempts_only_no_engagement"]},
+                {"Section": "The Pudding", "Card": "No Attempts / No Engagement", "Value": pudding_results["no_attempts_no_engagement"]},
+                {"Section": "The Pudding", "Card": "No Shows / Cancelled Appointments", "Value": pudding_results["no_show_cancelled"]},
+            ])
+            
+            excel_sheets["Attempts Only"] = attempts_only_df
+            excel_sheets["No Attempts"] = no_attempts_df
+
+            summary_df = pd.DataFrame(summary_rows)
+            excel_report = build_excel_download(summary_df, excel_sheets)
+            
+            st.download_button(
+                "Download Full Audit Excel",
+                data=excel_report,
+                file_name="the_auditor_full_audit.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                key=f"download_pudding_{st.session_state['reset_counter']}",
+            )
+            
             list_col1, list_col2 = st.columns(2)
     
             with list_col1:
