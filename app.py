@@ -710,17 +710,17 @@ with st.container():
         )
 
     with col4:
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    if st.button(
-        "🔄 Reset Audit",
-        use_container_width=True
-    ):
-        st.session_state["reset_counter"] += 1
-        st.session_state["productivity_only"] = False
-        st.rerun()
-
-    st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("<br>", unsafe_allow_html=True)
+    
+        if st.button(
+            "🔄 Reset Audit",
+            use_container_width=True
+        ):
+            st.session_state["reset_counter"] += 1
+            st.session_state["productivity_only"] = False
+            st.rerun()
+    
+        st.markdown("</div>", unsafe_allow_html=True)
 
 
 # -----------------------------
