@@ -907,7 +907,7 @@ elif can_run:
             metric_card(
                 "Hours Worked",
                 format_number(results["hours_worked"]),
-                "Hours exclude PTO/CSL/LWOP",
+                "Hours Worked excludes PTO / CSL / LWOP",
                 variant="green",
                 icon="⏱️"
             )
@@ -923,7 +923,7 @@ elif can_run:
             metric_card(
                 "Minutes Billed", 
                 format_number(results["minutes_billed"]), 
-                "Sum of ServiceUnits where Status = Complete",
+                "Accumulation of all Minutes Billed",
                 variant="purple",
                 icon="⏱️"
             )
@@ -940,7 +940,7 @@ elif can_run:
             metric_card(
                 "Productivity Minutes %",
                 format_percent(results["productivity_minutes_percent"]),
-                "Minutes Billed ÷ Minutes Worked",
+                "Actual Minutes Billed, not rounded Minutes",
                 variant=prod_minutes_variant,
                 icon=prod_minutes_icon
             )
@@ -949,7 +949,7 @@ elif can_run:
             metric_card(
                 "Units Billed",
                 format_number(results["units_billed"]),
-                "Each completed row converted using 15-minute chart",
+                "Converted using 15-minute chart",
                 variant="pink",
                 icon="⏱️"
             )
@@ -962,7 +962,7 @@ elif can_run:
             metric_card(
                 "Productivity Units %",
                 format_percent(results["productivity_units_percent"]),
-                "Rounded unit minutes ÷ Minutes Worked",
+                "Based on Rounded Minutes, not Actual Minutes",
                 variant=prod_units_variant,
                 icon=prod_units_icon
             )
@@ -974,7 +974,7 @@ elif can_run:
             metric_card(
                 "Non-Billable Total", 
                 format_number(results["non_billable_total"]), 
-                "Two verified non-billable procedures",
+                "Accumluation of all non-billable procedures",
                 variant="blue",
                 icon="🧠"
             )
@@ -983,7 +983,7 @@ elif can_run:
             metric_card(
                 "Non-Billable %", 
                 format_percent(results["non_billable_percent"]), 
-                "Non-Billable Total ÷ Minutes Worked",
+                "Based on acutal minutes, not rounded",
                 variant="blue",
                 icon="🧠"
             )
@@ -991,7 +991,7 @@ elif can_run:
             metric_card(
                 "Rounded Minutes", 
                 format_number(results["rounded_minutes_from_units"]), 
-                "Stored for Productivity Units %",
+                "Rounded Minutes / County Mirrored",
                 variant="pink",
                 icon="🧠"
             )
