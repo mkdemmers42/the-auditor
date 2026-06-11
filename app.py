@@ -1045,7 +1045,6 @@ elif can_run:
             metric_card(
                 "Documentation %",
                 format_percent(documentation_percent),
-                "Documentation Total ÷ Minutes Worked",
                 variant="white",
                 icon="📋"
             )
@@ -1054,7 +1053,6 @@ elif can_run:
             metric_card(
                 "Travel Total",
                 format_number(travel_total),
-                "From Staff Service Detail Report",
                 variant="white",
                 icon="🚗"
             )
@@ -1063,7 +1061,6 @@ elif can_run:
             metric_card(
                 "Travel %",
                 format_percent(travel_percent),
-                "Travel Total ÷ Minutes Worked",
                 variant="white",
                 icon="🚗"
             )
@@ -1086,7 +1083,7 @@ elif can_run:
                 metric_card(
                     "Total Caseload",
                     format_number(pudding_results["total_caseload"]),
-                    "Total rows from Caseload file",
+                    "The value is a reflection of when the Caseload was uploaded",
                     variant="green",
                     icon="✅"
                 )
@@ -1095,14 +1092,14 @@ elif can_run:
                 metric_card(
                     "Total Services Rendered",
                     format_number(pudding_results["total_services_rendered"]),
-                    "Completed services only",
+                    "Accumulationo of all Completed services",
                 )
             
             with pudding_row1[2]:
                 metric_card(
                     "Successful Engagements",
                     format_number(pudding_results["successful_engagements"]),
-                    "Completed billable services",
+                    "Accumulation of Successful Engagements Only",
                     variant="green",
                     icon="✅"
                 )
@@ -1111,7 +1108,7 @@ elif can_run:
                 metric_card(
                     "Non-Billable Services Rendered",
                     format_number(pudding_results["non_billable_services"]),
-                    "Completed non-billable services",
+                    "Accumulation of all Non-Billable services rendered",
                     variant="orange",
                     icon="✅"
                 )
@@ -1128,7 +1125,7 @@ elif can_run:
                 metric_card(
                     "Attempts Only / No Engagement",
                     format_number(pudding_results["attempts_only_no_engagement"]),
-                    "Non-billable only clients",
+                    "Client did not engage, but attempt were made at contact",
                     variant="pink",
                     icon="❌"
                 )
@@ -1137,7 +1134,7 @@ elif can_run:
                 metric_card(
                     "No Attempts / No Engagement",
                     format_number(pudding_results["no_attempts_no_engagement"]),
-                    "Caseload clients missing from Services",
+                    "No attempt at engagement was made/documented",
                     variant=no_attempt_variant,
                     icon=no_attempt_icon
                 )
@@ -1146,7 +1143,7 @@ elif can_run:
                 metric_card(
                     "No Shows / Cancelled Appointments",
                     format_number(pudding_results["no_show_cancelled"]),
-                    "No Shows + Cancel statuses",
+                    "Accumulation of No Shows or Cancelled Appointments within the month",
                     variant="red",
                     icon="❌"
                 )
