@@ -1139,7 +1139,7 @@ elif can_run:
                 metric_card(
                     "Total Services Rendered",
                     format_number(pudding_results["total_services_rendered"]),
-                    "Accumulationo of all Completed services",
+                    "Accumulation of all Completed services",
                 )
             
             with pudding_row1[2]:
