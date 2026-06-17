@@ -1712,7 +1712,7 @@ elif can_run:
                     metric_card(
                         "Incorrect Rounded Minutes",
                         format_number(incorrect_rounded_count),
-                        "Procedures identified as incorrect math/rounding by the County",
+                        "County Rounding Errors Identified",
                         variant=incorrect_rounded_variant,
                         icon=incorrect_rounded_icon
                     )
