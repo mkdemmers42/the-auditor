@@ -639,8 +639,8 @@ def metric_card(label: str, value: str, note: str = "", variant: str = "blue", i
         f"""
         <div class="metric-card metric-card-{variant}">
             <div class="metric-icon">{icon}</div>
-            <div class="metric-label">{label}</div>
             <div class="metric-value">{value}</div>
+            <div class="metric-label">{label}</div>
             <div class="metric-note">{note}</div>
         </div>
         """,
