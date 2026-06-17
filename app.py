@@ -1690,7 +1690,7 @@ elif can_run:
                     metric_card(
                         "County Services Found",
                         format_number(len(county_clean_df)),
-                        "Should match Successful Engagements from The Pudding section",
+                        "f"Compared to {pudding_results['successful_engagements']} Services Found by The Auditor",
                         variant=county_services_variant,
                         icon=county_services_icon
                     )
