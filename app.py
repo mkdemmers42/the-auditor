@@ -244,9 +244,13 @@ st.markdown(
 }
 
 .metric-note {
-    font-size: 0.75rem;
-    color: #aebed3;
-    margin-top: 0.45rem;
+    font-size: 0.86rem;
+    color: #ffffff;
+    margin-top: 0.65rem;
+    font-weight: 800;
+    line-height: 1.25;
+    text-shadow:
+        0 0 8px rgba(126, 231, 255, 0.45);
 }
 
     .success-box {
