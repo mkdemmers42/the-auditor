@@ -1719,9 +1719,9 @@ elif can_run:
     
                 with county_math_row[3]:
                     metric_card(
-                        "County Billed Unit Variance",
+                        "County Unit Variance",
                         format_number(unit_variance_total),
-                        "Total unit variance found",
+                        f"Auditor Units: {results['units_billed']} | County Units: {county_clean_df['County Units'].sum()}",
                         variant=unit_variance_variant,
                         icon=unit_variance_icon
                     )
