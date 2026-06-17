@@ -1657,7 +1657,11 @@ elif can_run:
                     incorrect_rounded_count == 0
                 )
                 
-                unit_variance_total = county_clean_df["Unit Difference"].sum()
+                auditor_total_units = results["units_billed"]
+                county_total_units = county_clean_df["County Units"].sum()
+                
+                unit_variance_total = auditor_total_units - county_total_units
+                
                 unit_variance_variant, unit_variance_icon = get_match_card_style(
                     values_match(unit_variance_total, 0)
                 )
@@ -1721,7 +1725,7 @@ elif can_run:
                     metric_card(
                         "County Unit Variance",
                         format_number(unit_variance_total),
-                        f"Auditor Units: {results['units_billed']} | County Units: {county_clean_df['County Units'].sum()}",
+                        f"Auditor Found: {format_number(auditor_total_units)} Units | County Found: {format_number(county_total_units)} Units",
                         variant=unit_variance_variant,
                         icon=unit_variance_icon
                     )
