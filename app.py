@@ -1703,7 +1703,7 @@ elif can_run:
                     metric_card(
                         "County Rounded Minutes",
                         format_number(county_clean_df["County Rounded Minutes"].sum()),
-                        "Should match Rounded Minutes from The Proof section",
+                        f"Auditor Found: {format_number(results['rounded_minutes_from_units'])} Minutes",
                         variant=county_minutes_variant,
                         icon=county_minutes_icon
                     )
