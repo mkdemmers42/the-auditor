@@ -228,7 +228,7 @@ st.markdown(
 
 .metric-label {
     font-size: 0.90rem;
-    color: #e7f2ff;
+    color: #b8c3d1;
     margin-top: 0.5rem;
     font-weight: 850;
     letter-spacing: 1.3px;
