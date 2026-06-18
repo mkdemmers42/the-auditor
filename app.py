@@ -634,14 +634,14 @@ def calculate_productivity(services_df: pd.DataFrame, hours_worked: float) -> di
     }
 
 
-def metric_card(label: str, value: str, note: str = "", variant: str = "blue", icon: str = ""):
+def metric_card(label, value, note="", variant="blue", icon="", note_color=""):
     st.markdown(
         f"""
         <div class="metric-card metric-card-{variant}">
             <div class="metric-icon">{icon}</div>
             <div class="metric-value">{value}</div>
             <div class="metric-label">{label}</div>
-            <div class="metric-note">{note}</div>
+            <div class="metric-note" style="color:{note_color};">{note}</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -1694,14 +1694,20 @@ elif can_run:
     
                 county_math_row = st.columns(4)
     
-                with county_math_row[0]:
-                    metric_card(
-                        "County Services Found",
-                        format_number(len(county_clean_df)),
-                        f"Auditor Found: {pudding_results['successful_engagements']} Services",
-                        variant=county_services_variant,
-                        icon=county_services_icon
-                    )
+               county_services_note_color = (
+                    "#5fd38d"
+                    if len(county_clean_df) == pudding_results["successful_engagements"]
+                    else "#ff8a8a"
+                ) 
+                
+                metric_card(
+                    "County Services Found",
+                    format_number(len(county_clean_df)),
+                    f"Auditor Found: {pudding_results['successful_engagements']} Services",
+                    variant=county_services_variant,
+                    icon=county_services_icon,
+                    note_color=county_services_note_color
+                )
     
                 with county_math_row[1]:
                     metric_card(
