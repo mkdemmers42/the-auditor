@@ -1757,7 +1757,7 @@ elif can_run:
                     metric_card(
                         "County Unit Variance",
                         format_number(unit_variance_total),
-                        f"Auditor Found: {format_number(auditor_total_units)} Units | County Found: {format_number(county_total_units)} Units",
+                        f"Auditor: {format_number(auditor_total_units)} Units | County: {format_number(county_total_units)} Units",
                         variant=unit_variance_variant,
                         icon=unit_variance_icon,
                         note_color=county_units_note_color
