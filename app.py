@@ -1789,7 +1789,7 @@ elif can_run:
                     metric_card(
                         "County Productivity %",
                         format_percent(county_productivity),
-                        "County rounded minutes ÷ Minutes Worked",
+                        f"Auditor Found: {format_percent(results['productivity_units_percent'])}",
                         variant=county_productivity_variant,
                         icon=county_productivity_icon,
                         note_color=county_productivity_note_color
