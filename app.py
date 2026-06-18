@@ -1697,7 +1697,7 @@ elif can_run:
                 county_services_note_color = (
                     "#5fd38d"
                     if len(county_clean_df) == pudding_results["successful_engagements"]
-                    else "#ff7a7a"
+                    else "#ff7575"
                 )
                 
                 with county_math_row[0]:
