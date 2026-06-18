@@ -1699,6 +1699,30 @@ elif can_run:
                     if len(county_clean_df) == pudding_results["successful_engagements"]
                     else "#ff7575"
                 )
+
+                county_minutes_note_color = (
+                    "#5fd38d"
+                    if values_match(
+                        county_clean_df["County Rounded Minutes"].sum(),
+                        results["rounded_minutes_from_units"]
+                    )
+                    else "#ff8a8a"
+                )
+                
+                county_units_note_color = (
+                    "#5fd38d"
+                    if values_match(unit_variance_total, 0)
+                    else "#ff8a8a"
+                )
+                
+                county_productivity_note_color = (
+                    "#5fd38d"
+                    if values_match(
+                        county_productivity,
+                        results["productivity_units_percent"]
+                    )
+                    else "#ff8a8a"
+                )
                 
                 with county_math_row[0]:
                     metric_card(
@@ -1716,7 +1740,8 @@ elif can_run:
                         format_number(county_clean_df["County Rounded Minutes"].sum()),
                         f"Auditor Found: {format_number(results['rounded_minutes_from_units'])} Minutes",
                         variant=county_minutes_variant,
-                        icon=county_minutes_icon
+                        icon=county_minutes_icon,
+                        note_color=county_minutes_note_color
                     )
     
                 with county_math_row[2]:
@@ -1734,7 +1759,8 @@ elif can_run:
                         format_number(unit_variance_total),
                         f"Auditor Found: {format_number(auditor_total_units)} Units | County Found: {format_number(county_total_units)} Units",
                         variant=unit_variance_variant,
-                        icon=unit_variance_icon
+                        icon=unit_variance_icon,
+                        note_color=county_units_note_color
                     )
     
                 st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
@@ -1765,7 +1791,8 @@ elif can_run:
                         format_percent(county_productivity),
                         "County rounded minutes ÷ Minutes Worked",
                         variant=county_productivity_variant,
-                        icon=county_productivity_icon
+                        icon=county_productivity_icon,
+                        note_color=county_productivity_note_color
                     )
     
                 st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
