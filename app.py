@@ -759,11 +759,11 @@ if services_file is not None and caseload_file is None:
     
     gate_col1, gate_spacer = st.columns([1.4, 5.6])
 
-    with gate_col1:
-        if st.button("JUST PRODUCTIVITY PLEASE"):
+    left, center, right = st.columns([1, 2, 1])
+    
+    with center:
+        if st.button("Run Productivity Only", use_container_width=True):
             st.session_state["productivity_only"] = True
-        
-    run_productivity_only = st.session_state.get("productivity_only", False)
 
 
 # -----------------------------
