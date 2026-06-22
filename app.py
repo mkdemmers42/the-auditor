@@ -764,19 +764,6 @@ if services_file is not None and caseload_file is None:
         
     run_productivity_only = st.session_state.get("productivity_only", False)
 
-    if run_productivity_only:
-        st.markdown(
-            """
-            <div class="warning-box">
-                Such a let down, seriously. haha<br>
-                Productivity will run, but caseload audit functions will be skipped.
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-        st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
-
 
 # -----------------------------
 # Validation and Calculation
