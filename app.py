@@ -748,7 +748,8 @@ if services_file is not None and caseload_file is None:
     st.markdown(
         """
         <div class="warning-box">
-            <strong>Hold on there BroChatta,</strong> you sure you don't want to experience the entire wrath of <strong>The Auditor</strong>?
+            <h4 style="margin-top:0;">The Proof Is In The Pudding</h4>
+            The Auditor has enough information to calculate productivity. Upload all available files to unlock caseload auditing, documentation analysis, county reconciliation, and additional audit findings.
         </div>
         """,
         unsafe_allow_html=True,
