@@ -755,7 +755,7 @@ if services_file is not None and caseload_file is None:
         unsafe_allow_html=True,
     )
 
-    st.markdown("<div style='margin-top: 28px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-top:5px;'></div>", unsafe_allow_html=True)
     
     gate_col1, gate_spacer = st.columns([1.4, 5.6])
 
