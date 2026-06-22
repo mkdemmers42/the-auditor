@@ -798,7 +798,7 @@ elif can_run:
         
         services_df = read_excel(services_file)
 
-        employee_name = normalize_text(services_df.iloc[0, 3])
+        employee_name = normalize_text(services_df.iloc[0, 6])
 
         services_dates = pd.to_datetime(
             services_df.iloc[:, 1],
