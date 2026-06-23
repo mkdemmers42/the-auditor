@@ -24,6 +24,18 @@ NON_BILLABLE_PROCEDURES = {
     "Non-billable Attempted Contact",
 }
 
+PROCEDURE_MINIMUM_MINUTES = {
+    "Assessment LPHA": 8,
+    "Plan Development, non-physician": 8,
+    "Crisis Intervention": 8,
+    "Individual Therapy": 16,
+    "Family Therapy - client present": 26,
+    "Group Therapy": 26,
+    "Psychosocial Rehab - Individual": 8,
+    "TCM/ICC": 8,
+    "Medication Training and Support": 8,
+}
+
 PROCEDURE_CROSSWALK = {
     "Psychosocial Rehab - Individual": "Psychosocial Rehabilitation",
     "TCM/ICC": "Targeted Case Management",
