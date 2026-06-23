@@ -24,18 +24,6 @@ NON_BILLABLE_PROCEDURES = {
     "Non-billable Attempted Contact",
 }
 
-PROCEDURE_MINIMUM_MINUTES = {
-    "Assessment LPHA": 8,
-    "Plan Development, non-physician": 8,
-    "Crisis Intervention": 8,
-    "Individual Therapy": 16,
-    "Family Therapy - client present": 26,
-    "Group Therapy": 26,
-    "Psychosocial Rehab - Individual": 8,
-    "TCM/ICC": 8,
-    "Medication Training and Support": 8,
-}
-
 PROCEDURE_CROSSWALK = {
     "Psychosocial Rehab - Individual": "Psychosocial Rehabilitation",
     "TCM/ICC": "Targeted Case Management",
@@ -485,15 +473,6 @@ def minutes_to_units(minutes: float) -> int:
     return int(math.floor((minutes - 8) / 15) + 1)
 
 
-def meets_minimum_minutes(procedure, minutes):
-    required = PROCEDURE_MINIMUM_MINUTES.get(procedure)
-
-    if required is None:
-        return True
-
-    return float(minutes) >= required
-
-
 def safe_percent(numerator: float, denominator: float) -> float:
     if denominator in (0, 0.0) or pd.isna(denominator):
         return 0.0
@@ -628,30 +607,9 @@ def calculate_productivity(services_df: pd.DataFrame, hours_worked: float) -> di
     )
     
     completed_services = working.loc[billable_complete_mask].copy()
-    
-    completed_services["_meets_minimum_minutes"] = completed_services.apply(
-        lambda row: meets_minimum_minutes(
-            row["_procedure_clean"],
-            row["_service_minutes"]
-        ),
-        axis=1
-    )
-    
-    completed_services["_allowed_service_minutes"] = completed_services.apply(
-        lambda row: row["_service_minutes"] if row["_meets_minimum_minutes"] else 0,
-        axis=1
-    )
-    
-    completed_services["_calculated_units"] = completed_services.apply(
-        lambda row: minutes_to_units(row["_service_minutes"]) if row["_meets_minimum_minutes"] else 0,
-        axis=1
-    )
-    
-    minimum_time_violations = completed_services.loc[
-        ~completed_services["_meets_minimum_minutes"]
-    ].copy()
-    
-    minutes_billed = completed_services["_allowed_service_minutes"].sum()
+    minutes_billed = completed_services["_service_minutes"].sum()
+
+    completed_services["_calculated_units"] = completed_services["_service_minutes"].apply(minutes_to_units)
     units_billed = int(completed_services["_calculated_units"].sum())
     rounded_minutes_from_units = units_billed * 15
 
@@ -671,7 +629,6 @@ def calculate_productivity(services_df: pd.DataFrame, hours_worked: float) -> di
         "non_billable_total": non_billable_total,
         "non_billable_percent": safe_percent(non_billable_total, minutes_worked),
         "completed_services": completed_services,
-        "minimum_time_violations": minimum_time_violations,
         "non_billable_rows": working.loc[non_billable_mask].copy(),
         "all_services": working,
     }
