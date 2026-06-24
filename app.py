@@ -1097,6 +1097,48 @@ elif can_run:
             )
 
         st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
+
+        finding_row = st.columns(3)
+        
+        rejected_variant, rejected_icon = get_match_card_style(
+            len(results["rejected_services"]) == 0
+        )
+        
+        duplicate_variant, duplicate_icon = get_match_card_style(
+            len(results["duplicate_services"]) == 0
+        )
+        
+        same_day_variant = "green" if len(results["same_day_services"]) == 0 else "orange"
+        same_day_icon = "✅" if len(results["same_day_services"]) == 0 else "⏸️"
+        
+        with finding_row[0]:
+            metric_card(
+                "Rejected Services",
+                format_number(len(results["rejected_services"])),
+                "",
+                variant=rejected_variant,
+                icon=rejected_icon
+            )
+        
+        with finding_row[1]:
+            metric_card(
+                "Duplicate Services",
+                format_number(len(results["duplicate_services"])),
+                "",
+                variant=duplicate_variant,
+                icon=duplicate_icon
+            )
+        
+        with finding_row[2]:
+            metric_card(
+                "Same Day Services",
+                format_number(len(results["same_day_services"])),
+                "",
+                variant=same_day_variant,
+                icon=same_day_icon
+            )
+
+        st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
    
         detailed_service_file = st.file_uploader(
             "To see Documentation Time and Travel Time totals, upload: Staff Service Detail Report - Optional",
