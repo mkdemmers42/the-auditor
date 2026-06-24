@@ -658,6 +658,41 @@ def calculate_productivity(services_df: pd.DataFrame, hours_worked: float) -> di
     
     working["_duplicate_check_minutes"] = working.iloc[:, 11].apply(extract_number)
 
+    # Rejected Services
+    rejected_services = working[
+        (working["_raw_service_minutes"] > 0)
+        & (working["_service_minutes"] == 0)
+    ].copy()
+    
+    # Duplicate Services
+    duplicate_services = working[
+        working.duplicated(
+            subset=[
+                "_client_clean",
+                "_date_clean",
+                "_procedure_clean",
+                "_duplicate_check_minutes",
+            ],
+            keep=False,
+        )
+    ].copy()
+    
+    # Same Day Services
+    same_day_services = working[
+        complete_mask
+        & ~working["_procedure_clean"].isin(NON_BILLABLE_PROCEDURES)
+    ].copy()
+    
+    same_day_services = same_day_services[
+        same_day_services.duplicated(
+            subset=[
+                "_client_clean",
+                "_date_clean",
+            ],
+            keep=False,
+        )
+    ].copy()
+
     billable_complete_mask = (
         complete_mask
         & ~working["_procedure_clean"].isin(NON_BILLABLE_PROCEDURES)
