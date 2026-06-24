@@ -1191,6 +1191,9 @@ elif can_run:
         
         excel_sheets["Successful Engagements"] = results["completed_services"]
         excel_sheets["Non-Billable Services"] = results["non_billable_rows"]
+        excel_sheets["Rejected Services"] = results["rejected_services"]
+        excel_sheets["Duplicate Services"] = results["duplicate_services"]
+        excel_sheets["Same Day Services"] = results["same_day_services"]
         
         row4 = st.columns(4)
 
