@@ -637,7 +637,15 @@ def calculate_productivity(services_df: pd.DataFrame, hours_worked: float) -> di
 
     working["_status_clean"] = working["Status"].apply(normalize_text)
     working["_procedure_clean"] = working["Procedure"].apply(normalize_text)
-    working["_service_minutes"] = working["ServiceUnits"].apply(extract_number)
+    working["_raw_service_minutes"] = working["ServiceUnits"].apply(extract_number)
+
+    working["_service_minutes"] = working.apply(
+        lambda row: scrub_service_minutes(
+            row["Procedure"],
+            row["_raw_service_minutes"]
+        ),
+        axis=1
+    )
 
     complete_mask = working["_status_clean"].str.casefold() == "complete"
 
