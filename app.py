@@ -1122,9 +1122,9 @@ elif can_run:
         
         with finding_row[1]:
             metric_card(
-                "Duplicate Services",
+                "Possible Duplicate Services",
                 format_number(len(results["duplicate_services"])),
-                "",
+                "Review for accuracy",
                 variant=duplicate_variant,
                 icon=duplicate_icon
             )
