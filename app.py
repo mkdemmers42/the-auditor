@@ -25,11 +25,22 @@ NON_BILLABLE_PROCEDURES = {
 }
 
 PROCEDURE_CROSSWALK = {
-    "Psychosocial Rehab - Individual": "Psychosocial Rehabilitation",
+    # PSC / Case Management
     "TCM/ICC": "Targeted Case Management",
+
+    # Plan Development
     "Plan Development, non-physician": "Mental Health Service Plan Developed by Non-Physician",
+
+    # Rehabilitation
+    "Psychosocial Rehab - Individual": "Psychosocial Rehabilitation",
     "Psychosocial Rehab - Group": "Psychosocial Rehabilitation Group",
     "Psychosocial Rehabilitation Group": "Psychosocial Rehabilitation Group",
+
+    # Therapy / Assessment
+    "Individual Therapy": "Psychotherapy with Patient",
+    "Assessment LPHA": "Psychiatric Diagnostic Evaluation",
+    "Family Therapy - client present": "Family Psychotherapy (Conjoint psychotherapy with Patient Present)",
+    "Crisis Intervention": "Crisis Intervention Services",
 }
 
 REQUIRED_SERVICE_COLUMNS = {
