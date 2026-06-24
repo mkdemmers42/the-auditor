@@ -649,6 +649,15 @@ def calculate_productivity(services_df: pd.DataFrame, hours_worked: float) -> di
 
     complete_mask = working["_status_clean"].str.casefold() == "complete"
 
+    working["_client_clean"] = working.iloc[:, 0].astype(str).str.strip()
+
+    working["_date_clean"] = pd.to_datetime(
+        working.iloc[:, 1],
+        errors="coerce"
+    ).dt.date
+    
+    working["_duplicate_check_minutes"] = working.iloc[:, 11].apply(extract_number)
+
     billable_complete_mask = (
         complete_mask
         & ~working["_procedure_clean"].isin(NON_BILLABLE_PROCEDURES)
