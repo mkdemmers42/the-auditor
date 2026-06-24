@@ -721,6 +721,9 @@ def calculate_productivity(services_df: pd.DataFrame, hours_worked: float) -> di
         "non_billable_total": non_billable_total,
         "non_billable_percent": safe_percent(non_billable_total, minutes_worked),
         "completed_services": completed_services,
+        "rejected_services": rejected_services,
+        "duplicate_services": duplicate_services,
+        "same_day_services": same_day_services,
         "non_billable_rows": working.loc[non_billable_mask].copy(),
         "all_services": working,
     }
