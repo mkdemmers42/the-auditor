@@ -498,6 +498,21 @@ def minutes_to_units(minutes: float) -> int:
     return int(math.floor((minutes - 8) / 15) + 1)
 
 
+def scrub_service_minutes(procedure, minutes):
+    procedure = normalize_text(procedure)
+    minutes = extract_number(minutes)
+
+    minimum_required = PROCEDURE_MINIMUM_MINUTES.get(procedure)
+
+    if minimum_required is None:
+        return minutes
+
+    if minutes < minimum_required:
+        return 0.0
+
+    return minutes
+
+
 def safe_percent(numerator: float, denominator: float) -> float:
     if denominator in (0, 0.0) or pd.isna(denominator):
         return 0.0
