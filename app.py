@@ -70,6 +70,7 @@ REQUIRED_COUNTY_COLUMNS = {
     "units": "Charge Units",
     "minutes": "Minutes",
     "rounded_minutes": "Service Increment",
+    "staff_name": "StaffName",
 }
 
 
@@ -562,24 +563,30 @@ def read_excel(uploaded_file) -> pd.DataFrame:
     """Read the first sheet from an uploaded Excel file."""
     return pd.read_excel(uploaded_file)
 
-
-def read_county_services_invoiced(uploaded_file) -> pd.DataFrame:
+def read_county_services_invoiced(
+    uploaded_file,
+    employee_name: str,
+    selected_month: pd.Period,
+) -> tuple[pd.DataFrame, dict]:
     """
-    Reads the County Services Invoiced file.
+    Reads the full County Services Invoiced file.
 
-    The Auditor searches for the header row automatically, so the file
-    may contain blank rows or other information above the headers.
-    Columns are identified by header name instead of column position.
+    The Auditor:
+    1. Finds the header row automatically.
+    2. Identifies the employee using StaffName.
+    3. Identifies the month using DateOfService only.
+    4. Disregards all other employees and months.
+    5. Returns only the records needed for the audit.
     """
 
-    # Read the entire spreadsheet without assuming where the header is.
+    # Read the entire workbook without assuming where the header is.
     raw_df = pd.read_excel(uploaded_file, header=None)
 
     required_headers = set(REQUIRED_COUNTY_COLUMNS.values())
     header_row = None
     best_match_count = 0
 
-    # Search the first 50 rows for the County header row.
+    # Search the first 50 rows for the header row.
     rows_to_scan = min(len(raw_df), 50)
 
     for row_index in range(rows_to_scan):
@@ -594,32 +601,27 @@ def read_county_services_invoiced(uploaded_file) -> pd.DataFrame:
         if match_count > best_match_count:
             best_match_count = match_count
 
-        # Require at least four recognized headers to identify the row.
-        if match_count >= 4:
+        # Require most of the expected headers.
+        if match_count >= 5:
             header_row = row_index
             break
 
     if header_row is None:
         raise ValueError(
             "The Auditor could not locate the County header row. "
-            f"It found no row containing enough expected headers. "
-            f"Best match contained {best_match_count} of "
-            f"{len(required_headers)} required headers."
+            f"The best row contained {best_match_count} of "
+            f"{len(required_headers)} expected headers."
         )
 
-    # Read the spreadsheet again using the detected row as the header.
-    county_df = pd.read_excel(
-        uploaded_file,
-        header=header_row
-    )
-
-    # Clean whitespace from all column names.
+    # Reuse the workbook already loaded instead of reading it twice.
+    county_df = raw_df.iloc[header_row + 1:].copy()
     county_df.columns = [
-        normalize_text(column)
-        for column in county_df.columns
+        normalize_text(value)
+        for value in raw_df.iloc[header_row].tolist()
     ]
+    county_df = county_df.reset_index(drop=True)
 
-    # Confirm every required County column exists.
+    # Make sure every required column exists.
     missing_columns = [
         column_name
         for column_name in REQUIRED_COUNTY_COLUMNS.values()
@@ -632,49 +634,107 @@ def read_county_services_invoiced(uploaded_file) -> pd.DataFrame:
             + ", ".join(missing_columns)
         )
 
+    total_county_records = len(county_df)
+
+    # --------------------------------------------------------
+    # Employee filtering
+    # --------------------------------------------------------
+
+    county_df["_staff_match"] = (
+        county_df[REQUIRED_COUNTY_COLUMNS["staff_name"]]
+        .apply(normalize_text)
+        .str.casefold()
+    )
+
+    employee_match = normalize_text(employee_name).casefold()
+
+    employee_df = county_df.loc[
+        county_df["_staff_match"] == employee_match
+    ].copy()
+
+    employee_record_count = len(employee_df)
+
+    if employee_df.empty:
+        available_names = sorted(
+            county_df[REQUIRED_COUNTY_COLUMNS["staff_name"]]
+            .dropna()
+            .apply(normalize_text)
+            .loc[lambda values: values != ""]
+            .unique()
+            .tolist()
+        )
+
+        raise ValueError(
+            f'No County records were found for employee "{employee_name}". '
+            "The employee name in Services My Office may not exactly match "
+            "the County StaffName."
+        )
+
+    # --------------------------------------------------------
+    # Month filtering — DateOfService only
+    # --------------------------------------------------------
+
+    employee_df["_county_date"] = pd.to_datetime(
+        employee_df[REQUIRED_COUNTY_COLUMNS["date_of_service"]],
+        errors="coerce"
+    )
+
+    employee_df["_county_month"] = (
+        employee_df["_county_date"].dt.to_period("M")
+    )
+
+    filtered_df = employee_df.loc[
+        employee_df["_county_month"] == selected_month
+    ].copy()
+
+    selected_record_count = len(filtered_df)
+
+    # --------------------------------------------------------
+    # Build the clean County dataframe
+    # --------------------------------------------------------
+
     clean = pd.DataFrame()
 
     clean["County Client ID"] = (
-        county_df[REQUIRED_COUNTY_COLUMNS["client_id"]]
+        filtered_df[REQUIRED_COUNTY_COLUMNS["client_id"]]
         .apply(extract_number)
         .apply(lambda value: str(int(value)) if value > 0 else "")
     )
 
-    clean["County DOS"] = pd.to_datetime(
-        county_df[REQUIRED_COUNTY_COLUMNS["date_of_service"]],
-        errors="coerce"
-    ).dt.strftime("%Y-%m-%d %H:%M")
+    clean["County DOS"] = (
+        filtered_df["_county_date"]
+        .dt.strftime("%Y-%m-%d %H:%M")
+    )
 
     clean["County Procedure"] = (
-        county_df[REQUIRED_COUNTY_COLUMNS["procedure"]]
+        filtered_df[REQUIRED_COUNTY_COLUMNS["procedure"]]
         .apply(normalize_procedure)
     )
 
     clean["County Units"] = (
-        county_df[REQUIRED_COUNTY_COLUMNS["units"]]
+        filtered_df[REQUIRED_COUNTY_COLUMNS["units"]]
         .apply(extract_number)
     )
 
     clean["County Minutes"] = (
-        county_df[REQUIRED_COUNTY_COLUMNS["minutes"]]
+        filtered_df[REQUIRED_COUNTY_COLUMNS["minutes"]]
         .apply(extract_number)
     )
 
     clean["County Rounded Minutes"] = (
-        county_df[REQUIRED_COUNTY_COLUMNS["rounded_minutes"]]
+        filtered_df[REQUIRED_COUNTY_COLUMNS["rounded_minutes"]]
         .apply(extract_number)
     )
 
-    # Remove blank spreadsheet rows.
-    clean = clean[
+    # Remove rows that contain no usable service information.
+    clean = clean.loc[
         (clean["County Client ID"] != "")
         | clean["County DOS"].notna()
         | (clean["County Procedure"] != "")
     ].copy()
 
     clean["Auditor Expected Units"] = (
-        clean["County Minutes"]
-        .apply(minutes_to_units)
+        clean["County Minutes"].apply(minutes_to_units)
     )
 
     clean["Auditor Expected Rounded Minutes"] = (
@@ -691,7 +751,16 @@ def read_county_services_invoiced(uploaded_file) -> pd.DataFrame:
         - clean["Auditor Expected Units"]
     )
 
-    return clean
+    filter_summary = {
+        "total_county_records": total_county_records,
+        "employee_record_count": employee_record_count,
+        "selected_record_count": len(clean),
+        "employee_name": employee_name,
+        "selected_month": selected_month.strftime("%B %Y"),
+        "disregarded_records": total_county_records - len(clean),
+    }
+
+    return clean, filter_summary
 
 
 def find_required_columns(df: pd.DataFrame) -> tuple[bool, list[str]]:
@@ -987,6 +1056,52 @@ elif can_run:
         
         audit_start = services_dates.min().strftime("%m/%d/%Y")
         audit_end = services_dates.max().strftime("%m/%d/%Y")
+
+        valid_service_dates = services_dates.dropna()
+
+        if valid_service_dates.empty:
+            st.error(
+                "The Auditor could not determine an audit month from "
+                "the Services My Office file."
+            )
+            st.stop()
+        
+        detected_month = valid_service_dates.mode().iloc[0].to_period("M")
+        
+        month_col, year_col = st.columns(2)
+        
+        with month_col:
+            selected_month_number = st.selectbox(
+                "Audit Month",
+                options=list(range(1, 13)),
+                index=detected_month.month - 1,
+                format_func=lambda month_number: pd.Timestamp(
+                    year=2000,
+                    month=month_number,
+                    day=1,
+                ).strftime("%B"),
+                key=f"audit_month_{st.session_state['reset_counter']}",
+            )
+        
+        with year_col:
+            current_year = detected_month.year
+        
+            year_options = list(
+                range(current_year - 2, current_year + 3)
+            )
+        
+            selected_year = st.selectbox(
+                "Audit Year",
+                options=year_options,
+                index=year_options.index(current_year),
+                key=f"audit_year_{st.session_state['reset_counter']}",
+            )
+        
+        selected_audit_month = pd.Period(
+            year=selected_year,
+            month=selected_month_number,
+            freq="M",
+        )
         
         st.markdown(
             f"<div class='audit-banner'>"
@@ -1814,7 +1929,25 @@ elif can_run:
             if county_services_file is not None:
                 st.success("County Services Invoiced uploaded successfully.")
     
-                county_clean_df = read_county_services_invoiced(county_services_file)
+                county_clean_df, county_filter_summary = (
+                    read_county_services_invoiced(
+                        county_services_file,
+                        employee_name,
+                        selected_audit_month,
+                    )
+                )
+
+                st.info(
+                    f"County file loaded: "
+                    f"{county_filter_summary['total_county_records']:,} total records | "
+                    f"Employee: {county_filter_summary['employee_name']} | "
+                    f"Month: {county_filter_summary['selected_month']} | "
+                    f"Records selected: "
+                    f"{county_filter_summary['selected_record_count']:,} | "
+                    f"Records disregarded: "
+                    f"{county_filter_summary['disregarded_records']:,}"
+                )
+                    
                 auditor_compare_df = results["completed_services"].copy()
     
                 auditor_compare_df["Auditor Client ID"] = auditor_compare_df["Client Name"].apply(extract_client_id)
