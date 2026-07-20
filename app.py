@@ -455,6 +455,31 @@ def normalize_text(value) -> str:
     return str(value).strip()
 
 
+def normalize_employee_name(value) -> str:
+    """
+    Makes employee names match regardless of
+    commas, spaces, or hyphens.
+    """
+
+    name = normalize_text(value)
+
+    # Convert:
+    # Last, First
+    # to
+    # First Last
+    if "," in name:
+        last_name, first_name = name.split(",", 1)
+        name = f"{first_name} {last_name}"
+
+    # Lowercase everything
+    name = name.lower()
+
+    # Remove spaces, commas, hyphens, periods, etc.
+    name = re.sub(r"[^a-z0-9]", "", name)
+
+    return name
+
+
 def normalize_procedure(value) -> str:
     text = normalize_text(value)
     return PROCEDURE_CROSSWALK.get(text, text)
