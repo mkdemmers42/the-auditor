@@ -63,6 +63,15 @@ REQUIRED_SERVICE_COLUMNS = {
     "service_units": "ServiceUnits" # Column M
 }
 
+REQUIRED_COUNTY_COLUMNS = {
+    "client_id": "ClientId",
+    "date_of_service": "DateOfService",
+    "procedure": "ProcedureCodeName",
+    "units": "Charge Units",
+    "minutes": "Minutes",
+    "rounded_minutes": "Service Increment",
+}
+
 
 # -----------------------------
 # Page Setup
@@ -555,27 +564,117 @@ def read_excel(uploaded_file) -> pd.DataFrame:
 
 
 def read_county_services_invoiced(uploaded_file) -> pd.DataFrame:
-    county_df = pd.read_excel(uploaded_file, header=None)
+    """
+    Reads the County Services Invoiced file.
+
+    The Auditor searches for the header row automatically, so the file
+    may contain blank rows or other information above the headers.
+    Columns are identified by header name instead of column position.
+    """
+
+    # Read the entire spreadsheet without assuming where the header is.
+    raw_df = pd.read_excel(uploaded_file, header=None)
+
+    required_headers = set(REQUIRED_COUNTY_COLUMNS.values())
+    header_row = None
+    best_match_count = 0
+
+    # Search the first 50 rows for the County header row.
+    rows_to_scan = min(len(raw_df), 50)
+
+    for row_index in range(rows_to_scan):
+        row_values = {
+            normalize_text(value)
+            for value in raw_df.iloc[row_index].tolist()
+            if normalize_text(value)
+        }
+
+        match_count = len(required_headers.intersection(row_values))
+
+        if match_count > best_match_count:
+            best_match_count = match_count
+
+        # Require at least four recognized headers to identify the row.
+        if match_count >= 4:
+            header_row = row_index
+            break
+
+    if header_row is None:
+        raise ValueError(
+            "The Auditor could not locate the County header row. "
+            f"It found no row containing enough expected headers. "
+            f"Best match contained {best_match_count} of "
+            f"{len(required_headers)} required headers."
+        )
+
+    # Read the spreadsheet again using the detected row as the header.
+    county_df = pd.read_excel(
+        uploaded_file,
+        header=header_row
+    )
+
+    # Clean whitespace from all column names.
+    county_df.columns = [
+        normalize_text(column)
+        for column in county_df.columns
+    ]
+
+    # Confirm every required County column exists.
+    missing_columns = [
+        column_name
+        for column_name in REQUIRED_COUNTY_COLUMNS.values()
+        if column_name not in county_df.columns
+    ]
+
+    if missing_columns:
+        raise ValueError(
+            "The County file is missing required column(s): "
+            + ", ".join(missing_columns)
+        )
 
     clean = pd.DataFrame()
 
-    clean["County Client ID"] = county_df.iloc[:, 3].apply(extract_number).astype(int).astype(str)
+    clean["County Client ID"] = (
+        county_df[REQUIRED_COUNTY_COLUMNS["client_id"]]
+        .apply(extract_number)
+        .apply(lambda value: str(int(value)) if value > 0 else "")
+    )
 
     clean["County DOS"] = pd.to_datetime(
-    county_df.iloc[:, 14],
-    errors="coerce"
-).dt.strftime("%Y-%m-%d %H:%M")
+        county_df[REQUIRED_COUNTY_COLUMNS["date_of_service"]],
+        errors="coerce"
+    ).dt.strftime("%Y-%m-%d %H:%M")
 
-    clean["County Procedure"] = county_df.iloc[:, 15].apply(normalize_procedure)
+    clean["County Procedure"] = (
+        county_df[REQUIRED_COUNTY_COLUMNS["procedure"]]
+        .apply(normalize_procedure)
+    )
 
-    clean["County Units"] = county_df.iloc[:, 18].apply(extract_number)
+    clean["County Units"] = (
+        county_df[REQUIRED_COUNTY_COLUMNS["units"]]
+        .apply(extract_number)
+    )
 
-    clean["County Minutes"] = county_df.iloc[:, 23].apply(extract_number)
+    clean["County Minutes"] = (
+        county_df[REQUIRED_COUNTY_COLUMNS["minutes"]]
+        .apply(extract_number)
+    )
 
-    clean["County Rounded Minutes"] = county_df.iloc[:, 27].apply(extract_number)
+    clean["County Rounded Minutes"] = (
+        county_df[REQUIRED_COUNTY_COLUMNS["rounded_minutes"]]
+        .apply(extract_number)
+    )
 
-    clean["Auditor Expected Units"] = clean["County Minutes"].apply(
-        minutes_to_units
+    # Remove blank spreadsheet rows.
+    clean = clean[
+        (clean["County Client ID"] != "")
+        | clean["County DOS"].notna()
+        | (clean["County Procedure"] != "")
+    ].copy()
+
+    clean["Auditor Expected Units"] = (
+        clean["County Minutes"]
+        .apply(minutes_to_units)
     )
 
     clean["Auditor Expected Rounded Minutes"] = (
