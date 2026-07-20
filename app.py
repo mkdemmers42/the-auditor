@@ -620,6 +620,8 @@ def read_county_services_invoiced(
         for value in raw_df.iloc[header_row].tolist()
     ]
     county_df = county_df.reset_index(drop=True)
+    
+    st.write("County columns found:", county_df.columns.tolist())
 
     # Make sure every required column exists.
     missing_columns = [
