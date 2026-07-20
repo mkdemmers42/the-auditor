@@ -668,27 +668,25 @@ def read_county_services_invoiced(
     )
 
     employee_match = normalize_employee_name(employee_name)
-
+    
+    county_staff_names = (
+        county_df[REQUIRED_COUNTY_COLUMNS["staff_name"]]
+        .dropna()
+        .apply(normalize_text)
+    )
+    
+    aileen_names = county_staff_names[
+        county_staff_names.str.contains(
+            "Aileen",
+            case=False,
+            na=False
+        )
+    ].unique().tolist()
+    
     st.write("Services employee name:", employee_name)
     st.write("Normalized Services name:", employee_match)
-    
-    st.write(
-        "County employee names:",
-        county_df[
-            REQUIRED_COUNTY_COLUMNS["staff_name"]
-        ].dropna().unique().tolist()
-    )
-    
-    st.write(
-        "Normalized County employee names:",
-        county_df[
-            REQUIRED_COUNTY_COLUMNS["staff_name"]
-        ]
-        .dropna()
-        .apply(normalize_employee_name)
-        .unique()
-        .tolist()
-    )
+    st.write("County names containing Aileen:", aileen_names)
+
 
     employee_match = normalize_text(employee_name).casefold()
 
