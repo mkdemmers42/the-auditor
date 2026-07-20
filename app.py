@@ -471,6 +471,11 @@ def normalize_employee_name(value) -> str:
         last_name, first_name = name.split(",", 1)
         name = f"{first_name} {last_name}"
 
+    parts = name.split()
+
+    if len(parts) >= 2:
+        name = f"{parts[0]} {parts[-1]}"
+    
     # Lowercase everything
     name = name.lower()
 
