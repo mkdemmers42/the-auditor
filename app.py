@@ -621,8 +621,6 @@ def read_county_services_invoiced(
     ]
     county_df = county_df.reset_index(drop=True)
     
-    st.write("County columns found:", county_df.columns.tolist())
-
     # Make sure every required column exists.
     missing_columns = [
         column_name
@@ -642,11 +640,34 @@ def read_county_services_invoiced(
     # Employee filtering
     # --------------------------------------------------------
 
+    def normalize_employee_name(value: str) -> str:
+        """
+        Converts employee names into a consistent matching format.
+    
+        Examples:
+        Aparicio-Rodriguez, Aileen
+        Aileen Aparicio-Rodriguez
+    
+        Both become:
+        aileen aparicio-rodriguez
+        """
+        name = normalize_text(value)
+    
+        if "," in name:
+            last_name, first_name = name.split(",", 1)
+            name = f"{first_name.strip()} {last_name.strip()}"
+    
+        name = re.sub(r"\s+", " ", name)
+    
+        return name.casefold().strip()
+    
+    
     county_df["_staff_match"] = (
         county_df[REQUIRED_COUNTY_COLUMNS["staff_name"]]
-        .apply(normalize_text)
-        .str.casefold()
+        .apply(normalize_employee_name)
     )
+
+    employee_match = normalize_employee_name(employee_name)
 
     employee_match = normalize_text(employee_name).casefold()
 
