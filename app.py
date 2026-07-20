@@ -669,6 +669,27 @@ def read_county_services_invoiced(
 
     employee_match = normalize_employee_name(employee_name)
 
+    st.write("Services employee name:", employee_name)
+    st.write("Normalized Services name:", employee_match)
+    
+    st.write(
+        "County employee names:",
+        county_df[
+            REQUIRED_COUNTY_COLUMNS["staff_name"]
+        ].dropna().unique().tolist()
+    )
+    
+    st.write(
+        "Normalized County employee names:",
+        county_df[
+            REQUIRED_COUNTY_COLUMNS["staff_name"]
+        ]
+        .dropna()
+        .apply(normalize_employee_name)
+        .unique()
+        .tolist()
+    )
+
     employee_match = normalize_text(employee_name).casefold()
 
     employee_df = county_df.loc[
