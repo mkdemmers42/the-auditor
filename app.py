@@ -2109,8 +2109,13 @@ elif can_run:
                     incorrect_rounded_count == 0
                 )
                 
-                auditor_total_units = results["units_billed"]
-                county_total_units = county_clean_df["County Units"].sum()
+                auditor_total_units = county_clean_df[
+                    "County Expected Charge Units"
+                ].sum()
+                
+                county_total_units = county_clean_df[
+                    "County Units"
+                ].sum()
                 
                 unit_variance_total = auditor_total_units - county_total_units
                 
