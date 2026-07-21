@@ -1978,7 +1978,7 @@ elif can_run:
             )
     
             if county_services_file is not None:
-                st.success("County Services Invoiced uploaded successfully.")
+                st.success("County Services Invoiced uploaded successfully. Please wait while I crunch the numbers.")
     
                 county_clean_df, county_filter_summary = (
                     read_county_services_invoiced(
