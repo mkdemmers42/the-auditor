@@ -754,7 +754,7 @@ def read_county_services_invoiced(
 
     clean["County DOS"] = (
         filtered_df["_county_date"]
-        .dt.strftime("%Y-%m-%d %H:%M")
+        .dt.strftime("%Y-%m-%d")
     )
 
     clean["County Procedure"] = (
@@ -2005,7 +2005,7 @@ elif can_run:
                 auditor_compare_df["Auditor DOS"] = pd.to_datetime(
                     auditor_compare_df["DOS"],
                     errors="coerce"
-                ).dt.strftime("%Y-%m-%d %H:%M")
+                ).dt.strftime("%Y-%m-%d")
                 auditor_compare_df["Auditor Procedure"] = auditor_compare_df["Procedure"].apply(normalize_procedure)
                 auditor_compare_df["Auditor Rounded Minutes"] = auditor_compare_df["_calculated_units"] * 15
     
