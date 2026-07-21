@@ -65,11 +65,11 @@ REQUIRED_SERVICE_COLUMNS = {
 
 REQUIRED_COUNTY_COLUMNS = {
     "client_id": "ClientId",
-    "date_of_service": "DateOfService",
+    "date_of_service": "DOS",
     "procedure": "ProcedureCodeName",
     "units": "Charge Units",
     "minutes": "Minutes",
-    "rounded_minutes": "Service Increment",
+    "rounded_minutes": "Minutes2",
     "staff_name": "StaffName",
 }
 
