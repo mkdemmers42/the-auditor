@@ -830,7 +830,10 @@ def read_county_services_invoiced(
     clean["County Expected Charge Units"] = clean.apply(
         lambda row:
             county_psychotherapy_units(row["County Minutes"])
-            if row["County Procedure"] == "Psychotherapy with Patient"
+            if row["County Procedure"] in [
+                "Psychotherapy with Patient",
+                "Psychiatric Diagnostic Evluation",
+            ]
             else row["Auditor Expected Units"],
         axis=1
     )
