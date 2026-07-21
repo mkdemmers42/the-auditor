@@ -538,6 +538,41 @@ def minutes_to_units(minutes: float) -> int:
     return int(math.floor((minutes - 8) / 15) + 1)
 
 
+def county_psychotherapy_units(minutes: float) -> int:
+    """
+    County-specific Charge Unit conversion for:
+    Psychotherapy with Patient
+    """
+    minutes = extract_number(minutes)
+
+    if minutes <= 67:
+        return 1
+    if minutes <= 82:
+        return 5
+    if minutes <= 97:
+        return 6
+    if minutes <= 112:
+        return 7
+    if minutes <= 127:
+        return 8
+    if minutes <= 142:
+        return 9
+    if minutes <= 157:
+        return 10
+    if minutes <= 172:
+        return 11
+    if minutes <= 187:
+        return 12
+    if minutes <= 202:
+        return 13
+    if minutes <= 217:
+        return 14
+    if minutes <= 232:
+        return 15
+
+    return 16
+    
+
 def scrub_service_minutes(procedure, minutes):
     procedure = normalize_text(procedure)
     minutes = extract_number(minutes)
@@ -792,6 +827,14 @@ def read_county_services_invoiced(
         clean["Auditor Expected Units"] * 15
     )
 
+    clean["County Expected Charge Units"] = clean.apply(
+        lambda row:
+            county_psychotherapy_units(row["County Minutes"])
+            if row["County Procedure"] == "Psychotherapy with Patient"
+            else row["Auditor Expected Units"],
+        axis=1
+    )
+    
     clean["Rounded Minute Difference"] = (
         clean["County Rounded Minutes"]
         - clean["Auditor Expected Rounded Minutes"]
@@ -799,7 +842,7 @@ def read_county_services_invoiced(
 
     clean["Unit Difference"] = (
         clean["County Units"]
-        - clean["Auditor Expected Units"]
+        - clean["County Expected Charge Units"]
     )
 
     filter_summary = {
