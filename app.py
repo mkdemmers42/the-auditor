@@ -785,7 +785,12 @@ def read_county_services_invoiced(
         origin="1899-12-30",
     )
 
-    st.write(employee_df["_county_date"].head(10))
+    st.write(
+        "County date range:",
+        employee_df["_county_date"].min(),
+        "to",
+        employee_df["_county_date"].max(),
+    )
 
     employee_df["_county_month"] = (
         employee_df["_county_date"].dt.to_period("M")
