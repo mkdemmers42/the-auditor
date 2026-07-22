@@ -778,6 +778,8 @@ def read_county_services_invoiced(
 
     employee_df["_county_date"] = pd.to_datetime(
         employee_df[REQUIRED_COUNTY_COLUMNS["date_of_service"]],
+        unit="D",
+        origin="1899-12-30",
         errors="coerce"
     )
 
