@@ -650,7 +650,15 @@ def read_county_services_invoiced(
     st.write(f"County file type detected: {file_extension}")
     
     # Read the entire workbook without assuming where the header is.
-    raw_df = pd.read_excel(uploaded_file, header=None)
+    if file_extension == ".xlsb":
+        raw_df = pd.read_excel(
+            uploaded_file,
+            sheet_name="Submitted Invoice Detail",
+            header=None,
+            engine="pyxlsb",
+        )
+    else:
+        raw_df = pd.read_excel(uploaded_file, header=None)
 
     required_headers = set(REQUIRED_COUNTY_COLUMNS.values())
     header_row = None
