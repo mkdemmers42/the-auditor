@@ -6,6 +6,7 @@ import base64
 from io import BytesIO
 
 import pandas as pd
+from pathlib import Path
 import streamlit as st
 from PIL import Image
 import plotly.express as px
