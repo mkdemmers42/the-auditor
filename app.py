@@ -645,6 +645,10 @@ def read_county_services_invoiced(
     5. Returns only the records needed for the audit.
     """
 
+    file_extension = Path(uploaded_file.name).suffix.lower()
+
+    st.write(f"County file type detected: {file_extension}")
+    
     # Read the entire workbook without assuming where the header is.
     raw_df = pd.read_excel(uploaded_file, header=None)
 
