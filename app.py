@@ -2023,7 +2023,7 @@ elif can_run:
           
             county_services_file = st.file_uploader(
                 "Upload an Excel version of COUNTY SERVICES INVOICED to compare The Auditor against the man and locate those mistakes.",
-                type=["xlsx"],
+                type=["xlsx", "xlsb"],
                 help="Upload the County Services Invoiced file to compare county billing against The Auditor.",
                 key=f"county_services_invoiced_upload_{st.session_state['reset_counter']}",
             )
