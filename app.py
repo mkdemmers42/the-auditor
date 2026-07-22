@@ -2065,6 +2065,8 @@ elif can_run:
                     )
                 )
 
+                st.write(county_clean_df.head())
+
                 st.info(
                     f"County file loaded: "
                     f"{county_filter_summary['total_county_records']:,} total records | "
