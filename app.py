@@ -791,6 +791,8 @@ def read_county_services_invoiced(
 
     selected_record_count = len(filtered_df)
 
+    st.write("Records after month filter:", selected_record_count)
+
     # --------------------------------------------------------
     # Build the clean County dataframe
     # --------------------------------------------------------
