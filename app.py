@@ -777,10 +777,12 @@ def read_county_services_invoiced(
     # --------------------------------------------------------
 
     employee_df["_county_date"] = pd.to_datetime(
-        employee_df[REQUIRED_COUNTY_COLUMNS["date_of_service"]],
+        pd.to_numeric(
+            employee_df[REQUIRED_COUNTY_COLUMNS["date_of_service"]],
+            errors="coerce"
+        ),
         unit="D",
         origin="1899-12-30",
-        errors="coerce"
     )
 
     st.write(employee_df["_county_date"].head(10))
@@ -796,6 +798,8 @@ def read_county_services_invoiced(
     selected_record_count = len(filtered_df)
 
     st.write("Records after month filter:", selected_record_count)
+
+    st.write("Selected month:", selected_month)
 
     # --------------------------------------------------------
     # Build the clean County dataframe
