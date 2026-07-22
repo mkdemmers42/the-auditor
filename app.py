@@ -781,6 +781,8 @@ def read_county_services_invoiced(
         errors="coerce"
     )
 
+    st.write(employee_df["_county_date"].head(10))
+
     employee_df["_county_month"] = (
         employee_df["_county_date"].dt.to_period("M")
     )
