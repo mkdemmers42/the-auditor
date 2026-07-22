@@ -629,6 +629,7 @@ def read_excel(uploaded_file) -> pd.DataFrame:
     """Read the first sheet from an uploaded Excel file."""
     return pd.read_excel(uploaded_file)
 
+
 def read_county_services_invoiced(
     uploaded_file,
     employee_name: str,
@@ -752,6 +753,8 @@ def read_county_services_invoiced(
     ].copy()
 
     employee_record_count = len(employee_df)
+
+    st.write("Employee records found:", employee_record_count)
 
     if employee_df.empty:
         available_names = sorted(
